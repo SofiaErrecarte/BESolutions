@@ -1,59 +1,49 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Customer } from './../entities/customers.entity';
-import { CreateCustomerDto, UpdateCustomerDto } from './../dtos/customers.dto';
-import { ProductsService } from './../../products/services/products.service';
+import { Customer } from '../entities/customer.entity';
+import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
+
+import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
+import { Repository } from 'typeorm'; //injectar Repository
+
 @Injectable()
 export class CustomersService {
-  constructor(private productsService: ProductsService) {}
-  private counterId = 1;
-  private customers: Customer[] = [
-    {
-      id: 1,
-      name: 'Customer 1',
-      age: '23',
-    },
-  ];
+  constructor(
+    // @Inject('PG') private clientPg: Client,
+    @InjectRepository(Customer) private repository: Repository<Customer>, //injectar Repository
+  ) {}
 
-  findAll() {
-    return this.customers;
+  async findAll() {
+    return await this.repository.find();
   }
 
-  findOne(id: number) {
-    const Customer = this.customers.find((item) => item.id === id);
-    if (!Customer) {
-      throw new NotFoundException(`Customer #${id} not found`);
+  async findOne(id: number) {
+    const obj = await this.repository.findOne(id);
+    if (!obj) {
+      throw new NotFoundException(`Object #${id} not found`);
     }
-    return Customer;
+    return obj;
   }
 
-  create(payload: CreateCustomerDto) {
-    console.log(payload);
-    this.counterId = this.counterId + 1;
-    const newCustomer = {
-      id: this.counterId,
-      ...payload,
-    };
-    this.customers.push(new Customer());
-    return newCustomer;
+  create(data: CreateCustomerDto) {
+    const newObj = this.repository.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
+    return this.repository.save(newObj);
   }
 
-  update(id: number, payload: UpdateCustomerDto) {
-    const Customer = this.findOne(id);
-    const index = this.customers.findIndex((item) => item.id === id);
-    this.customers[index] = {
-      ...Customer,
-      ...payload,
-    };
-    return this.customers[index];
-  }
-
-  remove(id: number) {
-    const index = this.customers.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Customer #${id} not found`);
+  async update(id: number, changes: UpdateCustomerDto) {
+    const obj = await this.repository.findOne(id);
+    if (!(await this.findOne(id))) {
+      throw new NotFoundException();
     }
-    this.customers.splice(index, 1);
-    return true;
+    this.repository.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    return this.repository.save(obj); //impacta el cambio en la base de datos
+  }
+
+  async remove(id: number) {
+    //Si no existe, damos error.
+    if (!(await this.findOne(id))) {
+      throw new NotFoundException();
+    }
+    return this.repository.delete(id); //elimina el registro con el id correspondiente
   }
 }

@@ -1,4 +1,5 @@
-import { HttpModule, HttpService, Module } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Module, HttpModule, HttpService } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
@@ -6,26 +7,31 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
-import { enviroments } from './enviroments';
 import { DatabaseModule } from './database/database.module';
+import { enviroments } from './enviroments';
+import { AuthModule } from './auth/auth.module';
+import { SettingsModule } from './settings/settings.module';
 import config from './config';
 
 @Module({
   imports: [
-    UsersModule,
-    ProductsModule,
     ConfigModule.forRoot({
       envFilePath: enviroments[process.env.NODE_ENV] || '.env',
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
-        API_KEY: Joi.number().required(),
+        API_KEY: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         DATABASE_PORT: Joi.number().required(),
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
-    DatabaseModule,
     HttpModule,
+    UsersModule,
+    ProductsModule,
+    DatabaseModule,
+    AuthModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [

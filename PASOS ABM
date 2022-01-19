@@ -1,0 +1,18 @@
+1) CREAR name.entity.ts (es la entidad relacionada con la base)
+2) CREAMOS EL MODULE ()
+3) CREAMOS LA SERVICE ()
+4) CREAMOS LA CONTROLLER (la que recibe los datos del request)
+5) CREAMOS DTO (son los datos que vienen de la vista)
+6) GENERAR LA MIGRACION
+7) CORRER LA MIGRACION
+
+
+
+2) importar la entidad en el modulo que queremos. 3 pasos
+2.1 camino alternativo crear el modulo
+
+3) Injectamos el Repository en el service(es el que ejecuta las tareas CRUD)
+
+4) Corregimos los metodos del service
+
+El repository es un patron de tyscript es el encargado de impacatar sobre la base

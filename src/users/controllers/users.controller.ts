@@ -9,65 +9,60 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
-  // ParseIntPipe,
+  ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 
-import { ParseIntPipe } from '../../common/parse-int.pipe';
-import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
+import { UsersService } from '../services/users.service';
+import { CreateUserDto, UpdateUserDto, FilterUserDto } from '../dtos/user.dto';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-import { UserService } from './../services/user.service';
+import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
+// import { Public } from 'src/auth/decorators/public.decorator';
+//import { Public } from '../../auth/decorators/public.decorator'; //importar para que una ruta no necesite el token
 
+@ApiTags('users') // le pone el nombre a la tabla de la base de datos que queremos
+@UseGuards(JwtAuthGuard) // obliga a todas las rutas de este controlador obliga a que venga un token
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UserService) {}
+  constructor(private usersService: UsersService) {}
 
   @Get()
-  getusers(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
-  ) {
-    // return {
-    //   message: `users limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
-    // };
-    return this.usersService.findAll();
+  // @Public()
+  //@Public() //si queresmos que esta ruta no necesite un token le ponemos este decorador
+  @ApiOperation({ summary: 'List of users' }) // comentario en la documentacion
+  findAll(@Query() params: FilterUserDto) {
+    return this.usersService.findAll(params);
   }
 
-  @Get('filter')
-  getuserFilter() {
-    return `yo soy un filter`;
-  }
-
-  @Get(':userId')
+  @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOne(@Param('userId', ParseIntPipe) userId: number) {
-    // response.status(200).send({
-    //   message: `user ${userId}`,
-    // });
-    return this.usersService.findOne(userId);
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findOne(id);
   }
 
-  @Get(':id/orders')
-  getOrders(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.getOrderByUser(id);
-  }
-
+  // @Get(':id/orders')
+  // getOrders(@Param('id', ParseIntPipe) id: number) {
+  //   return this.usersService.getOrderByUser(id);
+  // }
+  // @Public()
   @Post()
   create(@Body() payload: CreateUserDto) {
-    // return {
-    //   message: 'accion de crear',
-    //   payload,
-    // };
     return this.usersService.create(payload);
   }
 
+  // @Public()
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateUserDto) {
-    return this.usersService.update(+id, payload);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateUserDto,
+  ) {
+    return this.usersService.update(id, payload);
   }
 
+  // @Public()
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(+id);
   }
 }

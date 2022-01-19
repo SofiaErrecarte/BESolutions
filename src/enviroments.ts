@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
 export const enviroments = {
   dev: '.env',
-  stag: ' .stag.env',
+  stag: '.stag.env',
   prod: '.prod.env',
 };

@@ -1,0 +1,506 @@
+*****************************/ ABM COUNTRIES /********************************
+INICIO DE UN MODULO
+
+1- cree la carpeta settings dentro de src. click derecho en src
+
+2- me posicione dentro src en la terminal
+cd src
+
+3- cree el modulo dentro de la carpeta settings. al ser el primer modulo crea la carpeta de settings automaticamente
+nest g mo settings/setting
+
+4- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/countries --flat
+
+5- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/countries --flat
+
+6- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/country.entity --flat
+
+7- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/country.dto --flat
+
+8- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+TOMANDO DE EJEMPLO LA GESTION DE USER
+9- trabaje sobre settings.module.ts
+* cargue los imports
+* modifique @Module
+
+10- trabaje sobre entities/country.entity.ts
+
+11- trabaje sobre dtos/country.dto.ts
+
+12- trabaje sobre controllers/countries.controllers.ts
+
+13- trabaje sobre services/countries.service.ts
+
+14- genere la migracion
+npm run migrations:generate -- Create-CRUD-Countries
+
+15- ejecute la migracion
+npm run migrations:run
+
+16- inicie el servidor node
+npm run start:dev
+
+17- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+
+*****************************/ ABM TEAMS /********************************
+ABM teams
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/teams --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/teams --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/team.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/team.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/team.entity.ts. agregando la relacion onetoone contra country
+
+7- trabaje sobre dtos/team.dto.ts. agregando la relacion onetoone contra country
+
+8- trabaje sobre services/teams.service.ts
+
+9- trabaje sobre controllers/teams.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de team
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Teams
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM COMPETITION_FORMATS /********************************
+
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/competitionformats --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/competitionformats --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/competitionformat.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/competitionformat.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/competitionformat.entity.ts. agregando la relacion onetoone contra country
+
+7- trabaje sobre dtos/competitionformat.dto.ts. agregando la relacion onetoone contra country
+
+8- trabaje sobre services/competitionformats.service.ts
+
+9- trabaje sobre controllers/competitionformats.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de competitionformats
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Competitionformats
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM COMPETITIONS /********************************
+
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/competitions --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/competitions --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/competition.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/competition.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/competition.entity.ts. agregando la relacion onetoone contra country
+
+7- trabaje sobre dtos/competition.dto.ts. agregando la relacion onetoone contra country
+
+8- trabaje sobre services/competitions.service.ts
+
+9- trabaje sobre controllers/competitions.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de competition
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Competitions
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM LINES /********************************
+rol
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/lines --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/lines --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/lines.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/line.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/line.entity.ts. agregando la relacion onetoone contra country
+
+7- trabaje sobre dtos/line.dto.ts. agregando la relacion onetoone contra country
+
+8- trabaje sobre services/lines.service.ts
+
+9- trabaje sobre controllers/lines.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de line
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Competitions
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM PROFILEGPS /********************************
+puestogps
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/profilesgps --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/profilesgps --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/profilegps.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/profilegps.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/profilegps.entity.ts. agregando la relacion onetoone contra line
+
+7- trabaje sobre dtos/profilegps.dto.ts. agregando la relacion onetoone contra line
+
+8- trabaje sobre services/profilegps.service.ts
+
+9- trabaje sobre controllers/profilegps.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de profile
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Competitions
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM POSITIONS /********************************
+puesto base
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/positions --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/positions --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/position.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/position.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/position.entity.ts. agregando la relacion onetoone contra line
+
+7- trabaje sobre dtos/position.dto.ts. agregando la relacion onetoone contra line
+
+8- trabaje sobre services/position.service.ts
+
+9- trabaje sobre controllers/position.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de profile
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Positions
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM SYSTEMS /********************************
+fut_sistemas
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/systems --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/systems --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/system.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/system.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/system.entity.ts.
+
+7- trabaje sobre dtos/system.dto.ts.
+
+8- trabaje sobre services/systems.service.ts
+
+9- trabaje sobre controllers/systems.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de systems
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-systems
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM SYSTEMSPOSITIONS /********************************
+fut_sistemaspuestos
+
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/systempositions --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/systempositions --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/systemposition.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/systemposition.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/systemposition.entity.ts. agregando la relacion onetoone contra country
+
+7- trabaje sobre dtos/systemposition.dto.ts. agregando la relacion onetoone contra country
+
+8- trabaje sobre services/systemposition.service.ts
+
+9- trabaje sobre controllers/systemposition.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de systemposition
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Systempositions
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+*****************************/ ABM PLAYERSDATA /********************************
+players
+
+1- cree el servicio dentro de la carpeta settings. al ser el primer servicio crea la carpeta services automaticamente
+nest g s services/playersdata --flat
+
+2- cree la controladora dentro de la carpeta settings. al ser la primera controladora crea la carpeta controllers automaticamente
+nest g co controllers/playersdata --flat
+
+3- creo las entidades. click derecho sobre la carpeta settings creo carpeta entities
+nest g cl entities/playerdata.entity --flat
+
+4- creo los dto. click derecho sobre la carpeta settings creo carpeta dtos
+nest g cl dtos/playerdata.dto --flat
+
+5- elimino todos los archivos que se crearon para pruebas unitarias los que finalizan en spec.ts
+
+6- trabaje sobre entities/playerdata.entity.ts. agregando la relacion onetoone user y onetomany contra country, profilegps, position1 position2 position3, team
+
+7- trabaje sobre dtos/playerdata.dto.ts. agregando la relacion onetoone user y onetomany contra country, profilegps, position1 position2 position3, team
+
+8- trabaje sobre services/playerdata.service.ts
+
+9- trabaje sobre controllers/playerdata.controllers.ts
+
+10- agregue en setting.module el import y export de las entidades y service de player
+
+11- genere la migracion
+npm run migrations:generate -- Create-CRUD-Players
+
+12- ejecute la migracion
+npm run migrations:run
+
+13- inicie el servidor node
+npm run start:dev
+
+14- fui a insomia y cree las llamadas e hice test
+aca asegurarse de tener un token bearer correcto
+
+
+
+SEGUIR EN EL SERVICE DEL PLAYERDATA donde tengo que crear el usuario
+
+segurety groups
+segurete profiles
+
+role equals especializacion
+
+JORNADAS METERLE COMPETITION FORMATS Y JORNADAS LAS FASES(rounds) (tabla, groups, 16vo, 8vo, 4to, semi, final) y a cada fase un orden
+
+
+usuario cliente y cada usuario tiene un id cliente, y cada vez que ese usuario crea un plantel, crea un jugador, una lesion siempre filtra por cliente
+una plataforma por cliente
+
+
+
+players
+players_dataextras
+coaches
+sesions
+seasonteams
+seasonteamplayers
+seasons_fixtures
+matches
+matches_formations
+matches_schemes
+matches_schemes_players
+matches_sustitutions
+eventsv3
+seasonteamstandings
+seasonteamstandings
+bisports_instances
+bisports_instances_individual
+hudl_instances
+hudl_instances_individual
+longomatch_instances
+longomatch_instances_individual
+nac_instances
+nac_instances_individual
+
+tm_profile_players
+tm_transfers_players
+
+pf_gps
+pf_gpsregistros
+
+fut_partidosanalisis
+fut_partidosanalisis_individual
+
+fut_analisisevolutivo_global
+fut_analisisevolutivo_individual
+
+fbref_stats_shots_all
+fbref_matches
+fbref_competitionteams
+fbref_competitions
+
+avi_avisosistema
+avi_avisosistemapersona
+
+grl_planteles
+grl_plantelpersonas
+ent_entrenamientos_simples
+ent_entrenamientos_simples_players
+checkinout
+
+
+
+fut_asociaciones
+fut_divisiones
+fut_temporadas
+
+
+grl_puestostranfermarket
+
+
+
+nut_antropometrias
+nut_clasificaciones
+nut_pesodiariocabecera
+nut_pesosdiario
+
+par_categoriasincidenciascambios
+par_categoriasincidenciascompetidor
+par_categoriasincidenciaspartido
+par_categoriasincidenciaspartidojugador
+par_categoriatarjetas
+par_incidencias
+par_estadisticas
+pf_checkinoutmusculos
+pf_musculos
+pla_tablerospbx
+pla_tablerospbxgrupos
+pla_tablerospbxpersonas
+pla_tablerospbxtipocarpeta
+telegram_message
+tiposincidencia
+
+ver con marce modelo de datos
+niveles de entrenamiento
+lesiones
+antropometrias
+
+
+med_checkinout
+
+med_lesiones
+med_lesionestipos
+med_lesioneszonas
+med_uefales_checkinout

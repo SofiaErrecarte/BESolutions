@@ -1,68 +1,50 @@
 import {
   Controller,
   Get,
-  Query,
   Param,
   Post,
   Body,
   Put,
   Delete,
-  HttpStatus,
-  HttpCode,
-  // ParseIntPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 
-import { ParseIntPipe } from '../../common/parse-int.pipe';
-import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customers.dto';
+import { CustomersService } from '../services/customers.service';
+import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
 
-import { CustomersService } from './../services/customers.service';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
+@ApiTags('customers') // le pone el nombre a la tabla de la base de datos que queremos
 @Controller('customers')
-export class CustomersController {
+export class CustomerController {
   constructor(private customersService: CustomersService) {}
 
   @Get()
-  getcustomers(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
-  ) {
-    // return {
-    //   message: `customers limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
-    // };
+  @ApiOperation({ summary: 'List of customers' }) // comentario en la documentacion
+  findAll() {
     return this.customersService.findAll();
   }
 
-  @Get('filter')
-  getcustomerFilter() {
-    return `yo soy un filter`;
-  }
-
-  @Get(':customerId')
-  @HttpCode(HttpStatus.ACCEPTED)
-  getOne(@Param('customerId', ParseIntPipe) customerId: number) {
-    // response.status(200).send({
-    //   message: `customer ${customerId}`,
-    // });
-    return this.customersService.findOne(customerId);
+  @Get(':id')
+  get(@Param('id', ParseIntPipe) id: number) {
+    return this.customersService.findOne(id);
   }
 
   @Post()
   create(@Body() payload: CreateCustomerDto) {
-    // return {
-    //   message: 'accion de crear',
-    //   payload,
-    // };
     return this.customersService.create(payload);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateCustomerDto) {
-    return this.customersService.update(+id, payload);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateCustomerDto,
+  ) {
+    return this.customersService.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.customersService.remove(+id);
   }
 }

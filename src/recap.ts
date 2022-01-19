@@ -1,4 +1,4 @@
-const myName = 'Nicolas';
+const myName = 'Lucas';
 const myAge = 12;
 const suma = (a: number, b: number) => {
   return a + b;
@@ -13,5 +13,5 @@ class Persona {
   }
 }
 
-const nicolas = new Persona(15, 'nicolas');
+const nicolas = new Persona(15, 'lucas');
 nicolas.getSummary();
