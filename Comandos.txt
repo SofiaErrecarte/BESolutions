@@ -3,14 +3,11 @@ nest g s services/products --flat
 
 crear controladores:
 nest g cor controllers/categories --flat
-
-
 nest g co controllers/products --flat
 
-crear pipe 
-
+crear pipe: 
 nest g pi common/parse-int
 
-validador de datos
+validador de datos:
 npm i class-validator class-transformer @nestjs/mapped-types
 
