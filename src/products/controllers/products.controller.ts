@@ -61,6 +61,7 @@ export class ProductsController {
     return this.productsService.create(payload);
   }
 
+  // acá también no habría que definir que el rol sea admin?
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -90,4 +91,3 @@ export class ProductsController {
     return this.productsService.removeCategoryByProduct(id, categoryId);
   }
 }
-

@@ -36,3 +36,6 @@ lerna-debug.log*
 *.env
 /postgres_data
 /mysql_data
+
+# por el es-lint deshabilitado
+settings.json
