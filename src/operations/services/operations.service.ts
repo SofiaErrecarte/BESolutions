@@ -1,0 +1,69 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
+import { Repository, Between, FindConditions } from 'typeorm'; //injectar Repository
+
+import { Operation } from './../entities/operation.entity';
+import {
+  CreateOperationDto,
+  UpdateOperationDto,
+} from './../dtos/operation.dtos';
+
+import { Delivery } from './../entities/delivery.entity';
+import { Cart } from './../entities/cart.entity';
+
+@Injectable()
+export class OperationsService {
+  constructor(
+    @InjectRepository(Operation) private operationRepo: Repository<Operation>,
+    @InjectRepository(Delivery) private deliveryRepo: Repository<Delivery>, //injectar Repository
+    @InjectRepository(Cart) private cartRepo: Repository<Cart>,
+  ) {}
+
+  async findOne(id: number) {
+    const operation = await this.operationRepo.findOne(id, {
+      relations: ['delivery', 'cart'],
+    });
+    if (!operation) {
+      throw new NotFoundException(`Operation #${id} not found`);
+    }
+    return operation;
+  }
+
+  async create(data: CreateOperationDto) {
+    const newObj = this.operationRepo.create(data);
+    if (data.deliveryId) {
+      const obj = await this.deliveryRepo.findOne(data.deliveryId);
+      newObj.delivery = obj;
+    }
+    if (data.cartId) {
+      const obj = await this.cartRepo.findOne(data.cartId);
+      newObj.cart = obj;
+    }
+    return this.operationRepo.save(newObj);
+  }
+
+  async update(id: number, changes: UpdateOperationDto) {
+    const obj = await this.operationRepo.findOne(id);
+    if (!(await this.findOne(id))) {
+      throw new NotFoundException();
+    }
+    if (changes.deliveryId) {
+      const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
+      obj.delivery = objRel;
+    }
+    if (changes.cartId) {
+      const objRel = await this.cartRepo.findOne(changes.cartId);
+      obj.cart = objRel;
+    }
+    this.operationRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    return this.operationRepo.save(obj); //impacta el cambio en la base de datos
+  }
+
+  async remove(id: number) {
+    //Si no existe, damos error.
+    if (!(await this.findOne(id))) {
+      throw new NotFoundException();
+    }
+    return this.operationRepo.delete(id); //elimina el registro con el id correspondiente
+  }
+}

@@ -17,9 +17,9 @@ import { Delivery } from './delivery.entity';
 import { Operation } from './operation.entity';
 import { DeliveryToState } from './deliveryToState.entity';
 
-@Entity() // importantisimo para que tyscript trate la clase como una entidad orm
+@Entity()
 export class State {
-  @PrimaryGeneratedColumn() //PRIMARY KEY
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 50 })
@@ -44,14 +44,12 @@ export class State {
     this.created_at = new Date().toLocaleString();
   }
 
-  //la relación con delivery está hecha con tabla intermedia, la relación con operación no. ver cómo hacer
-
   @OneToMany(
     () => DeliveryToState,
     (deliveryToState) => deliveryToState.delivery,
   )
   deliveriesToStates: DeliveryToState[];
 
-  @ManyToMany(() => Operation, (delivery) => delivery.states)
-  operations: Delivery[];
+  @ManyToMany(() => Operation, (operation) => operation.states)
+  operations: Operation[];
 }

@@ -13,9 +13,6 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Type, Exclude, Expose } from 'class-transformer';
-import { Delivery } from './delivery.entity';
-import { State } from './state.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Operation } from './operation.entity';
 

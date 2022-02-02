@@ -24,9 +24,12 @@ export class Operation {
   id: number;
 
   @Column({ type: 'varchar', length: 50 })
+  code: string;
+
+  @Column({ type: 'varchar', length: 50 })
   date: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   comment: string;
 
   @Column({ type: 'int' })
