@@ -17,6 +17,7 @@ import { Type, Exclude, Expose } from 'class-transformer';
 import { Delivery } from './delivery.entity';
 import { State } from './state.entity';
 import { Cart } from './cart.entity';
+import { OperationToState } from './operationToState.entity';
 
 @Entity() // importantisimo para que tyscript trate la clase como una entidad orm
 export class Operation {
@@ -26,8 +27,9 @@ export class Operation {
   @Column({ type: 'varchar', length: 50 })
   code: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  date: string;
+  @Column({ type: 'text' })
+  @Type(() => Date)
+  date: Date;
 
   @Column({ type: 'text', nullable: true })
   comment: string;
@@ -51,17 +53,11 @@ export class Operation {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToMany(() => State, (state) => state.operations)
-  @JoinTable({
-    name: 'operations_states', //nombre de la tabla
-    joinColumn: {
-      name: 'operation_id', // Relación con la entidad donde estas situado.
-    },
-    inverseJoinColumn: {
-      name: 'state_id', // Relación con la otra entidad.
-    },
-  })
-  states: State[];
+  @OneToMany(
+    () => OperationToState,
+    (operationToState) => operationToState.operation,
+  )
+  operationsToStates: OperationToState[];
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })

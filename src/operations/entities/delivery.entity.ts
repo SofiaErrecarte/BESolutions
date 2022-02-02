@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -28,8 +29,9 @@ export class Delivery {
   @Column({ type: 'text', nullable: true })
   shipperAddress: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  estimatedDeliveryDate: string;
+  @Column({ type: 'text' })
+  @Type(() => Date)
+  estimatedDeliveryDate: Date;
 
   @Column({ type: 'float' })
   price: number;
@@ -49,18 +51,6 @@ export class Delivery {
   public setCreatedAt() {
     this.created_at = new Date().toLocaleString();
   }
-
-  /*@ManyToMany(() => State, (state) => state.deliveries)
-  @JoinTable({
-    name: 'deliveries_states', //nombre de la tabla
-    joinColumn: {
-      name: 'delivery_id', // Relación con la entidad donde estas situado.
-    },
-    inverseJoinColumn: {
-      name: 'state_id', // Relación con la otra entidad.
-    },
-  })
-  states: State[];*/
 
   @OneToMany(
     () => DeliveryToState,

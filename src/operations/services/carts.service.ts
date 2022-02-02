@@ -44,7 +44,7 @@ export class CartsService {
       obj.products = listObj;
     }
     this.cartRepo.merge(obj, changes);
-    return this.productRepo.save(obj);
+    return this.cartRepo.save(obj);
   }
 
   async remove(id: number) {

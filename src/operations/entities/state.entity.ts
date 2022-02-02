@@ -16,6 +16,7 @@ import { Type, Exclude, Expose } from 'class-transformer';
 import { Delivery } from './delivery.entity';
 import { Operation } from './operation.entity';
 import { DeliveryToState } from './deliveryToState.entity';
+import { OperationToState } from './operationToState.entity';
 
 @Entity()
 export class State {
@@ -50,6 +51,9 @@ export class State {
   )
   deliveriesToStates: DeliveryToState[];
 
-  @ManyToMany(() => Operation, (operation) => operation.states)
-  operations: Operation[];
+  @OneToMany(
+    () => OperationToState,
+    (operationToState) => operationToState.operation,
+  )
+  operationsToStates: OperationToState[];
 }

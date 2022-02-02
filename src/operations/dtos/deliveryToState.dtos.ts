@@ -11,11 +11,6 @@ import { PartialType, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class CreateOperationDto {
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ description: `operation's code` })
-  readonly code: string;
-
   @IsDate()
   @IsOptional()
   @ApiProperty()
@@ -26,25 +21,15 @@ export class CreateOperationDto {
   @ApiProperty()
   readonly comment: string;
 
-  @IsNumber()
+  @IsPositive()
   @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
-  readonly total: number;
-
-  @IsPositive()
   @ApiProperty()
   readonly deliveryId: number;
 
   @IsPositive()
   @IsNotEmpty()
   @ApiProperty()
-  readonly operationToStateId: number;
-
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly cartId: number;
+  readonly stateId: number;
 }
 
 export class UpdateOperationDto extends PartialType(CreateOperationDto) {}

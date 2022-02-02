@@ -14,9 +14,10 @@ import {
 import { Type, Exclude, Expose } from 'class-transformer';
 import { State } from './state.entity';
 import { Delivery } from './delivery.entity';
+import { Operation } from './operation.entity';
 
 @Entity()
-export class DeliveryToState {
+export class OperationToState {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
 
@@ -24,11 +25,12 @@ export class DeliveryToState {
   comment: string;
 
   @Column({ type: 'text' })
-  date: string;
+  @Type(() => Date)
+  date: Date;
 
-  @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
-  @JoinColumn({ name: 'delivery_id' })
-  delivery: Delivery;
+  @ManyToOne(() => Operation, (operation) => operation.operationsToStates)
+  @JoinColumn({ name: 'operation_id' })
+  operation: Operation;
 
   @ManyToOne(() => State, (state) => state.deliveriesToStates)
   @JoinColumn({ name: 'state_id' })

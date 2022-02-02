@@ -4,8 +4,11 @@ import {
   IsUrl,
   IsNotEmpty,
   IsPositive,
+  IsDate,
+  IsOptional,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class CreateDeliveryDto {
   @IsString()
@@ -26,15 +29,27 @@ export class CreateDeliveryDto {
   @ApiProperty()
   readonly shipperAddress: string;
 
-  @IsString()
+  @IsDate()
+  @IsOptional()
   @ApiProperty()
-  readonly estimatedDeliveryDate: string;
+  @Type(() => Date)
+  readonly estimatedDeliveryDate: Date;
 
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
   @ApiProperty()
   readonly price: number;
+
+  @IsPositive()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly operationId: number;
+
+  @IsPositive()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly deliveryToStateId: number;
 }
 
 export class UpdateDeliveryDto extends PartialType(CreateDeliveryDto) {}
