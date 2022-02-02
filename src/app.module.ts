@@ -12,6 +12,7 @@ import { enviroments } from './enviroments';
 import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
 import config from './config';
+import { OperationsModule } from './operations/operations.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import config from './config';
     HttpModule,
     UsersModule,
     ProductsModule,
+    OperationsModule,
     DatabaseModule,
     AuthModule,
     SettingsModule,
