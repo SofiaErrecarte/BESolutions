@@ -10,6 +10,7 @@ import {
   JoinTable,
   Index,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import { Type, Exclude, Expose } from 'class-transformer';
@@ -19,12 +20,9 @@ import { Product } from 'src/products/entities/product.entity';
 import { Operation } from './operation.entity';
 
 @Entity()
-export class OperationItem {
+export class Cart {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
-
-  @Column({ type: 'int' })
-  quantity: number;
 
   @Column({ type: 'int' })
   subtotal: number;
@@ -45,11 +43,18 @@ export class OperationItem {
     this.created_at = new Date().toLocaleString();
   }
 
-  /*@ManyToOne(() => Product, (product) => product.operationItems)
-  @JoinColumn({ name: 'product_id' })
-  product: Product;*/
+  @ManyToMany(() => Product, (product) => product.carts)
+  @JoinTable({
+    name: 'carts_products',
+    joinColumn: {
+      name: 'cart_id', // Relación con la entidad donde estas situado.
+    },
+    inverseJoinColumn: {
+      name: 'product_id', // Relación con la otra entidad.
+    },
+  })
+  products: Product[];
 
-  @ManyToOne(() => Operation, (operation) => operation.operationItems)
-  @JoinColumn({ name: 'operation_id' })
+  @OneToOne(() => Operation, (operation) => operation.cart) // specify inverse side as a second parameter
   operation: Operation;
 }

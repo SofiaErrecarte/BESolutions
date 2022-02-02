@@ -14,6 +14,7 @@ import {
 import { Type, Exclude, Expose } from 'class-transformer';
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
+import { Cart } from 'src/operations/entities/cart.entity';
 
 @Entity({ name: 'products' }) // importantisimo para que tyscript trate la clase como una entidad orm
 @Index(['price', 'stock']) //campos indexados
@@ -67,4 +68,7 @@ export class Product {
     },
   })
   categories: Category[];
+
+  @ManyToMany(() => Cart, (cart) => cart.products)
+  carts: Cart[];
 }

@@ -10,11 +10,13 @@ import {
   Index,
   JoinColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 
 import { Type, Exclude, Expose } from 'class-transformer';
 import { State } from './state.entity';
 import { DeliveryToState } from './deliveryToState.entity';
+import { Operation } from './operation.entity';
 
 @Entity() // importantisimo para que tyscript trate la clase como una entidad orm
 export class Delivery {
@@ -72,4 +74,7 @@ export class Delivery {
     (deliveryToState) => deliveryToState.delivery,
   )
   deliveriesToStates: DeliveryToState[];
+
+  @OneToOne(() => Operation, (operation) => operation.delivery) // specify inverse side as a second parameter
+  operation: Operation;
 }

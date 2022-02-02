@@ -16,8 +16,7 @@ import {
 import { Type, Exclude, Expose } from 'class-transformer';
 import { Delivery } from './delivery.entity';
 import { State } from './state.entity';
-import { Product } from 'src/products/entities/product.entity';
-import { OperationItem } from './operationItem.entity';
+import { Cart } from './cart.entity';
 
 @Entity() // importantisimo para que tyscript trate la clase como una entidad orm
 export class Operation {
@@ -65,19 +64,7 @@ export class Operation {
   @JoinColumn({ name: 'delivery_id' })
   delivery: Delivery;
 
-  @OneToMany(() => OperationItem, (operationItem) => operationItem.operation)
-  operationItems: OperationItem;
-
-  //descomentar luego de ver con producto
-  /*@ManyToMany(() => Product, (product) => product.operations)
-  @JoinTable({
-    name: 'operations_products', //nombre de la tabla que tambien puede ser products_has_categories
-    joinColumn: {
-      name: 'operation_id', // Relación con la entidad donde estas situado.
-    },
-    inverseJoinColumn: {
-      name: 'product_id', // Relación con la otra entidad.
-    },
-  })
-  products: Product[];*/
+  @OneToOne(() => Cart)
+  @JoinColumn({ name: 'cart_id' })
+  cart: Cart;
 }
