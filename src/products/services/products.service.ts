@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
-import { Repository, Between, FindConditions } from 'typeorm'; //injectar Repository
+import { Repository,  } from 'typeorm'; //injectar Repository
 
 import { Product } from './../entities/product.entity';
 import {
@@ -11,41 +12,32 @@ import {
 
 // import { BrandsService } from './../services/brands.service';
 import { Category } from './../entities/category.entity';
-import { Brand } from './../entities/brand.entity';
-
+import { User } from 'src/users/entities/user.entity';
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
-    @InjectRepository(Brand) private brandRepo: Repository<Brand>, //injectar Repository
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
+    @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
 
   async findAll(params?: FilterProductDto) {
     if (params) {
-      const where: FindConditions<Product> = {}; //para filtro
       const { limit, offset } = params; // funcion de desconstruccion
-      const { minPrice, maxPrice } = params; // funcion de desconstruccion
-      console.log(minPrice, maxPrice); //ver por consola los filtros
-      if (minPrice && maxPrice) {
-        //para filtro
-        where.price = Between(minPrice, maxPrice);
-      }
       return await this.productRepo.find({
-        relations: ['brand'],
-        where, //para filtro
+        relations: ['categories','prices','user','carts'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
     return await this.productRepo.find({
-      relations: ['brand'],
+      relations: ['categories','prices','user','carts'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
     const product = await this.productRepo.findOne(id, {
-      relations: ['brand', 'categories'], //cuando se busque un producto retornara con los objetos relacionados
+      relations: ['categories','prices','user_id','carts'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);
@@ -54,21 +46,14 @@ export class ProductsService {
   }
 
   async create(data: CreateProductDto) {
-    // const newObj = new Product();
-    // newObj.image = data.image;
-    // newObj.name = data.name;
-    // newObj.description = data.description;
-    // newObj.price = data.price;
-    // newObj.stock = data.stock;
-    // newObj.name = data.name;
     const newObj = this.productRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
-    if (data.brandId) {
-      const obj = await this.brandRepo.findOne(data.brandId);
-      newObj.brand = obj;
-    }
     if (data.categoriesIds) {
       const listObj = await this.categoryRepo.findByIds(data.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
       newObj.categories = listObj;
+    }
+    if (data.user_id) {
+      const obj = await this.userRepo.findOne(data.user_id);
+      newObj.user = obj;
     }
     return this.productRepo.save(newObj);
   }
@@ -77,10 +62,6 @@ export class ProductsService {
     const obj = await this.productRepo.findOne(id);
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
-    }
-    if (changes.brandId) {
-      const objRel = await this.brandRepo.findOne(changes.brandId);
-      obj.brand = objRel;
     }
     if (changes.categoriesIds) {
       const listObj = await this.categoryRepo.findByIds(changes.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
@@ -115,4 +96,5 @@ export class ProductsService {
       return item.id !== categoryId;
     });
   }
+// eslint-disable-next-line prettier/prettier
 }

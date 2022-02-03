@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   IsString,
   IsNumber,
@@ -53,3 +54,5 @@ export class CreateDeliveryDto {
 }
 
 export class UpdateDeliveryDto extends PartialType(CreateDeliveryDto) {}
+
+

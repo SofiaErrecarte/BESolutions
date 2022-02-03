@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -17,9 +18,10 @@ import { Type, Exclude, Expose } from 'class-transformer';
 import { Delivery } from './delivery.entity';
 import { State } from './state.entity';
 import { Cart } from './cart.entity';
-import { OperationToState } from './operationToState.entity';
+// import { OperationToState } from 'src/operations/entities/operationToState.entity';
 
-@Entity() // importantisimo para que tyscript trate la clase como una entidad orm
+
+@Entity('operations')
 export class Operation {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
@@ -53,11 +55,23 @@ export class Operation {
     this.created_at = new Date().toLocaleString();
   }
 
-  @OneToMany(
-    () => OperationToState,
-    (operationToState) => operationToState.operation,
-  )
-  operationsToStates: OperationToState[];
+  @ManyToMany(() => State, (state) => state.operations)
+  @JoinTable({
+    name: 'operations_states', //nombre de la tabla
+    joinColumn: {
+      name: 'operation_id', // Relación con la entidad donde estas situado.
+    },
+    inverseJoinColumn: {
+      name: 'state_id', // Relación con la otra entidad.
+    },
+  })
+  states: State[];
+
+  // @OneToMany(
+  //   () => OperationToState,
+  //   (operationToState) => operationToState.operation,
+  // )
+  // operationsToStates: OperationToState[];
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })

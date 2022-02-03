@@ -1,34 +1,40 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
   BeforeInsert, //estas dos columnas se usan para que cuando se cree o se actualice
   BeforeUpdate, //un registro las fechas se actualicen solas createAt y updateAt
-  ManyToOne,
   ManyToMany,
-  JoinTable, //este decorador se encrga de crear la tabla ternaria de la relacion N:N
-  Index,
+  ManyToOne,
   JoinColumn,
 } from 'typeorm';
 
-import { Type, Exclude, Expose } from 'class-transformer';
-import { State } from './state.entity';
-import { Delivery } from './delivery.entity';
+import { Type } from 'class-transformer';
+import { Product } from './product.entity';
 
-@Entity()
-export class DeliveryToState {
+@Entity('prices') // importantisimo para que tyscript trate la clase como una entidad orm
+export class Price {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
 
-  @Column({ type: 'text' })
-  comment: string;
+  @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  descripcion: string;
+
+  @Column({ type: 'text'})
+  @Type(() => Date)
+  fecha: Date;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   updated_at: string;
+
+  @ManyToOne(() => Product, (product) => product.prices)
+  @JoinColumn({ name: 'id_product' })
+  product: Product;
 
   @BeforeUpdate()
   public setUpdatedAt() {
@@ -40,11 +46,4 @@ export class DeliveryToState {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
-  @JoinColumn({ name: 'delivery_id' })
-  delivery: Delivery;
-
-  @ManyToOne(() => State, (state) => state.deliveriesToStates)
-  @JoinColumn({ name: 'state_id' })
-  state: State;
 }

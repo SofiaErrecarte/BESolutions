@@ -5,19 +5,14 @@ import {
   Entity,
   BeforeInsert, //estas dos columnas se usan para que cuando se cree o se actualice
   BeforeUpdate, //un registro las fechas se actualicen solas createAt y updateAt
-  OneToOne,
-  JoinColumn,
   Unique,
-  ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
-import { Playerdata } from './playerdata.entity';
-import { Customer } from './customer.entity';
-import { Country } from '../../settings/entities/country.entity';
+import { Type, Exclude } from 'class-transformer';
+import { Product } from 'src/products/entities/product.entity';
 
-import { Type, Exclude, Expose } from 'class-transformer';
-
-@Unique(['username']) //uneque key
+@Unique(['username','cuitcuil']) //uneque key
 @Entity() // importantisimo para que tyscript trate la clase como una entidad orm
 export class User {
   @PrimaryGeneratedColumn() //PRIMARY KEY
@@ -50,21 +45,7 @@ export class User {
   image: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  smallimage: string;
-
-  @Column({ type: 'varchar', length: 10, nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  resetPassword: string;
-
-  @Column({ type: 'varchar', length: 10 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  state: string;
-
-  @Exclude() // serializa para excluir el campo en la respuesta de la api
-  @Column({ type: 'varchar', length: 100, nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  telegramChatId: string;
-
-  @Exclude() // serializa para excluir el campo en la respuesta de la api
-  @Column({ type: 'varchar', length: 10, nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  telegramNotification: string;
+  cuitcuil: string;
 
   @Exclude() // serializa para excluir el campo en la respuesta de la api
   @Column({ type: 'varchar', length: 50, nullable: true })
@@ -73,6 +54,9 @@ export class User {
   @Exclude() // serializa para excluir el campo en la respuesta de la api
   @Column({ type: 'varchar', length: 50, nullable: true })
   updated_at: string;
+
+  @OneToMany(() => Product, (product) => product.user)
+  products: Product[];
 
   @BeforeUpdate()
   public setUpdatedAt() {
@@ -83,18 +67,4 @@ export class User {
   public setCreatedAt() {
     this.created_at = new Date().toLocaleString();
   }
-
-  @OneToOne(() => Customer, (customer) => customer.user)
-  @JoinColumn({ name: 'customer_id' })
-  customer: Customer;
-
-  @ManyToOne(() => Country, (country) => country.users)
-  @JoinColumn({ name: 'country_id' })
-  country: Country;
-
-  @OneToOne(() => Playerdata, (playerdata) => playerdata.user, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'playerdata_id' })
-  playerdata: Playerdata;
 }

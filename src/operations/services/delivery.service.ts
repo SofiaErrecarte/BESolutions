@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
 import { Repository, Between, FindConditions } from 'typeorm'; //injectar Repository
