@@ -73,9 +73,9 @@ export class Operation {
   // )
   // operationsToStates: OperationToState[];
 
-  @OneToOne(() => Delivery)
-  @JoinColumn({ name: 'delivery_id' })
-  delivery: Delivery;
+  // @OneToOne(() => Delivery)
+  // @JoinColumn({ name: 'delivery_id' })
+  // delivery: Delivery;
 
   @OneToOne(() => Cart)
   @JoinColumn({ name: 'cart_id' })

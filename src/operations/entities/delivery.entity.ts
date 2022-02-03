@@ -65,12 +65,12 @@ export class Delivery {
   })
   states: State[];*/
 
-  @OneToMany(
-    () => DeliveryToState,
-    (deliveryToState) => deliveryToState.delivery,
-  )
-  deliveriesToStates: DeliveryToState[];
+  // @OneToMany(
+  //   () => DeliveryToState,
+  //   (deliveryToState) => deliveryToState.delivery,
+  // )
+  // deliveriesToStates: DeliveryToState[];
 
-  @OneToOne(() => Operation, (operation) => operation.delivery) // specify inverse side as a second parameter
-  operation: Operation;
+  // @OneToOne(() => Operation, (operation) => operation.delivery) // specify inverse side as a second parameter
+  // operation: Operation;
 }

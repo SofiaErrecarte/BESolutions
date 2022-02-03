@@ -19,6 +19,7 @@ export class FilterPriceDto {
 export class CreatePriceDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   readonly descripcion: string;
 
   @IsDate()
@@ -29,6 +30,7 @@ export class CreatePriceDto {
 
   @IsNumber()
   @IsNotEmpty()
+  @ApiProperty()
   readonly product: Product;
 }
 

@@ -38,6 +38,7 @@ export class CreateOperationDto {
   readonly date: Date;
 
   @IsString()
+  @IsOptional()
   @ApiProperty()
   readonly comment: string;
 

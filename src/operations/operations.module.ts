@@ -11,8 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CartsService } from './services/carts.service';
 import { DeliveriesService } from './services/delivery.service';
 import { OperationsController } from './controllers/operations.controller';
-import { CartController } from './controllers/cart.controller';
 import { OperationsService } from './services/operations.service';
+import { CartsController } from './controllers/carts.controller';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { OperationsService } from './services/operations.service';
   controllers: [
     OperationsController,
     DeliveryToStateController,
-    CartController,
+    CartsController
   ],
   providers: [CartsService, DeliveriesService, OperationsService],
   exports: [TypeOrmModule],
