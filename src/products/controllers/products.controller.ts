@@ -32,7 +32,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 
-@UseGuards(JwtAuthGuard, RoleGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('products') // le pone el nombre del tag en la documentacion
 @Controller('products')
 export class ProductsController {
