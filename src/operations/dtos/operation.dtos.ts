@@ -6,13 +6,6 @@ import {
   IsUrl,
   IsNotEmpty,
   IsPositive,
-<<<<<<< HEAD
-  IsDate,
-  IsOptional,
-} from 'class-validator';
-import { PartialType, ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-=======
   IsOptional,
   Min,
   IsDate,
@@ -31,7 +24,6 @@ export class FilterOperationDto {
   @ApiProperty()
   offset: number;
 }
->>>>>>> sofi
 
 export class CreateOperationDto {
   @IsString()

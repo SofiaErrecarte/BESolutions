@@ -45,10 +45,6 @@ export class OperationsService {
     return operation;
   }
 
-  async findAll() {
-    return await this.operationRepo.find();
-  }
-
   async create(data: CreateOperationDto) {
     const newObj = this.operationRepo.create(data);
     if (data.deliveryId) {

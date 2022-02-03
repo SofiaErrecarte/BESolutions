@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 /* eslint-disable prettier/prettier */
->>>>>>> sofi
 import { Type } from 'class-transformer';
 import {
   PrimaryGeneratedColumn,
@@ -55,6 +52,18 @@ export class Delivery {
   public setCreatedAt() {
     this.created_at = new Date().toLocaleString();
   }
+
+  /*@ManyToMany(() => State, (state) => state.deliveries)
+  @JoinTable({
+    name: 'deliveries_states', //nombre de la tabla
+    joinColumn: {
+      name: 'delivery_id', // Relación con la entidad donde estas situado.
+    },
+    inverseJoinColumn: {
+      name: 'state_id', // Relación con la otra entidad.
+    },
+  })
+  states: State[];*/
 
   @OneToMany(
     () => DeliveryToState,

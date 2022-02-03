@@ -24,9 +24,21 @@ export class DeliveryToState {
   @Column({ type: 'text' })
   comment: string;
 
-  @Column({ type: 'text' })
-  @Type(() => Date)
-  date: Date;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  created_at: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  updated_at: string;
+
+  @BeforeUpdate()
+  public setUpdatedAt() {
+    this.updated_at = new Date().toLocaleString();
+  }
+
+  @BeforeInsert()
+  public setCreatedAt() {
+    this.created_at = new Date().toLocaleString();
+  }
 
   @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
   @JoinColumn({ name: 'delivery_id' })

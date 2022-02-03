@@ -1,42 +1,14 @@
-<<<<<<< HEAD
-import {
-  Controller,
-  Get,
-=======
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
   Query,
->>>>>>> sofi
   Param,
   Post,
   Body,
   Put,
   Delete,
-<<<<<<< HEAD
-  ParseIntPipe,
-} from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateOperationDto, UpdateOperationDto } from '../dtos/operation.dtos';
-import { OperationsService } from '../services/operations.service';
-
-@ApiTags('operations') // le pone el nombre a la tabla de la base de datos que queremos
-@Controller('operations')
-export class OperationsController {
-  constructor(private operationsService: OperationsService) {}
-
-  @Get()
-  @ApiOperation({ summary: 'List of operations' }) // comentario en la documentacion
-  findAll() {
-    return this.operationsService.findAll();
-  }
-
-  @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
-    return this.operationsService.findOne(id);
-=======
   HttpStatus,
   HttpCode,
   Res,
@@ -76,16 +48,11 @@ export class OperationsController {
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.operationService.findOne(id);
->>>>>>> sofi
   }
 
   @Post()
   create(@Body() payload: CreateOperationDto) {
-<<<<<<< HEAD
-    return this.operationsService.create(payload);
-=======
     return this.operationService.create(payload);
->>>>>>> sofi
   }
 
   @Put(':id')
@@ -93,15 +60,6 @@ export class OperationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateOperationDto,
   ) {
-<<<<<<< HEAD
-    return this.operationsService.update(id, payload);
-  }
-
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.operationsService.remove(+id);
-  }
-=======
     return this.operationService.update(+id, payload);
   }
 
@@ -110,5 +68,4 @@ export class OperationsController {
     return this.operationService.remove(id);
   }
 
->>>>>>> sofi
 }
