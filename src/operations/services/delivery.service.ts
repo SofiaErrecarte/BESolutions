@@ -24,6 +24,10 @@ export class DeliveriesService {
     return delivery;
   }
 
+  async findAll() {
+    return await this.deliveryRepo.find();
+  }
+
   async create(data: CreateDeliveryDto) {
     const newObj = this.deliveryRepo.create(data);
     return this.operationRepo.save(newObj);

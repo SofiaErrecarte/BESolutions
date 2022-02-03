@@ -10,7 +10,7 @@ import {
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
-export class CreateOperationDto {
+export class CreateDeliveryToStateDto {
   @IsDate()
   @IsOptional()
   @ApiProperty()
@@ -32,4 +32,6 @@ export class CreateOperationDto {
   readonly stateId: number;
 }
 
-export class UpdateOperationDto extends PartialType(CreateOperationDto) {}
+export class UpdateDeliveryToStateDto extends PartialType(
+  CreateDeliveryToStateDto,
+) {}

@@ -24,7 +24,8 @@ export class DeliveryToState {
   comment: string;
 
   @Column({ type: 'text' })
-  date: string;
+  @Type(() => Date)
+  date: Date;
 
   @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
   @JoinColumn({ name: 'delivery_id' })

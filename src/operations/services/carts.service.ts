@@ -25,6 +25,10 @@ export class CartsService {
     return cart;
   }
 
+  async findAll() {
+    return await this.cartRepo.find();
+  }
+
   async create(data: CreateCartDto) {
     const newObj = this.cartRepo.create(data);
     if (data.productsIds) {
