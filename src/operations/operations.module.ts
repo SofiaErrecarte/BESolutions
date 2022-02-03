@@ -1,12 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { forwardRef, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'; // 1/3-Import entidad
-import { UsersModule } from 'src/users/users.module';
-
-import { Cart } from './entities/cart.entity';
-import { Delivery } from './entities/delivery.entity';
+import { DeliveryToStateController } from './controllers/delivery-to-state.controller';
+import { ProductsModule } from 'src/products/products.module';
 import { Operation } from './entities/operation.entity';
 import { State } from './entities/state.entity';
+<<<<<<< HEAD
 import { DeliveryToState } from './entities/deliveryToState.entity';
 import { OperationToState } from './entities/operationToState.entity';
 
@@ -24,6 +22,17 @@ import { DeliveryToStateController } from './controllers/deliveryToState.control
 import { OperationToStateController } from './controllers/operationToState.controller';
 import { DeliveryToStateService } from './services/deliveryToState.service';
 import { OperationToStateService } from './services/operationToState.service';
+=======
+import { Delivery } from './entities/delivery.entity';
+import { Cart } from './entities/cart.entity';
+import { DeliveryToState } from './entities/deliveryToState.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CartsService } from './services/carts.service';
+import { DeliveriesService } from './services/delivery.service';
+import { OperationsController } from './controllers/operations.controller';
+import { CartController } from './controllers/cart.controller';
+import { OperationsService } from './services/operations.service';
+>>>>>>> sofi
 
 @Module({
   imports: [
@@ -34,11 +43,15 @@ import { OperationToStateService } from './services/operationToState.service';
       Operation,
       State,
       DeliveryToState,
+<<<<<<< HEAD
       OperationToState,
+=======
+>>>>>>> sofi
     ]),
   ],
   controllers: [
     OperationsController,
+<<<<<<< HEAD
     CartsController,
     DeliveryController,
     StateController,
@@ -54,5 +67,12 @@ import { OperationToStateService } from './services/operationToState.service';
     OperationToStateService,
   ],
   exports: [OperationsService, TypeOrmModule],
+=======
+    DeliveryToStateController,
+    CartController,
+  ],
+  providers: [CartsService, DeliveriesService, OperationsService],
+  exports: [TypeOrmModule],
+>>>>>>> sofi
 })
 export class OperationsModule {}

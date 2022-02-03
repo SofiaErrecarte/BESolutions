@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable prettier/prettier */
+>>>>>>> sofi
 import { Type } from 'class-transformer';
 import {
   PrimaryGeneratedColumn,

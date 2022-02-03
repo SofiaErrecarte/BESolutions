@@ -20,15 +20,4 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-
-  @Get('nuevo')
-  @Public() // => @SetMetadata('isPublic', 'true') decorador que si lo tiene esa ruta no necesota header ni token
-  newEndpoint() {
-    return 'yo soy nuevo';
-  }
-
-  @Get('/ruta/')
-  hello() {
-    return 'con /sas/';
-  }
 }

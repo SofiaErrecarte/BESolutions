@@ -26,13 +26,13 @@ import {
 } from '../dtos/products.dtos';
 import { ProductsService } from './../services/products.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
-import { RoleGuard } from 'src/auth/guards/role.guard';
+// import { RoleGuard } from 'src/auth/guards/role.guard';
 
 import { Public } from 'src/auth/decorators/public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 
-@UseGuards(JwtAuthGuard, RoleGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('products') // le pone el nombre del tag en la documentacion
 @Controller('products')
 export class ProductsController {
@@ -42,19 +42,14 @@ export class ProductsController {
   @Get()
   @ApiOperation({ summary: 'List of products' }) // comentario en la documentacion
   getProducts(@Query() params: FilterProductDto) {
-    return this.productsService.findAll(params);
-  }
-
-  @Get('filter')
-  getProductFilter() {
-    return `yo soy un filter`;
+    return this.productsService.findAll();
   }
 
   @Public()
-  @Get(':productId')
+  @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOne(@Param('productId', ParseIntPipe) productId: number) {
-    return this.productsService.findOne(productId);
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.findOne(id);
   }
 
   @Roles(Role.ADMIN)

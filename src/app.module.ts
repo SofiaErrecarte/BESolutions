@@ -10,9 +10,8 @@ import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
 import { AuthModule } from './auth/auth.module';
-import { SettingsModule } from './settings/settings.module';
-import config from './config';
 import { OperationsModule } from './operations/operations.module';
+import config from './config';
 
 @Module({
   imports: [
@@ -30,10 +29,9 @@ import { OperationsModule } from './operations/operations.module';
     HttpModule,
     UsersModule,
     ProductsModule,
-    OperationsModule,
     DatabaseModule,
     AuthModule,
-    SettingsModule,
+    OperationsModule,
   ],
   controllers: [AppController],
   providers: [

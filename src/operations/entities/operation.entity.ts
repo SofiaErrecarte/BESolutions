@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -17,9 +18,14 @@ import { Type, Exclude, Expose } from 'class-transformer';
 import { Delivery } from './delivery.entity';
 import { State } from './state.entity';
 import { Cart } from './cart.entity';
+<<<<<<< HEAD
 import { OperationToState } from './operationToState.entity';
+=======
+// import { OperationToState } from 'src/operations/entities/operationToState.entity';
+>>>>>>> sofi
 
-@Entity() // importantisimo para que tyscript trate la clase como una entidad orm
+
+@Entity('operations')
 export class Operation {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
@@ -58,6 +64,12 @@ export class Operation {
     (operationToState) => operationToState.operation,
   )
   operationsToStates: OperationToState[];
+
+  // @OneToMany(
+  //   () => OperationToState,
+  //   (operationToState) => operationToState.operation,
+  // )
+  // operationsToStates: OperationToState[];
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })

@@ -29,6 +29,11 @@ export class CreateUserDto {
   @ApiProperty()
   password: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  cuitcuil: string;
+
   @IsNotEmpty()
   @ApiProperty()
   role: string;
@@ -50,28 +55,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty()
   image: string;
-
-  @IsNotEmpty()
-  @ApiProperty()
-  smallimage: string;
-
-  @ApiProperty()
-  @IsOptional()
-  telegramChatId: string;
-
-  @ApiProperty()
-  @IsOptional()
-  telegramNotification: string;
-
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  customerId: number;
-
-  @IsPositive()
-  @IsOptional()
-  @ApiProperty()
-  countryId: number;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -51,9 +52,21 @@ export class State {
   )
   deliveriesToStates: DeliveryToState[];
 
+<<<<<<< HEAD
   @OneToMany(
     () => OperationToState,
     (operationToState) => operationToState.operation,
   )
   operationsToStates: OperationToState[];
+=======
+  @ManyToMany(() => Operation, (operation) => operation.states)
+  operations: Operation[];
+
+  // @OneToMany(
+  //   () => OperationToState,
+  //   (operationToState) => operationToState.operation,
+  // )
+  // operationsToStates: OperationToState[];
+
+>>>>>>> sofi
 }

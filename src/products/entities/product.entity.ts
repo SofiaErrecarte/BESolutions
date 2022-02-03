@@ -11,15 +11,17 @@ import {
   JoinTable, //este decorador se encrga de crear la tabla ternaria de la relacion N:N
   Index,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import { Type, Exclude, Expose } from 'class-transformer';
-import { Brand } from './brand.entity';
 import { Category } from './category.entity';
+import { Price } from './prices.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Cart } from 'src/operations/entities/cart.entity';
 
 @Entity({ name: 'products' }) // importantisimo para que tyscript trate la clase como una entidad orm
-@Index(['price', 'stock']) //campos indexados
+// @Index(['price', 'stock']) //campos indexados
 export class Product {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
@@ -29,9 +31,6 @@ export class Product {
 
   @Column({ type: 'text' })
   description: string;
-
-  @Column({ type: 'int' })
-  price: number;
 
   @Column({ type: 'int' })
   stock: number;
@@ -55,10 +54,6 @@ export class Product {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToOne(() => Brand, (brand) => brand.products)
-  @JoinColumn({ name: 'brand_id' })
-  brand: Brand;
-
   @ManyToMany(() => Category, (category) => category.products)
   @JoinTable({
     name: 'products_categories', //nombre de la tabla que tambien puede ser products_has_categories
@@ -71,6 +66,14 @@ export class Product {
   })
   categories: Category[];
 
+  @OneToMany(() => Price, (price) => price.product)
+  prices: Price[];
+
+  @ManyToOne(() => User, (user) => user.products)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
   @ManyToMany(() => Cart, (cart) => cart.products)
   carts: Cart[];
+
 }
