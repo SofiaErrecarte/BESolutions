@@ -37,7 +37,7 @@ export class OperationsService {
 
   async findOne(id: number) {
     const operation = await this.operationRepo.findOne(id, {
-      relations: ['delivery', 'cart'],
+      relations: ['cart'],
     });
     if (!operation) {
       throw new NotFoundException(`Operation #${id} not found`);
@@ -47,10 +47,10 @@ export class OperationsService {
 
   async create(data: CreateOperationDto) {
     const newObj = this.operationRepo.create(data);
-    if (data.deliveryId) {
-      const obj = await this.deliveryRepo.findOne(data.deliveryId);
-      newObj.delivery = obj;
-    }
+    // if (data.deliveryId) {
+    //   const obj = await this.deliveryRepo.findOne(data.deliveryId);
+    //   newObj.delivery = obj;
+    // }
     if (data.cartId) {
       const obj = await this.cartRepo.findOne(data.cartId);
       newObj.cart = obj;
@@ -63,10 +63,10 @@ export class OperationsService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    if (changes.deliveryId) {
-      const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
-      obj.delivery = objRel;
-    }
+    // if (changes.deliveryId) {
+    //   const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
+    //   obj.delivery = objRel;
+    // }
     if (changes.cartId) {
       const objRel = await this.cartRepo.findOne(changes.cartId);
       obj.cart = objRel;

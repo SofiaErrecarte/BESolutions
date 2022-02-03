@@ -19,9 +19,9 @@ export class DeliveriesService {
     const delivery = await this.deliveryRepo.findOne(id, {
       relations: ['operation'],
     });
-    if (!delivery) {
-      throw new NotFoundException(`Delivery #${id} not found`);
-    }
+    // if (!delivery) {
+    //   throw new NotFoundException(`Delivery #${id} not found`);
+    // }
     return delivery;
   }
 

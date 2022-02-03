@@ -40,11 +40,11 @@ export class DeliveryToState {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
-  @JoinColumn({ name: 'delivery_id' })
-  delivery: Delivery;
+  // @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
+  // @JoinColumn({ name: 'delivery_id' })
+  // delivery: Delivery;
 
-  @ManyToOne(() => State, (state) => state.deliveriesToStates)
-  @JoinColumn({ name: 'state_id' })
-  state: State;
+  // @ManyToOne(() => State, (state) => state.deliveriesToStates)
+  // @JoinColumn({ name: 'state_id' })
+  // state: State;
 }

@@ -31,7 +31,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard)
-@ApiTags('pperations') // le pone el nombre del tag en la documentacion
+@ApiTags('operations') // le pone el nombre del tag en la documentacion
 @Controller('operations')
 export class OperationsController {
   constructor(private operationService: OperationsService) {}

@@ -45,11 +45,11 @@ export class State {
     this.created_at = new Date().toLocaleString();
   }
 
-  @OneToMany(
-    () => DeliveryToState,
-    (deliveryToState) => deliveryToState.delivery,
-  )
-  deliveriesToStates: DeliveryToState[];
+  // @OneToMany(
+  //   () => DeliveryToState,
+  //   (deliveryToState) => deliveryToState.delivery,
+  // )
+  // deliveriesToStates: DeliveryToState[];
 
   @ManyToMany(() => Operation, (operation) => operation.states)
   operations: Operation[];
