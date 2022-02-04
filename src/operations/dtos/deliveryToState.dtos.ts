@@ -13,12 +13,12 @@ import { Type } from 'class-transformer';
 
 export class CreateDeliveryToStateDto {
   @IsDate()
-  @IsOptional()
   @ApiProperty()
   @Type(() => Date)
   readonly date: Date;
 
   @IsString()
+  @IsOptional()
   @ApiProperty()
   readonly comment: string;
 

@@ -30,11 +30,11 @@ export class Delivery {
   @Column({ type: 'text', nullable: true })
   shipperAddress: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   @Type(() => Date)
   estimatedDeliveryDate: Date;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', nullable: true })
   price: number;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
@@ -53,24 +53,12 @@ export class Delivery {
     this.created_at = new Date().toLocaleString();
   }
 
-  /*@ManyToMany(() => State, (state) => state.deliveries)
-  @JoinTable({
-    name: 'deliveries_states', //nombre de la tabla
-    joinColumn: {
-      name: 'delivery_id', // Relación con la entidad donde estas situado.
-    },
-    inverseJoinColumn: {
-      name: 'state_id', // Relación con la otra entidad.
-    },
-  })
-  states: State[];*/
+  @OneToMany(
+    () => DeliveryToState,
+    (deliveryToState) => deliveryToState.delivery,
+  )
+  deliveriesToStates: DeliveryToState[];
 
-  // @OneToMany(
-  //   () => DeliveryToState,
-  //   (deliveryToState) => deliveryToState.delivery,
-  // )
-  // deliveriesToStates: DeliveryToState[];
-
-  // @OneToOne(() => Operation, (operation) => operation.delivery) // specify inverse side as a second parameter
-  // operation: Operation;
+  @OneToOne(() => Operation, (operation) => operation.delivery) // specify inverse side as a second parameter
+  operation: Operation;
 }

@@ -68,7 +68,8 @@ export class CartsService {
     return this.cartRepo.save(cart);
   }
 
-  async removeCategoryByProduct(cartId: number, productId: number) {
+  //chequear este metodo
+  async removeProductByCart(cartId: number, productId: number) {
     const cart = await this.cartRepo.findOne(cartId, {
       relations: ['products'],
     });

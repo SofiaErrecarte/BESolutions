@@ -21,30 +21,18 @@ export class DeliveryToState {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   comment: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  created_at: string;
+  @Column({ type: 'text' })
+  @Type(() => Date)
+  date: Date;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  updated_at: string;
+  @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
+  @JoinColumn({ name: 'delivery_id' })
+  delivery: Delivery;
 
-  @BeforeUpdate()
-  public setUpdatedAt() {
-    this.updated_at = new Date().toLocaleString();
-  }
-
-  @BeforeInsert()
-  public setCreatedAt() {
-    this.created_at = new Date().toLocaleString();
-  }
-
-  // @ManyToOne(() => Delivery, (delivery) => delivery.deliveriesToStates)
-  // @JoinColumn({ name: 'delivery_id' })
-  // delivery: Delivery;
-
-  // @ManyToOne(() => State, (state) => state.deliveriesToStates)
-  // @JoinColumn({ name: 'state_id' })
-  // state: State;
+  @ManyToOne(() => State, (state) => state.deliveriesToStates)
+  @JoinColumn({ name: 'state_id' })
+  state: State;
 }
