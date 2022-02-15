@@ -11,6 +11,7 @@ import {
 
 import { Delivery } from './../entities/delivery.entity';
 import { Cart } from './../entities/cart.entity';
+import { OperationToState } from '../entities/operationToState.entity';
 
 @Injectable()
 export class OperationsService {
@@ -18,25 +19,27 @@ export class OperationsService {
     @InjectRepository(Operation) private operationRepo: Repository<Operation>,
     @InjectRepository(Delivery) private deliveryRepo: Repository<Delivery>, //injectar Repository
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
+    @InjectRepository(OperationToState)
+    private opToStateRepo: Repository<OperationToState>,
   ) {}
 
   async findAll(params?: FilterOperationDto) {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.operationRepo.find({
-        relations: [],
+        relations: ['cart', 'delivery', 'operationToStates'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
     return await this.operationRepo.find({
-      relations: [], // para que cuando devuelva los objetos los devuelva con la relacion
+      relations: ['cart', 'delivery', 'operationToStates'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
     const operation = await this.operationRepo.findOne(id, {
-      relations: ['delivery', 'cart'],
+      relations: ['delivery', 'cart', 'operationToStates'],
     });
     if (!operation) {
       throw new NotFoundException(`Operation #${id} not found`);

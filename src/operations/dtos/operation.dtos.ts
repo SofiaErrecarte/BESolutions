@@ -32,7 +32,7 @@ export class CreateOperationDto {
   readonly code: string;
 
   @IsDate()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   @Type(() => Date)
   readonly date: Date;
@@ -49,11 +49,12 @@ export class CreateOperationDto {
   readonly total: number;
 
   @IsPositive()
+  @IsOptional()
   @ApiProperty()
   readonly deliveryId: number;
 
   @IsPositive()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly operationToStateId: number;
 

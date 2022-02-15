@@ -58,7 +58,7 @@ export class Operation {
     () => OperationToState,
     (operationToState) => operationToState.operation,
   )
-  operationsToStates: OperationToState[];
+  operationToStates: OperationToState[];
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })

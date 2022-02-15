@@ -19,7 +19,9 @@ export class OperationToStateService {
   ) {}
 
   async findAll() {
-    return await this.opToStateRepo.find();
+    return await this.opToStateRepo.find({
+      relations: ['operation', 'state'],
+    });
   }
 
   async findOne(id: number) {
