@@ -27,7 +27,9 @@ export class CartsService {
   }
 
   async findAll() {
-    return await this.cartRepo.find();
+    return await this.cartRepo.find({
+      relations: ['operation', 'products'],
+    });
   }
 
   async create(data: CreateCartDto) {
