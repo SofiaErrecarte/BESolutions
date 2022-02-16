@@ -13,7 +13,7 @@ import { CreateStateDto, UpdateStateDto } from '../dtos/state.dtos';
 import { StateService } from '../services/state.service';
 
 @ApiTags('states') // le pone el nombre a la tabla de la base de datos que queremos
-@Controller('state')
+@Controller('states')
 export class StateController {
   constructor(private statesService: StateService) {}
 

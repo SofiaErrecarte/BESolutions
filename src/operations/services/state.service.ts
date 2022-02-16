@@ -15,14 +15,9 @@ export class StateService {
   }
 
   async findOne(id: number) {
-    const obj = await this.stateRepo.findOne({
-      relations: ['state'],
-      where: {
-        id,
-      },
-    });
+    const obj = this.stateRepo.findOne();
     if (!obj) {
-      throw new NotFoundException(`Object #${id} not found`);
+      throw new NotFoundException(`State #${id} not found`);
     }
     return obj;
   }

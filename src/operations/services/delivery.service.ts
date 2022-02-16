@@ -17,7 +17,7 @@ export class DeliveriesService {
 
   async findOne(id: number) {
     const delivery = await this.deliveryRepo.findOne(id, {
-      relations: ['operation'],
+      relations: ['operation', 'deliveriesToStates'],
     });
     if (!delivery) {
       throw new NotFoundException(`Delivery #${id} not found`);
@@ -26,12 +26,14 @@ export class DeliveriesService {
   }
 
   async findAll() {
-    return await this.deliveryRepo.find();
+    return await this.deliveryRepo.find({
+      relations: ['operation', 'deliveriesToStates'],
+    });
   }
 
   async create(data: CreateDeliveryDto) {
     const newObj = this.deliveryRepo.create(data);
-    return this.operationRepo.save(newObj);
+    return this.deliveryRepo.save(newObj);
   }
 
   async update(id: number, changes: UpdateDeliveryDto) {
@@ -39,8 +41,12 @@ export class DeliveriesService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
+    if (changes.operationId) {
+      const objRel = await this.operationRepo.findOne(changes.operationId);
+      obj.operation = objRel;
+    }
     this.deliveryRepo.merge(obj, changes);
-    return this.operationRepo.save(obj);
+    return this.deliveryRepo.save(obj);
   }
 
   async remove(id: number) {

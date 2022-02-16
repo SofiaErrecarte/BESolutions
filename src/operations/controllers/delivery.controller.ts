@@ -12,25 +12,25 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateDeliveryDto, UpdateDeliveryDto } from '../dtos/delivery.dtos';
 import { DeliveriesService } from '../services/delivery.service';
 
-@ApiTags('deliverys') // le pone el nombre a la tabla de la base de datos que queremos
-@Controller('delivery')
+@ApiTags('deliveries') // le pone el nombre a la tabla de la base de datos que queremos
+@Controller('deliveries')
 export class DeliveryController {
-  constructor(private deliverysService: DeliveriesService) {}
+  constructor(private deliveriesService: DeliveriesService) {}
 
   @Get()
   @ApiOperation({ summary: 'List of deliverys' }) // comentario en la documentacion
   findAll() {
-    return this.deliverysService.findAll();
+    return this.deliveriesService.findAll();
   }
 
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {
-    return this.deliverysService.findOne(id);
+    return this.deliveriesService.findOne(id);
   }
 
   @Post()
   create(@Body() payload: CreateDeliveryDto) {
-    return this.deliverysService.create(payload);
+    return this.deliveriesService.create(payload);
   }
 
   @Put(':id')
@@ -38,11 +38,11 @@ export class DeliveryController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateDeliveryDto,
   ) {
-    return this.deliverysService.update(id, payload);
+    return this.deliveriesService.update(id, payload);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.deliverysService.remove(+id);
+    return this.deliveriesService.remove(+id);
   }
 }

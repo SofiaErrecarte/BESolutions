@@ -16,15 +16,17 @@ export class DeliveryToStateService {
     @InjectRepository(State) private stateRepo: Repository<State>,
     @InjectRepository(Delivery) private deliveryRepo: Repository<Delivery>,
     @InjectRepository(DeliveryToState)
-    private opToStateRepo: Repository<DeliveryToState>,
+    private delToStateRepo: Repository<DeliveryToState>,
   ) {}
 
   async findAll() {
-    return await this.opToStateRepo.find();
+    return await this.delToStateRepo.find({
+      relations: ['delivery', 'state'],
+    });
   }
 
   async findOne(id: number) {
-    const deliveryToState = await this.opToStateRepo.findOne(id, {
+    const deliveryToState = await this.delToStateRepo.findOne(id, {
       relations: ['delivery', 'state'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!deliveryToState) {
@@ -34,7 +36,7 @@ export class DeliveryToStateService {
   }
 
   async create(data: CreateDeliveryToStateDto) {
-    const newObj = this.opToStateRepo.create(data);
+    const newObj = this.delToStateRepo.create(data);
     if (data.deliveryId) {
       const obj = await this.deliveryRepo.findOne(data.deliveryId);
       newObj.delivery = obj;
@@ -43,11 +45,11 @@ export class DeliveryToStateService {
       const listObj = await this.stateRepo.findOne(data.stateId);
       newObj.state = listObj;
     }
-    return this.opToStateRepo.save(newObj);
+    return this.delToStateRepo.save(newObj);
   }
 
   async update(id: number, changes: UpdateDeliveryToStateDto) {
-    const obj = await this.opToStateRepo.findOne(id);
+    const obj = await this.delToStateRepo.findOne(id);
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
@@ -59,8 +61,8 @@ export class DeliveryToStateService {
       const listObj = await this.stateRepo.findOne(changes.stateId);
       obj.state = listObj;
     }
-    this.opToStateRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    return this.opToStateRepo.save(obj); //impacta el cambio en la base de datos
+    this.delToStateRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    return this.delToStateRepo.save(obj); //impacta el cambio en la base de datos
   }
 
   async remove(id: number) {
@@ -68,6 +70,6 @@ export class DeliveryToStateService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    return this.opToStateRepo.delete(id); //elimina el registro con el id correspondiente
+    return this.delToStateRepo.delete(id); //elimina el registro con el id correspondiente
   }
 }
