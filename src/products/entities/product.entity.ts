@@ -32,11 +32,14 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int'})
   stock: number;
 
   @Column({ type: 'varchar' }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   image: string;
+
+  @Column({ type: 'varchar' }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  color: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;

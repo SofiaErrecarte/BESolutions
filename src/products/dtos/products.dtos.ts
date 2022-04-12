@@ -26,23 +26,28 @@ export class CreateProductDto {
   @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
   readonly description: string;
 
-  @IsNumber()
-  @IsNotEmpty()
+  // @IsNumber()
+  @IsOptional()
   @ApiProperty()
-  readonly stock: number;
+  stock: number;
 
   @IsUrl()
   @IsNotEmpty()
   @ApiProperty()
   readonly image: string;
 
-  @IsNumber()
+  @IsString()
+  @IsOptional()
+  @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
+  readonly color: string;
+
+  // @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
-  readonly user_id: number;
+  user_id: number;
 
   @IsArray() //sea un array
-  @IsNotEmpty() //no este vacio
+  @IsOptional() //no este vacio
   @ApiProperty() //se mapee en la documentacion
   readonly categoriesIds: number[];
 }

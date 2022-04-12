@@ -32,7 +32,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @ApiTags('products') // le pone el nombre del tag en la documentacion
 @Controller('products')
 export class ProductsController {
@@ -52,13 +52,15 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
+  @Public()
   @Post()
   create(@Body() payload: CreateProductDto) {
     return this.productsService.create(payload);
   }
 
   // acá también no habría que definir que el rol sea admin?
+  @Public()
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -67,11 +69,13 @@ export class ProductsController {
     return this.productsService.update(+id, payload);
   }
 
+  @Public()
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
   }
 
+  @Public()
   @Put(':id/category/:categoryId')
   addCategoryToProduct(
     @Param('id', ParseIntPipe) idProduct: number,
@@ -80,6 +84,7 @@ export class ProductsController {
     return this.productsService.addCategoryToProduct(idProduct, idCategory);
   }
 
+  @Public()
   @Delete(':id/category/:categoryId')
   deleteCategory(
     @Param('id', ParseIntPipe) id: number,

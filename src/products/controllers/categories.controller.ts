@@ -16,7 +16,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
 
 @ApiTags('categories') // le pone el nombre a la tabla de la base de datos que queremos
-@UseGuards(JwtAuthGuard) // obliga a todas las rutas de este controlador obliga a que venga un token
+// @UseGuards(JwtAuthGuard) // obliga a todas las rutas de este controlador obliga a que venga un token
 @Controller('categories')
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
