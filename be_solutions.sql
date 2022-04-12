@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Feb 03, 2022 at 05:51 PM
+-- Generation Time: Apr 12, 2022 at 10:29 PM
 -- Server version: 5.7.37
 -- PHP Version: 7.4.20
 
@@ -67,6 +67,16 @@ CREATE TABLE `category` (
   `updated_at` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'test', '22/2/2022 19:40:39', NULL),
+(2, 'dsada', '8/4/2022 18:21:02', NULL),
+(3, 'dsada', '8/4/2022 18:21:04', NULL),
+(4, 'test', '8/4/2022 18:21:14', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -79,7 +89,7 @@ CREATE TABLE `operations` (
   `date` varchar(45) DEFAULT NULL,
   `comment` varchar(45) DEFAULT NULL,
   `total` int(11) DEFAULT '0',
-  `delivery_id` int(11) NOT NULL,
+  `delivery_id` int(11) DEFAULT NULL,
   `cart_id` int(11) NOT NULL,
   `created_at` varchar(45) DEFAULT NULL,
   `updated_at` varchar(45) DEFAULT NULL
@@ -90,7 +100,8 @@ CREATE TABLE `operations` (
 --
 
 INSERT INTO `operations` (`id`, `code`, `date`, `comment`, `total`, `delivery_id`, `cart_id`, `created_at`, `updated_at`) VALUES
-(1, 'test', '22/10/2020', NULL, 200, 1, 1, NULL, NULL);
+(1, 'test', '22/10/2020', NULL, 200, 1, 1, NULL, NULL),
+(2, 'test3___', '2022-01-26 21:00:00.000', NULL, 200, NULL, 2, '3/2/2022 19:28:38', '3/2/2022 19:29:23');
 
 -- --------------------------------------------------------
 
@@ -131,8 +142,8 @@ CREATE TABLE `prices` (
   `descripcion` varchar(50) NOT NULL,
   `fecha` date NOT NULL,
   `id_product` int(11) NOT NULL,
-  `created_at` varchar(50) DEFAULT NULL,
-  `updated_at` varchar(50) DEFAULT NULL
+  `created_at` varchar(200) NOT NULL,
+  `updated_at` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -140,8 +151,10 @@ CREATE TABLE `prices` (
 --
 
 INSERT INTO `prices` (`id`, `descripcion`, `fecha`, `id_product`, `created_at`, `updated_at`) VALUES
-(1, '30', '2022-02-09', 1, '', ''),
-(2, '5000', '2022-10-02', 1, '2/2/2022 21:01:20', '2/2/2022 21:02:43');
+(1, '680', '2022-12-04', 1, '12/4/2022 19:21:03', NULL),
+(2, '1580', '2022-12-04', 2, '12/4/2022 19:21:17', NULL),
+(3, '450', '2022-12-04', 3, '12/4/2022 19:21:26', NULL),
+(4, '350', '2022-12-04', 4, '12/4/2022 19:21:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -153,22 +166,24 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `stock` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `user_id` varchar(50) NOT NULL,
+  `stock` int(11) NOT NULL DEFAULT '0',
+  `image` varchar(255) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `brand_id` int(11) DEFAULT NULL,
+  `color` varchar(11) NOT NULL DEFAULT 'black',
   `created_at` varchar(50) DEFAULT NULL,
-  `updated_at` varchar(50) DEFAULT NULL,
-  `brand_id` int(11) DEFAULT NULL
+  `updated_at` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `stock`, `image`, `user_id`, `created_at`, `updated_at`, `brand_id`) VALUES
-(1, 'Product 1', 'Product1', 3, 'http://prueba.com', '1', '11/1/2022 10:16:18', NULL, NULL),
-(2, 'Product 2', 'Product2', 5, 'http://prueba2.com', '1', '11/1/2022 10:43:02', '11/1/2022 11:47:32', NULL),
-(3, 'Product 5', 'Product5', 5, 'http://prueba5.com', '2', '11/1/2022 10:43:37', NULL, NULL);
+INSERT INTO `products` (`id`, `name`, `description`, `stock`, `image`, `user_id`, `brand_id`, `color`, `created_at`, `updated_at`) VALUES
+(1, 'Lote de Madera', 'Lote de Madera por kilo', 0, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-59YMfFJr-KhcLvB-MbcCEek1sChUpMFMYn2R60sbzeTt_ZvBov33E-BfIPyUIpy8i2o&usqp=CAU', 1, NULL, 'black', NULL, NULL),
+(2, 'Ruedas ', 'Ruedas', 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzwqvr0Z9EKasiZJBjowv1MWhhEsxNueRJNeS3z_DiNLt7mhGXDGTOdTiFyklE39Ff-TQ&usqp=CAU', 1, NULL, 'black', NULL, NULL),
+(3, 'Carton', 'Carton por 5 Kilos', 5, 'https://www.cyecsa.com/wp-content/uploads/2019/01/49343416_343979532996839_7056526319802122240_n.jpg', 2, NULL, 'black', NULL, NULL),
+(4, 'Aserrin', 'Aserrin por 3 kilos', 7, 'https://previews.123rf.com/images/puthuchon/puthuchon1409/puthuchon140900208/32095806-fondos-de-aserr%C3%ADn-de-madera-.jpg', 1, NULL, 'black', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -195,7 +210,7 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `cuitcuil` varchar(45) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `role` varchar(255) NOT NULL,
+  `role` varchar(255) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `created_at` varchar(50) DEFAULT NULL,
@@ -208,7 +223,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `lastname`, `username`, `password`, `cuitcuil`, `email`, `role`, `birthday`, `image`, `created_at`, `updated_at`) VALUES
 (1, 'sofia', 'errecarte', 'sofiae', '$2b$10$5k8lgOSTkdlSbIX4MSb4hOfxSMYYZMfayD/uVVB.Szzno0cqTp8Gq', '123456789', 'sofia@gmail.com', 'admin', NULL, 'null', '11/1/2022 12:06:52', NULL),
-(2, 'lola', 'biondo', 'lolit', '$2b$10$wUYLMDKX4KQc6QH/uP2CSe/j5k8H13oM.CfWJR.9aF1BcOViz3Qfq', '1234566', 'lola@gmail.com', 'admin', NULL, 'null', '11/1/2022 12:12:03', '3/2/2022 10:13:24');
+(2, 'lola', 'biondo', 'lolit', '$2b$10$wUYLMDKX4KQc6QH/uP2CSe/j5k8H13oM.CfWJR.9aF1BcOViz3Qfq', '1234566', 'lola@gmail.com', 'admin', NULL, 'null', '11/1/2022 12:12:03', '3/2/2022 10:13:24'),
+(3, 'sofi', 'sofia', 'sofia', '1234567890', '14324234234', 'sofi@gmail.com', 'admin', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -288,8 +304,8 @@ ALTER TABLE `prices`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_4fbc36ad745962e5c11001e1a8` (`stock`),
-  ADD KEY `FK_1530a6f15d3c79d1b70be98f2be` (`brand_id`);
+  ADD KEY `FK_1530a6f15d3c79d1b70be98f2be` (`brand_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `products_categories`
@@ -332,13 +348,13 @@ ALTER TABLE `carts_products`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order`
@@ -356,19 +372,19 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `prices`
 --
 ALTER TABLE `prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `use_customers`

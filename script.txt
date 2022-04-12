@@ -1,6 +1,0 @@
-CREATE TABLE `be_solutions`.`prices` ( `id` INT NOT NULL AUTO_INCREMENT , `descripcion` VARCHAR(50) NOT NULL , `fecha` DATE NOT NULL , `created_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-ALTER TABLE `prices` ADD `id_product` INT NOT NULL AFTER `fecha`;
-ALTER TABLE `prices` ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
-ALTER TABLE `prices`
-  DROP `created_at`,
-  DROP `updated_at`;

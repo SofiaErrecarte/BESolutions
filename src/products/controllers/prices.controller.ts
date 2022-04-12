@@ -16,11 +16,10 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
 
 @ApiTags('prices') // le pone el nombre a la tabla de la base de datos que queremos
-@UseGuards(JwtAuthGuard) // obliga a todas las rutas de este controlador obliga a que venga un token
+// @UseGuards(JwtAuthGuard) // obliga a todas las rutas de este controlador obliga a que venga un token
 @Controller('prices')
 export class PricesController {
   constructor(private pricesService: PricesService) {}
-
   @Get()
   @ApiOperation({ summary: 'List of prices' }) // comentario en la documentacion
   findAll() {
