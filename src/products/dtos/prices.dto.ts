@@ -17,10 +17,10 @@ export class FilterPriceDto {
 }
 
 export class CreatePriceDto {
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
-  readonly descripcion: string;
+  readonly precio: number;
 
   @IsDate()
   @IsNotEmpty()

@@ -36,11 +36,6 @@ export class CreateProductDto {
   @ApiProperty()
   readonly image: string;
 
-  @IsString()
-  @IsOptional()
-  @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
-  readonly color: string;
-
   // @IsNumber()
   @IsNotEmpty()
   @ApiProperty()

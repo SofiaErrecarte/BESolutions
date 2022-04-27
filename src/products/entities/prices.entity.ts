@@ -19,8 +19,8 @@ export class Price {
   @PrimaryGeneratedColumn() //PRIMARY KEY
   id: number;
 
-  @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  descripcion: string;
+  @Column({ type: 'int'}) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  precio: number;
 
   @Column({ type: 'text'})
   @Type(() => Date)
