@@ -4,21 +4,26 @@ import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
 import { Repository, Between, FindConditions } from 'typeorm'; //injectar Repository
 
 import { Cart } from '../entities/cart.entity';
-import { CreateCartDto, UpdateCartDto } from '../dtos/cart.dtos';
+import {
+  CreateCartDto,
+  FilterOperationDto,
+  UpdateCartDto,
+} from '../dtos/cart.dtos';
 
-import { Operation } from '../entities/operation.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class CartsService {
   constructor(
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
 
   async findOne(id: number) {
     const cart = await this.cartRepo.findOne(id, {
-      relations: ['operation', 'products'],
+      relations: ['user', 'operation', 'products'],
     });
     if (!cart) {
       throw new NotFoundException(`Cart #${id} not found`);
@@ -26,9 +31,23 @@ export class CartsService {
     return cart;
   }
 
-  async findAll() {
+  // async findAll() {
+  //   return await this.cartRepo.find({
+  //     relations: ['operation', 'products'],
+  //   });
+  // }
+
+  async findAll(params?: FilterOperationDto) {
+    if (params) {
+      const { limit, offset } = params;
+      return await this.cartRepo.find({
+        relations: ['user', 'operation', 'products'],
+        take: limit,
+        skip: offset,
+      });
+    }
     return await this.cartRepo.find({
-      relations: ['operation', 'products'],
+      relations: ['user', 'operation', 'products'],
     });
   }
 
@@ -37,6 +56,10 @@ export class CartsService {
     if (data.productsIds) {
       const listObj = await this.productRepo.findByIds(data.productsIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
       newObj.products = listObj;
+    }
+    if (data.userId) {
+      const obj = await this.userRepo.findOne(data.userId);
+      newObj.user = obj;
     }
     return this.cartRepo.save(newObj);
   }
@@ -50,6 +73,10 @@ export class CartsService {
       const listObj = await this.productRepo.findByIds(changes.productsIds);
       obj.products = listObj;
     }
+    // if (changes.userId) {
+    //   const objRel = await this.userRepo.findOne(changes.userId);
+    //   obj.user = objRel;
+    // } no debería poder editarse el user de un carrito
     this.cartRepo.merge(obj, changes);
     return this.cartRepo.save(obj);
   }
@@ -63,7 +90,7 @@ export class CartsService {
 
   async addProductToCart(cartId: number, productId: number) {
     const cart = await this.cartRepo.findOne(cartId, {
-      relations: ['products'],
+      relations: ['user', 'products'],
     });
     const product = await this.productRepo.findOne(productId);
     cart.products.push(product);
@@ -73,7 +100,7 @@ export class CartsService {
   //chequear este metodo
   async removeProductByCart(cartId: number, productId: number) {
     const cart = await this.cartRepo.findOne(cartId, {
-      relations: ['products'],
+      relations: ['user', 'products'],
     });
     cart.products = cart.products.filter((item) => {
       return item.id !== productId;

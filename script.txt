@@ -1,2 +1,7 @@
 ALTER TABLE `prices` CHANGE `descripcion` `precio` INT(50) NOT NULL;
 ALTER TABLE `products` DROP `color`;
+
+29/04/2022 Lola
+ALTER TABLE `cart` ADD `user_id` INT NOT NULL AFTER `subtotal`;
+UPDATE `cart` SET `user_id` = '1' WHERE `cart`.`id` = 1;
+UPDATE `cart` SET `user_id` = '2' WHERE `cart`.`id` = 2;

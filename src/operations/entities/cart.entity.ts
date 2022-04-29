@@ -17,6 +17,7 @@ import {
 
 import { Product } from 'src/products/entities/product.entity';
 import { Operation } from './operation.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Cart {
@@ -56,4 +57,8 @@ export class Cart {
 
   @OneToOne(() => Operation, (operation) => operation.cart) // specify inverse side as a second parameter
   operation: Operation;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }
