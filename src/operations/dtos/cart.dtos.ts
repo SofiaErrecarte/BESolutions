@@ -17,10 +17,10 @@ export class CreateCartDto {
   @ApiProperty()
   readonly subtotal: number;
 
-  @IsArray()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly productsIds: number[];
+  // @IsArray()
+  // @IsNotEmpty()
+  // @ApiProperty()
+  // readonly productsIds: number[];
 
   @IsPositive()
   @IsNotEmpty()
@@ -40,4 +40,15 @@ export class FilterOperationDto {
   offset: number;
 }
 
-export class UpdateCartDto extends PartialType(CreateCartDto) {}
+export class UpdateCartDto {
+  @IsNumber()
+  @IsNotEmpty()
+  @IsPositive()
+  @ApiProperty()
+  readonly subtotal: number;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly productsIds: number[];
+}

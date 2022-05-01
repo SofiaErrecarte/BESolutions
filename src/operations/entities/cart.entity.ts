@@ -18,6 +18,7 @@ import {
 import { Product } from 'src/products/entities/product.entity';
 import { Operation } from './operation.entity';
 import { User } from 'src/users/entities/user.entity';
+import { CartProduct } from './cartProduct.entity';
 
 @Entity()
 export class Cart {
@@ -43,17 +44,17 @@ export class Cart {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToMany(() => Product, (product) => product.carts)
-  @JoinTable({
-    name: 'carts_products',
-    joinColumn: {
-      name: 'cart_id', // Relación con la entidad donde estas situado.
-    },
-    inverseJoinColumn: {
-      name: 'product_id', // Relación con la otra entidad.
-    },
-  })
-  products: Product[];
+  // @ManyToMany(() => Product, (product) => product.carts)
+  // @JoinTable({
+  //   name: 'carts_products',
+  //   joinColumn: {
+  //     name: 'cart_id', // Relación con la entidad donde estas situado.
+  //   },
+  //   inverseJoinColumn: {
+  //     name: 'product_id', // Relación con la otra entidad.
+  //   },
+  // })
+  // products: Product[];
 
   @OneToOne(() => Operation, (operation) => operation.cart) // specify inverse side as a second parameter
   operation: Operation;
@@ -61,4 +62,7 @@ export class Cart {
   @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
+  cartProducts: CartProduct[];
 }

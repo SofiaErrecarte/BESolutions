@@ -19,6 +19,7 @@ import { Category } from './category.entity';
 import { Price } from './prices.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Cart } from 'src/operations/entities/cart.entity';
+import { CartProduct } from 'src/operations/entities/cartProduct.entity';
 
 @Entity({ name: 'products' }) // importantisimo para que tyscript trate la clase como una entidad orm
 // @Index(['price', 'stock']) //campos indexados
@@ -32,7 +33,7 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'int'})
+  @Column({ type: 'int' })
   stock: number;
 
   @Column({ type: 'varchar' }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
@@ -69,11 +70,13 @@ export class Product {
   @OneToMany(() => Price, (price) => price.product)
   prices: Price[];
 
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
+  cartProducts: CartProduct[];
+
   @ManyToOne(() => User, (user) => user.products)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => Cart, (cart) => cart.products)
-  carts: Cart[];
-
+  // @ManyToMany(() => Cart, (cart) => cart.products)
+  // carts: Cart[];
 }
