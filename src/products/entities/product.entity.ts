@@ -18,7 +18,6 @@ import { Type, Exclude, Expose } from 'class-transformer';
 import { Category } from './category.entity';
 import { Price } from './prices.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Cart } from 'src/operations/entities/cart.entity';
 import { CartProduct } from 'src/operations/entities/cartProduct.entity';
 
 @Entity({ name: 'products' }) // importantisimo para que tyscript trate la clase como una entidad orm

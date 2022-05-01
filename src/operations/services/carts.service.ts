@@ -10,20 +10,18 @@ import {
   UpdateCartDto,
 } from '../dtos/cart.dtos';
 
-import { Product } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class CartsService {
   constructor(
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
-    @InjectRepository(Product) private productRepo: Repository<Product>,
     @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
 
   async findOne(id: number) {
     const cart = await this.cartRepo.findOne(id, {
-      relations: ['user', 'operation', 'products'],
+      relations: ['user', 'operation'],
     });
     if (!cart) {
       throw new NotFoundException(`Cart #${id} not found`);
@@ -41,13 +39,13 @@ export class CartsService {
     if (params) {
       const { limit, offset } = params;
       return await this.cartRepo.find({
-        relations: ['user', 'operation', 'products'],
+        relations: ['user', 'operation'],
         take: limit,
         skip: offset,
       });
     }
     return await this.cartRepo.find({
-      relations: ['user', 'operation', 'products'],
+      relations: ['user', 'operation'],
     });
   }
 

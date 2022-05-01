@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
-import { Repository,  } from 'typeorm'; //injectar Repository
+import { Repository } from 'typeorm'; //injectar Repository
 
 import { Product } from './../entities/product.entity';
 import {
@@ -25,19 +25,19 @@ export class ProductsService {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.productRepo.find({
-        relations: ['categories','prices','user','carts'],
+        relations: ['categories', 'prices', 'user'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
     return await this.productRepo.find({
-      relations: ['categories','prices','user','carts'], // para que cuando devuelva los objetos los devuelva con la relacion
+      relations: ['categories', 'prices', 'user'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
     const product = await this.productRepo.findOne(id, {
-      relations: ['categories','prices','user','carts'], //cuando se busque un producto retornara con los objetos relacionados
+      relations: ['categories', 'prices', 'user'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);
@@ -96,5 +96,5 @@ export class ProductsService {
       return item.id !== categoryId;
     });
   }
-// eslint-disable-next-line prettier/prettier
+  // eslint-disable-next-line prettier/prettier
 }
