@@ -10,7 +10,10 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateCartDto, UpdateCartDto } from '../dtos/cart.dtos';
+import {
+  CreateCartProductDto,
+  UpdateCartProductDto,
+} from '../dtos/cartProduct.dtos';
 import { CartProductsService } from '../services/cartProducts.service';
 
 @ApiTags('carts_products') // le pone el nombre a la tabla de la base de datos que queremos
@@ -30,14 +33,14 @@ export class CartProductsController {
   }
 
   @Post()
-  create(@Body() payload: CreateCartDto) {
+  create(@Body() payload: CreateCartProductDto) {
     return this.cartProductsService.create(payload);
   }
 
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateCartDto,
+    @Body() payload: UpdateCartProductDto,
   ) {
     return this.cartProductsService.update(id, payload);
   }

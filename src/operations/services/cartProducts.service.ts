@@ -6,7 +6,7 @@ import { Repository, Between, FindConditions } from 'typeorm'; //injectar Reposi
 import { Cart } from '../entities/cart.entity';
 import {
   CreateCartProductDto,
-  FilterOperationDto,
+  FilterCartProductDto,
   UpdateCartProductDto,
 } from '../dtos/cartProduct.dtos';
 
@@ -32,7 +32,7 @@ export class CartProductsService {
     return cartProduct;
   }
 
-  async findAll(params?: FilterOperationDto) {
+  async findAll(params?: FilterCartProductDto) {
     if (params) {
       const { limit, offset } = params;
       return await this.cartProductRepo.find({

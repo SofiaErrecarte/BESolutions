@@ -9,7 +9,9 @@ import { State } from './entities/state.entity';
 import { DeliveryToState } from './entities/deliveryToState.entity';
 import { OperationToState } from './entities/operationToState.entity';
 import { User } from 'src/users/entities/user.entity';
-
+import { CartProduct } from './entities/cartProduct.entity';
+import { CartProductsController } from './controllers/cartProducts.controller';
+import { CartProductsService } from './services/cartProducts.service';
 import { OperationsController } from './controllers/operations.controller';
 import { CartsController } from './controllers/carts.controller';
 import { DeliveryController } from './controllers/delivery.controller';
@@ -38,6 +40,7 @@ import { UsersService } from 'src/users/services/users.service';
       DeliveryToState,
       OperationToState,
       User,
+      CartProduct,
     ]),
   ],
   controllers: [
@@ -48,6 +51,7 @@ import { UsersService } from 'src/users/services/users.service';
     DeliveryToStateController,
     OperationToStateController,
     UsersController,
+    CartProductsController,
   ],
   providers: [
     OperationsService,
@@ -57,6 +61,7 @@ import { UsersService } from 'src/users/services/users.service';
     DeliveryToStateService,
     OperationToStateService,
     UsersService,
+    CartProductsService,
   ],
   exports: [TypeOrmModule],
 })

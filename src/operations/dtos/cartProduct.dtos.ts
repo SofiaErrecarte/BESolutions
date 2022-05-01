@@ -26,7 +26,7 @@ export class CreateCartProductDto {
   readonly quantity: number;
 }
 
-export class FilterOperationDto {
+export class FilterCartProductDto {
   @IsOptional()
   @IsPositive()
   @ApiProperty()
@@ -38,9 +38,4 @@ export class FilterOperationDto {
   offset: number;
 }
 
-export class UpdateCartProductDto {
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly quantity: number;
-}
+export class UpdateCartProductDto extends PartialType(CreateCartProductDto) {}

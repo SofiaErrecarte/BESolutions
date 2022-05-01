@@ -40,15 +40,4 @@ export class FilterOperationDto {
   offset: number;
 }
 
-export class UpdateCartDto {
-  @IsNumber()
-  @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
-  readonly subtotal: number;
-
-  @IsArray()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly productsIds: number[];
-}
+export class UpdateCartDto extends PartialType(CreateCartDto) {}
