@@ -18,9 +18,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  //valida el login
-  async validateUser(username: string, password: string) {
-    const user = await this.usersService.findByUsername(username);
+  // valida el login
+  async validateUser(email: string, password: string) {
+    const user = await this.usersService.findByEmail(email);
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
@@ -29,6 +29,18 @@ export class AuthService {
     }
     return null;
   }
+
+  // async validateUser(email: string, password: string) {
+  //   const user = await this.usersService.findByEmail(email);
+  //   if (user) {
+  //     const isMatch = await bcrypt.compare(password, user.password);
+  //     if (isMatch) {
+  //       const { password, ...rta } = user;
+  //       return rta;
+  //     }
+  //   }
+  //   return null;
+  // }
 
   //cae en este metodo despues de que el usuario se logio
   generateJWT(user: User) {

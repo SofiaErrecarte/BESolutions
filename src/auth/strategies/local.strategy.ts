@@ -7,16 +7,16 @@ import { Strategy } from 'passport-local';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   constructor(private authService: AuthService) {
-    super(); //al estar heredando (extends) es necesario decirle que llamas al constructor del objeto que estas heredando
+    // super(); //al estar heredando (extends) es necesario decirle que llamas al constructor del objeto que estas heredando
     // si quisiera cambiar el naming de como me debe enviar en el json del request puedo cambiarlo aca
-    // super({
-    //   usernameField: 'email',
-    //   passwordField: 'password',
-    // });
+    super({
+      usernameField: 'email',
+      passwordField: 'password',
+    });
   }
 
-  async validate(username: string, password: string) {
-    const user = await this.authService.validateUser(username, password);
+  async validate(email: string, password: string) {
+    const user = await this.authService.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException('not allow');
     }

@@ -23,25 +23,25 @@ export class UsersService {
   constructor(
     // @Inject('PG') private clientPg: Client,
     // private configService: ConfigService,
-    @InjectRepository(User) private repoUser: Repository<User>, //injectar Repository
+    @InjectRepository(User) private userRepo: Repository<User>, //injectar Repository
   ) {}
 
   async findAll(params?: FilterUserDto) {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
-      return await this.repoUser.find({
+      return await this.userRepo.find({
         relations: ['products'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
-    return await this.repoUser.find({
+    return await this.userRepo.find({
       relations: ['products'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
-    const obj = await this.repoUser.findOne(id, {
+    const obj = await this.userRepo.findOne(id, {
       relations: ['products'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!obj) {
@@ -50,8 +50,12 @@ export class UsersService {
     return obj;
   }
 
+  findByEmail(email: string) {
+    return this.userRepo.findOne({ where: { email } });
+  }
+
   async findByUsername(username: string) {
-    const obj = await this.repoUser.findOne({ username: username });
+    const obj = await this.userRepo.findOne({ username: username });
     if (!obj) {
       //throw new NotFoundException(`Object #${email} not found`);
       return null;
@@ -60,7 +64,7 @@ export class UsersService {
   }
 
   async findByCuitCuil(cuitcuil: string) {
-    const obj = await this.repoUser.findOne({ cuitcuil: cuitcuil });
+    const obj = await this.userRepo.findOne({ cuitcuil: cuitcuil });
     if (!obj) {
       return null;
     }
@@ -88,22 +92,22 @@ export class UsersService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const newObj = this.repoUser.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
+    const newObj = this.userRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     const hashPassword = await bcrypt.hash(newObj.password, 10); // creo el hash del pass
     newObj.password = hashPassword; // cambio la pass del usuario por su hash
     //console.log(newObj);
-    return this.repoUser.save(newObj);
+    return this.userRepo.save(newObj);
   }
 
   async update(id: number, changes: UpdateUserDto) {
-    const obj = await this.repoUser.findOne(id);
+    const obj = await this.userRepo.findOne(id);
     const hashPassword = await bcrypt.hash(obj.password, 10); // creo el hash del pass
     obj.password = hashPassword;
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    this.repoUser.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    return this.repoUser.save(obj); //impacta el cambio en la base de datos
+    this.userRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    return this.userRepo.save(obj); //impacta el cambio en la base de datos
   }
 
   async remove(id: number) {
@@ -111,7 +115,7 @@ export class UsersService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    return this.repoUser.delete(id); //elimina el registro con el id correspondiente
+    return this.userRepo.delete(id); //elimina el registro con el id correspondiente
   }
 
 }
