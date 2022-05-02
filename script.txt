@@ -1,2 +1,17 @@
 ALTER TABLE `prices` CHANGE `descripcion` `precio` INT(50) NOT NULL;
 ALTER TABLE `products` DROP `color`;
+
+29/04/2022 Lola
+ALTER TABLE `cart` ADD `user_id` INT NOT NULL AFTER `subtotal`;
+UPDATE `cart` SET `user_id` = '1' WHERE `cart`.`id` = 1;
+UPDATE `cart` SET `user_id` = '2' WHERE `cart`.`id` = 2;
+
+01/05/2022
+INSERT INTO `carts_products` (`id`, `cart_id`, `product_id`) VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '2', '3'), ('4', '2', '4');
+ALTER TABLE `carts_products` ADD `quantity` INT NOT NULL AFTER `product_id`;
+UPDATE `carts_products` SET `quantity` = '2' WHERE `carts_products`.`id` = 1;
+UPDATE `carts_products` SET `quantity` = '1' WHERE `carts_products`.`id` = 2;
+UPDATE `carts_products` SET `quantity` = '2' WHERE `carts_products`.`id` = 3;
+UPDATE `carts_products` SET `quantity` = '1' WHERE `carts_products`.`id` = 4;
+UPDATE `products` SET `stock` = '7' WHERE `products`.`id` = 1;
+UPDATE `products` SET `stock` = '12' WHERE `products`.`id` = 2;

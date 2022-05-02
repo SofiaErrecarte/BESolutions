@@ -7,12 +7,15 @@ import {
   BeforeUpdate, //un registro las fechas se actualicen solas createAt y updateAt
   Unique,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { Type, Exclude } from 'class-transformer';
 import { Product } from 'src/products/entities/product.entity';
+import { Cart } from 'src/operations/entities/cart.entity';
 
-@Unique(['username','cuitcuil']) //uneque key
+@Unique(['username', 'cuitcuil']) //uneque key
 @Entity() // importantisimo para que tyscript trate la clase como una entidad orm
 export class User {
   @PrimaryGeneratedColumn() //PRIMARY KEY
@@ -67,4 +70,7 @@ export class User {
   public setCreatedAt() {
     this.created_at = new Date().toLocaleString();
   }
+
+  @OneToOne(() => Cart, (cart) => cart.user) // specify inverse side as a second parameter
+  cart: Cart;
 }

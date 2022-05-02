@@ -8,11 +8,15 @@ import { Operation } from './entities/operation.entity';
 import { State } from './entities/state.entity';
 import { DeliveryToState } from './entities/deliveryToState.entity';
 import { OperationToState } from './entities/operationToState.entity';
-
+import { User } from 'src/users/entities/user.entity';
+import { CartProduct } from './entities/cartProduct.entity';
+import { CartProductsController } from './controllers/cartProducts.controller';
+import { CartProductsService } from './services/cartProducts.service';
 import { OperationsController } from './controllers/operations.controller';
 import { CartsController } from './controllers/carts.controller';
 import { DeliveryController } from './controllers/delivery.controller';
 import { StateController } from './controllers/state.controller';
+import { UsersController } from 'src/users/controllers/users.controller';
 
 import { OperationsService } from './services/operations.service';
 import { CartsService } from './services/carts.service';
@@ -23,6 +27,7 @@ import { DeliveryToStateController } from './controllers/deliveryToState.control
 import { OperationToStateController } from './controllers/operationToState.controller';
 import { DeliveryToStateService } from './services/deliveryToState.service';
 import { OperationToStateService } from './services/operationToState.service';
+import { UsersService } from 'src/users/services/users.service';
 
 @Module({
   imports: [
@@ -34,6 +39,8 @@ import { OperationToStateService } from './services/operationToState.service';
       State,
       DeliveryToState,
       OperationToState,
+      User,
+      CartProduct,
     ]),
   ],
   controllers: [
@@ -43,6 +50,8 @@ import { OperationToStateService } from './services/operationToState.service';
     StateController,
     DeliveryToStateController,
     OperationToStateController,
+    UsersController,
+    CartProductsController,
   ],
   providers: [
     OperationsService,
@@ -51,6 +60,8 @@ import { OperationToStateService } from './services/operationToState.service';
     StateService,
     DeliveryToStateService,
     OperationToStateService,
+    UsersService,
+    CartProductsService,
   ],
   exports: [TypeOrmModule],
 })
