@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { User } from 'src/users/entities/user.entity';
 import { CreateCartDto, UpdateCartDto } from '../dtos/cart.dtos';
 import { CartsService } from '../services/carts.service';
 
@@ -24,9 +25,14 @@ export class CartsController {
     return this.cartsService.findAll();
   }
 
-  @Get(':id')
+  // @Get(':id')
+  // get(@Param('id', ParseIntPipe) id: number) {
+  //   return this.cartsService.findOne(id);
+  // }
+
+  @Get('user/:id')
   get(@Param('id', ParseIntPipe) id: number) {
-    return this.cartsService.findOne(id);
+    return this.cartsService.findByUser(id);
   }
 
   @Post()

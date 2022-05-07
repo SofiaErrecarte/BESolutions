@@ -29,6 +29,15 @@ export class CartsService {
     return cart;
   }
 
+  async findByUser(id: number) {
+    // User user = this.userRepo.findOne(id);
+    const obj = await this.cartRepo.findOne({ user_id: id });
+    if (!obj) {
+      return null;
+    }
+    return obj;
+  }
+
   // async findAll() {
   //   return await this.cartRepo.find({
   //     relations: ['operation', 'products'],

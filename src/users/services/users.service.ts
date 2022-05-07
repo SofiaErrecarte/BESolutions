@@ -30,19 +30,19 @@ export class UsersService {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.userRepo.find({
-        relations: ['products'],
+        relations: ['products', 'cart'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
     return await this.userRepo.find({
-      relations: ['products'], // para que cuando devuelva los objetos los devuelva con la relacion
+      relations: ['products', 'cart'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
     const obj = await this.userRepo.findOne(id, {
-      relations: ['products'], //cuando se busque un producto retornara con los objetos relacionados
+      relations: ['products', 'cart'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!obj) {
       throw new NotFoundException(`Object #${id} not found`);
@@ -117,5 +117,4 @@ export class UsersService {
     }
     return this.userRepo.delete(id); //elimina el registro con el id correspondiente
   }
-
 }
