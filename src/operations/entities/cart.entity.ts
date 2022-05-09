@@ -63,8 +63,8 @@ export class Cart {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ type: 'int' })
-  user_id: number;
+  // @Column({ type: 'int' })
+  // user_id: number;
 
   @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
   cartProducts: CartProduct[];

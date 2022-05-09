@@ -19,3 +19,4 @@ UPDATE `products` SET `stock` = '12' WHERE `products`.`id` = 2;
 07/05/2022 Lola
 RENAME TABLE `be_solutions`.`carts_products` TO `be_solutions`.`cart_product`;
 ALTER TABLE `cart` ADD INDEX(`user_id`);
+

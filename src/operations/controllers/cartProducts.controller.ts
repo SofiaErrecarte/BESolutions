@@ -14,6 +14,7 @@ import {
   CreateCartProductDto,
   UpdateCartProductDto,
 } from '../dtos/cartProduct.dtos';
+import { Cart } from '../entities/cart.entity';
 import { CartProductsService } from '../services/cartProducts.service';
 
 @ApiTags('carts_products') // le pone el nombre a la tabla de la base de datos que queremos
@@ -28,9 +29,19 @@ export class CartProductsController {
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
+  getOne(@Param('id', ParseIntPipe) id: number) {
     return this.cartProductsService.findOne(id);
   }
+
+  @Get('products/:id')
+  get(@Param('id', ParseIntPipe) id: number) {
+    return this.cartProductsService.findAllProducts(id);
+  }
+
+  // @Get()
+  // get() {
+  //   return this.cartProductsService.findAll();
+  // }
 
   @Post()
   create(@Body() payload: CreateCartProductDto) {

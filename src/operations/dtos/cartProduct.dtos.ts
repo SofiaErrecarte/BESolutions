@@ -36,6 +36,11 @@ export class FilterCartProductDto {
   @Min(0)
   @ApiProperty()
   offset: number;
+
+  @IsOptional()
+  @IsPositive()
+  @ApiProperty()
+  cartId: number;
 }
 
 export class UpdateCartProductDto extends PartialType(CreateCartProductDto) {}

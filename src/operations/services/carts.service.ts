@@ -11,12 +11,15 @@ import {
 } from '../dtos/cart.dtos';
 
 import { User } from 'src/users/entities/user.entity';
+import { CartProduct } from '../entities/cartProduct.entity';
 
 @Injectable()
 export class CartsService {
   constructor(
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(CartProduct)
+    private cartProductRepo: Repository<CartProduct>,
   ) {}
 
   async findOne(id: number) {
@@ -30,8 +33,11 @@ export class CartsService {
   }
 
   async findByUser(id: number) {
-    // User user = this.userRepo.findOne(id);
-    const obj = await this.cartRepo.findOne({ user_id: id });
+    //const user = this.userRepo.findOne(id);
+    const obj = await this.cartRepo.findOne({
+      where: { user: id },
+      relations: ['user'],
+    });
     if (!obj) {
       return null;
     }

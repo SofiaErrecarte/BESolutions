@@ -32,6 +32,29 @@ export class CartProductsService {
     return cartProduct;
   }
 
+  // async findAllProducts(id: number) {
+  //   return await this.cartProductRepo.find({ cart_id: id });
+  // }
+
+  // async findAllProducts(id: number) {
+  //   return await this.cartProductRepo.find({
+  //     relations: ['cart', 'product'],
+  //     where: { cart_id: id },
+  //   });
+  // }
+
+  async findAllProducts(id: number) {
+    //const cart = this.cartRepo.findOne(id);
+    const obj = await this.cartProductRepo.find({
+      where: { cart: id },
+      relations: ['cart', 'product'],
+    });
+    if (!obj) {
+      return null;
+    }
+    return obj;
+  }
+
   async findAll(params?: FilterCartProductDto) {
     if (params) {
       const { limit, offset } = params;

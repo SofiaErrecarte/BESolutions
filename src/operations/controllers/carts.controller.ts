@@ -25,10 +25,10 @@ export class CartsController {
     return this.cartsService.findAll();
   }
 
-  // @Get(':id')
-  // get(@Param('id', ParseIntPipe) id: number) {
-  //   return this.cartsService.findOne(id);
-  // }
+  @Get(':id')
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.cartsService.findOne(id);
+  }
 
   @Get('user/:id')
   get(@Param('id', ParseIntPipe) id: number) {
