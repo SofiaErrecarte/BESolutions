@@ -100,24 +100,4 @@ export class CartsService {
     }
     return this.cartRepo.delete(id);
   }
-
-  //revisar esto porque se pushear[ia en carts products
-  // async addProductToCart(cartId: number, productId: number) {
-  //   const cart = await this.cartRepo.findOne(cartId, {
-  //     relations: ['user', 'products'],
-  //   });
-  //   const product = await this.productRepo.findOne(productId);
-  //   cart.products.push(product);
-  //   return this.cartRepo.save(cart);
-  // }
-
-  // //chequear este metodo
-  // async removeProductByCart(cartId: number, productId: number) {
-  //   const cart = await this.cartRepo.findOne(cartId, {
-  //     relations: ['user', 'products'],
-  //   });
-  //   cart.products = cart.products.filter((item) => {
-  //     return item.id !== productId;
-  //   });
-  // }
 }

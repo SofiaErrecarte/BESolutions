@@ -44,9 +44,10 @@ export class CartProductsService {
   // }
 
   async findAllProducts(id: number) {
-    //const cart = this.cartRepo.findOne(id);
+    const cart2 = await this.cartRepo.find({ where: { user: id } });
+    console.log(cart2);
     const obj = await this.cartProductRepo.find({
-      where: { cart: id },
+      where: { cart: cart2[0].id },
       relations: ['cart', 'product'],
     });
     if (!obj) {
@@ -77,6 +78,10 @@ export class CartProductsService {
     }
     if (data.cartId) {
       const obj = await this.cartRepo.findOne(data.cartId);
+      newObj.cart = obj;
+    }
+    if (data.userId) {
+      const obj = await this.cartRepo.findOne({ where: { user: data.userId } });
       newObj.cart = obj;
     }
     return this.cartProductRepo.save(newObj);

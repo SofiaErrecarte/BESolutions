@@ -11,9 +11,14 @@ import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class CreateCartProductDto {
   @IsPositive()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly cartId: number;
+
+  @IsPositive()
+  @IsOptional()
+  @ApiProperty()
+  readonly userId: number;
 
   @IsPositive()
   @IsNotEmpty()
