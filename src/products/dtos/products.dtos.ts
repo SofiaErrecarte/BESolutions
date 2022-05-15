@@ -47,7 +47,37 @@ export class CreateProductDto {
   readonly categoriesIds: number[];
 }
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
+export class UpdateProductDto  {
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ description: `product's name` })
+  readonly name: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
+  readonly description: string;
+
+  @IsNumber()
+  //@IsOptional()
+  @ApiProperty()
+  stock: number;
+
+  @IsUrl()
+  @IsOptional()
+  @ApiProperty()
+  readonly image: string;
+
+  // @IsNumber()
+  @IsOptional()
+  @ApiProperty()
+  user_id: number;
+
+  @IsArray() //sea un array
+  @IsOptional() //no este vacio
+  @ApiProperty() //se mapee en la documentacion
+  readonly categoriesIds: number[];
+}
 
 export class FilterProductDto {
   @IsOptional()

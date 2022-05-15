@@ -32,6 +32,16 @@ export class CartProductsService {
     return cartProduct;
   }
 
+  async itemExists(cartId: number, productId: number) {
+    const cartProduct = await this.cartProductRepo.findOne({
+      where: { cart: cartId, product: productId },
+    });
+    if (!cartProduct) {
+      throw new NotFoundException(`CartProduct not found`);
+    }
+    return cartProduct;
+  }
+
   // async findAllProducts(id: number) {
   //   return await this.cartProductRepo.find({ cart_id: id });
   // }
@@ -74,6 +84,8 @@ export class CartProductsService {
     const newObj = this.cartProductRepo.create(data);
     if (data.productId) {
       const obj = await this.productRepo.findOne(data.productId);
+      const quantity = data.quantity;
+      // this.productRepo.updateStock(data.productId,quantity)
       newObj.product = obj;
     }
     if (data.cartId) {

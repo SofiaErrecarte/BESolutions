@@ -71,6 +71,17 @@ export class ProductsService {
     return this.productRepo.save(obj); //impacta el cambio en la base de datos
   }
 
+  async updateStock(id: number, newStock: number) {
+    const obj = await this.productRepo.findOne(id);
+    if (!(await this.findOne(id))) {
+      throw new NotFoundException();
+    }
+    if (newStock) {
+      obj.stock = newStock;
+    }
+    return this.productRepo.save(obj); //impacta el cambio en la base de datos
+  }
+
   async remove(id: number) {
     //Si no existe, damos error.
     if (!(await this.findOne(id))) {
