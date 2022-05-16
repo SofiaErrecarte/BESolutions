@@ -85,7 +85,7 @@ export class CartProductsService {
     if (data.productId) {
       const obj = await this.productRepo.findOne(data.productId);
       const quantity = data.quantity;
-      // this.productRepo.updateStock(data.productId,quantity)
+      //this.productRepo.updateStock(data.productId,quantity)
       newObj.product = obj;
     }
     if (data.cartId) {
@@ -103,7 +103,7 @@ export class CartProductsService {
     const obj = await this.cartProductRepo.findOne(id);
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
-    } //no deberia poder editarse ni el cart id ni el product id. en cualquier caso se elimina el registro de cart_product. solo puede modificarse quantity
+    }
     this.cartProductRepo.merge(obj, changes);
     return this.cartProductRepo.save(obj);
   }
@@ -115,22 +115,4 @@ export class CartProductsService {
     return this.cartProductRepo.delete(id);
   }
 
-  // async addProductToCart(cartId: number, productId: number) {
-  //   const cart = await this.cartProductRepo.findOne(cartId, {
-  //     relations: ['user', 'products'],
-  //   });
-  //   const product = await this.productRepo.findOne(productId);
-  //   cart.products.push(product);
-  //   return this.cartProductRepo.save(cart);
-  // }
-
-  // //chequear este metodo
-  // async removeProductByCart(cartId: number, productId: number) {
-  //   const cart = await this.cartProductRepo.findOne(cartId, {
-  //     relations: ['user', 'products'],
-  //   });
-  //   cart.products = cart.products.filter((item) => {
-  //     return item.id !== productId;
-  //   });
-  // }
 }

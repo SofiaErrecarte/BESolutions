@@ -68,6 +68,14 @@ export class ProductsController {
   ) {
     return this.productsService.update(+id, payload);
   }
+  
+  // @Put(':id')
+  // updateStock(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() quantity:number,
+  // ) {
+  //   return this.productsService.updateStock(id, quantity);
+  // }
 
   // @Public()
   @Delete(':id')

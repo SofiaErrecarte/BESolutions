@@ -56,6 +56,8 @@ export class CartProductsController {
     return this.cartProductsService.update(id, payload);
   }
 
+
+
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.cartProductsService.remove(+id);

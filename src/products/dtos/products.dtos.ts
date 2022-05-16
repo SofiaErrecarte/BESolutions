@@ -59,7 +59,7 @@ export class UpdateProductDto  {
   readonly description: string;
 
   @IsNumber()
-  //@IsOptional()
+  @IsOptional()
   @ApiProperty()
   stock: number;
 
