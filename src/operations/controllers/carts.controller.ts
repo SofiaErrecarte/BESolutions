@@ -48,6 +48,11 @@ export class CartsController {
     return this.cartsService.update(id, payload);
   }
 
+  // @Put()
+  // update(@Body() payload: UpdateCartDto) {
+  //   return this.cartsService.update(payload);
+  // }
+
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.cartsService.remove(+id);

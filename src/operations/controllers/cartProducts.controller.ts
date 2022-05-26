@@ -12,6 +12,7 @@ import {
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import {
   CreateCartProductDto,
+  DeleteCartProductDto,
   UpdateCartProductDto,
 } from '../dtos/cartProduct.dtos';
 import { Cart } from '../entities/cart.entity';
@@ -59,7 +60,8 @@ export class CartProductsController {
 
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.cartProductsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number,
+  @Body() payload: DeleteCartProductDto, ) {
+    return this.cartProductsService.remove(+id, payload);
   }
 }

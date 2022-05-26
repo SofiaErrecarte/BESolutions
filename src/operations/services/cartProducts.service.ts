@@ -6,18 +6,21 @@ import { Repository, Between, FindConditions } from 'typeorm'; //injectar Reposi
 import { Cart } from '../entities/cart.entity';
 import {
   CreateCartProductDto,
+  DeleteCartProductDto,
   FilterCartProductDto,
   UpdateCartProductDto,
 } from '../dtos/cartProduct.dtos';
 
 import { Product } from 'src/products/entities/product.entity';
 import { CartProduct } from '../entities/cartProduct.entity';
+import { Price } from 'src/products/entities/prices.entity';
 
 @Injectable()
 export class CartProductsService {
   constructor(
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    @InjectRepository(Price) private priceRepo: Repository<Price>,
     @InjectRepository(CartProduct)
     private cartProductRepo: Repository<CartProduct>,
   ) {}
@@ -55,7 +58,7 @@ export class CartProductsService {
 
   async findAllProducts(id: number) {
     const cart2 = await this.cartRepo.find({ where: { user: id } });
-    console.log(cart2);
+   // console.log(cart2);
     const obj = await this.cartProductRepo.find({
       where: { cart: cart2[0].id },
       relations: ['cart', 'product'],
@@ -82,10 +85,19 @@ export class CartProductsService {
 
   async create(data: CreateCartProductDto) {
     const newObj = this.cartProductRepo.create(data);
+    const product = await this.productRepo.findOne(data.productId);
+    const cart = await this.cartRepo.find({ where: { user: data.userId } });
+    const price = await this.priceRepo.find({ where: { product: product.id } });
+    
+
+    const subtotal = price[0].precio * data.quantity; //VER acá precio en 0
+
+    cart[0].subtotal=cart[0].subtotal+subtotal;
+    await this.cartRepo.save(cart[0]);
+
+
     if (data.productId) {
       const obj = await this.productRepo.findOne(data.productId);
-      const quantity = data.quantity;
-      //this.productRepo.updateStock(data.productId,quantity)
       newObj.product = obj;
     }
     if (data.cartId) {
@@ -108,10 +120,21 @@ export class CartProductsService {
     return this.cartProductRepo.save(obj);
   }
 
-  async remove(id: number) {
+  async remove(id: number, data:DeleteCartProductDto) {  
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
+    console.log(data);
+    // const cart_product = await this.findOne(id);
+    //  const cart = await this.cartRepo.find({ where: { user: data.userId } });
+    //  const product = await this.productRepo.findOne(data.productId);
+    //  const price = await this.priceRepo.find({ where: { product: product.id } });
+    //  console.log("cart: ",cart[0]);
+    //  const subtotal = price[0].precio * cart_product.quantity *-1; //VER acá precio en 0  
+    //  cart[0].subtotal=cart[0].subtotal+subtotal;
+    //  console.log("Subtotal: ",subtotal);
+    // await this.cartRepo.save(cart[0]);
+    // // await this.cartRepo.merge(cart[0], subtotal);
     return this.cartProductRepo.delete(id);
   }
 

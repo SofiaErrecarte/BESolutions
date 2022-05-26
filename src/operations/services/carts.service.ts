@@ -12,12 +12,16 @@ import {
 
 import { User } from 'src/users/entities/user.entity';
 import { CartProduct } from '../entities/cartProduct.entity';
+import { Product } from 'src/products/entities/product.entity';
+import { Price } from 'src/products/entities/prices.entity';
 
 @Injectable()
 export class CartsService {
   constructor(
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
-    @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(User) private userRepo: Repository<User>,    @InjectRepository(Product) private productRepo: Repository<Product>,
+    @InjectRepository(Price) private priceRepo: Repository<Price>,
+    
     @InjectRepository(CartProduct)
     private cartProductRepo: Repository<CartProduct>,
   ) {}
@@ -78,18 +82,22 @@ export class CartsService {
   }
 
   async update(id: number, changes: UpdateCartDto) {
-    const obj = await this.cartRepo.findOne(id);
-    if (!(await this.findOne(id))) {
-      throw new NotFoundException();
+    const obj = await this.cartRepo.findOne({ where: { user: id }, relations: [],});
+    if (!obj) {
+      return null;
     }
-    // if (changes.productsIds) {
-    //   const listObj = await this.productRepo.findByIds(changes.productsIds);
-    //   obj.products = listObj;
-    // }
-    // if (changes.userId) {
-    //   const objRel = await this.userRepo.findOne(changes.userId);
-    //   obj.user = objRel;
-    // } no debería poder editarse el user de un carrito
+
+    //console.log("Cart:", obj);
+    const product_cart = await this.cartProductRepo.find({
+      where: { cart: changes.cartProductId },
+      relations: ['cart', 'product'],
+    });
+    console.log("Cart product:",product_cart);
+    const product = await this.productRepo.find({where:{product:product_cart[0].product.id}})
+     const price = await this.priceRepo.find({ where: { product: product[0].id } });
+     const subtotal = price[0].precio * product_cart[0].quantity *-1;
+    // console.log(subtotal);
+    changes.subtotal=subtotal;
     this.cartRepo.merge(obj, changes);
     return this.cartRepo.save(obj);
   }

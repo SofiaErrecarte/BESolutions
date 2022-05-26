@@ -48,4 +48,22 @@ export class FilterCartProductDto {
   cartId: number;
 }
 
+export class DeleteCartProductDto {
+  // @IsPositive()
+  // @IsOptional()
+  // @ApiProperty()
+  // readonly cartId: number;
+
+  // @IsPositive()
+  // //@IsOptional()
+  // @ApiProperty()
+  // readonly userId: number;
+
+  // @IsPositive()
+  // //@IsOptional()
+  // @ApiProperty()
+  readonly productId: number;
+
+}
+
 export class UpdateCartProductDto extends PartialType(CreateCartProductDto) {}

@@ -15,7 +15,7 @@ export class CreateCartDto {
   @IsNotEmpty()
   @IsPositive()
   @ApiProperty()
-  readonly subtotal: number;
+  subtotal: number;
 
   // @IsArray()
   // @IsNotEmpty()
@@ -26,6 +26,10 @@ export class CreateCartDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly userId: number;
+
+  @IsPositive()
+  @ApiProperty()
+  readonly cartProductId: number;
 }
 
 export class FilterOperationDto {
