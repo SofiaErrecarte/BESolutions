@@ -28,7 +28,7 @@ export class Operation {
   @Column({ type: 'varchar', length: 50 })
   code: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'varchar' })
   @Type(() => Date)
   date: Date;
 
@@ -58,7 +58,7 @@ export class Operation {
     () => OperationToState,
     (operationToState) => operationToState.operation,
   )
-  operationToStates: OperationToState[];
+  operationToStates: OperationToState;
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })

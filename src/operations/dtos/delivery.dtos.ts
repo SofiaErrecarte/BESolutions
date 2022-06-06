@@ -42,12 +42,12 @@ export class CreateDeliveryDto {
   @ApiProperty()
   readonly price: number;
 
-  @IsPositive()
+  @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
   readonly operationId: number;
 
-  @IsPositive()
+  @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
   readonly deliveryToStateId: number;

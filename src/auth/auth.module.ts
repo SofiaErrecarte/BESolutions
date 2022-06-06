@@ -24,7 +24,7 @@ import { AuthController } from './controllers/auth.controller';
         return {
           secret: configService.jwtSecret,
           signOptions: {
-            expiresIn: '60m',
+            expiresIn: '30d',
           },
         };
       },
