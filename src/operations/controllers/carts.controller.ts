@@ -35,6 +35,12 @@ export class CartsController {
     return this.cartsService.findByUser(id);
   }
 
+  @Get('/supplier/:id')
+  getOperationsBySupplier(
+    @Param('id', ParseIntPipe) id: number) {
+    return this.cartsService.findBySupplier(id);
+  }
+
   @Post()
   create(@Body() payload: CreateCartDto) {
     return this.cartsService.create(payload);

@@ -14,6 +14,7 @@ import {
 import { Type, Exclude } from 'class-transformer';
 import { Product } from 'src/products/entities/product.entity';
 import { Cart } from 'src/operations/entities/cart.entity';
+import { Operation } from 'src/operations/entities/operation.entity';
 
 @Unique(['username', 'cuitcuil']) //uneque key
 @Entity() // importantisimo para que tyscript trate la clase como una entidad orm
@@ -76,4 +77,7 @@ export class User {
 
   @OneToOne(() => Cart, (cart) => cart.user) // specify inverse side as a second parameter
   cart: Cart;
+
+  @OneToOne(() => Cart, (cart_supplier) => cart_supplier.supplier) // specify inverse side as a second parameter
+  cart_supplier: Cart;
 }

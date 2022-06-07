@@ -28,7 +28,7 @@ export class CartsService {
 
   async findOne(id: number) {
     const cart = await this.cartRepo.findOne(id, {
-      relations: ['user', 'operation'],
+      relations: ['user', 'operation','cartProducts','supplier'],
     });
     if (!cart) {
       throw new NotFoundException(`Cart #${id} not found`);
@@ -48,24 +48,28 @@ export class CartsService {
     return obj;
   }
 
-  // async findAll() {
-  //   return await this.cartRepo.find({
-  //     relations: ['operation', 'products'],
-  //   });
-  // }
-
   async findAll(params?: FilterOperationDto) {
     if (params) {
       const { limit, offset } = params;
       return await this.cartRepo.find({
-        relations: ['user', 'operation'],
+        relations: ['user', 'operation','cartProducts','supplier'],
         take: limit,
         skip: offset,
       });
     }
     return await this.cartRepo.find({
-      relations: ['user', 'operation'],
+      relations: ['user', 'operation','cartProducts','supplier'],
     });
+  }
+
+    async findBySupplier(supplier: number) {
+    const supplierObj = await this.userRepo.findOne({ id: supplier });
+    const obj = await this.cartRepo.find({ supplier: supplierObj });
+    if (!obj) {
+      //throw new NotFoundException(`Object #${email} not found`);
+      return null;
+    }
+    return obj;
   }
 
   async create(data: CreateCartDto) {
