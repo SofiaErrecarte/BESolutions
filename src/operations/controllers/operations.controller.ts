@@ -36,18 +36,22 @@ import { Public } from 'src/auth/decorators/public.decorator';
 export class OperationsController {
   constructor(private operationService: OperationsService) {}
 
-  @Public()
   @Get()
   @ApiOperation({ summary: 'List of Operations' }) // comentario en la documentacion
   getOperations(@Query() params: FilterOperationDto) {
     return this.operationService.findAll();
   }
 
-  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.operationService.findOne(id);
+  }
+  
+  @Get('/supplier/:id')
+  getOperationsBySupplier(
+    @Param('id', ParseIntPipe) id: number) {
+    return this.operationService.findBySupplier(id);
   }
 
   @Post()

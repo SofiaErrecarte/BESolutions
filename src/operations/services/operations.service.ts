@@ -47,6 +47,17 @@ export class OperationsService {
     return operation;
   }
 
+  async findBySupplier(supplier: number) {
+    const supplierObj = await this.operationRepo.findOne({ id: supplier });
+    const cartObj = await this.cartRepo.find({ supplier: supplierObj });
+    let objs = new Array();    
+    for (let index = 0; index < cartObj.length; index++) {
+      const element = cartObj[index]
+      objs.push(await this.operationRepo.find({ cart : element }));
+    }
+    return objs;
+  }
+
   async create(data: CreateOperationDto) {
     const newObj = this.operationRepo.create(data);
     if (data.deliveryId) {
