@@ -35,16 +35,7 @@ export class CartProductsService {
     return cartProduct;
   }
 
-  async itemExists(cartId: number, productId: number) {
-    const cartProduct = await this.cartProductRepo.findOne({
-      where: { cart: cartId, product: productId },
-    });
-    if (!cartProduct) {
-      throw new NotFoundException(`CartProduct not found`);
-    }
-    return cartProduct;
-  }
-
+  
   // async findAllProducts(id: number) {
   //   return await this.cartProductRepo.find({ cart_id: id });
   // }
