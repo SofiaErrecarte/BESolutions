@@ -90,3 +90,18 @@ export class FilterProductDto {
   @ApiProperty()
   offset: number;
 }
+
+export class ExistsProductDto  {
+  
+
+  // @IsNumber()
+  // @IsOptional()
+  // @ApiProperty()
+  // user_id: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty()
+  product_id: number;
+
+}

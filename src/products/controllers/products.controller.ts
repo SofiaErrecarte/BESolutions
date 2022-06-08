@@ -23,6 +23,7 @@ import {
   CreateProductDto,
   UpdateProductDto,
   FilterProductDto,
+  ExistsProductDto,
 } from '../dtos/products.dtos';
 import { ProductsService } from './../services/products.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
@@ -57,6 +58,14 @@ export class ProductsController {
   @Post()
   create(@Body() payload: CreateProductDto) {
     return this.productsService.create(payload);
+  }
+
+
+  @Get('cart_products/:id')
+  get(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: ExistsProductDto) {
+    return this.productsService.itemExists(id, payload);
   }
 
   // acá también no habría que definir que el rol sea admin?

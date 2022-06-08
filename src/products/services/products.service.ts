@@ -8,17 +8,22 @@ import {
   CreateProductDto,
   UpdateProductDto,
   FilterProductDto,
+  ExistsProductDto
 } from './../dtos/products.dtos';
 
 // import { BrandsService } from './../services/brands.service';
 import { Category } from './../entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Cart } from 'src/operations/entities/cart.entity';
+import { CartProduct } from 'src/operations/entities/cartProduct.entity';
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Cart) private cartRepo: Repository<Cart>,
+    @InjectRepository(CartProduct) private cartProductRepo: Repository<CartProduct>,
   ) {}
 
   async findAll(params?: FilterProductDto) {
@@ -108,4 +113,19 @@ export class ProductsService {
     });
   }
   // eslint-disable-next-line prettier/prettier
+
+
+  async itemExists(user_id: number, parameters: ExistsProductDto) {
+    const cart = await this.cartRepo.findOne({where:{user:user_id}});
+    
+    const cartProduct = await this.cartProductRepo.findOne({
+      where: { cart: cart, product: parameters.product_id },
+    });
+   
+    if (!cartProduct) {
+      throw new NotFoundException(`CartProduct not found`);
+    }
+    return cartProduct;
+  }
+
 }
