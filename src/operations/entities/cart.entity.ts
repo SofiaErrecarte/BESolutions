@@ -68,4 +68,8 @@ export class Cart {
 
   @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
   cartProducts: CartProduct[];
+
+  @ManyToOne(() => User, (supplier) => supplier.cart_supplier)
+  @JoinColumn({ name: 'supplier_id' })
+  supplier: User;
 }

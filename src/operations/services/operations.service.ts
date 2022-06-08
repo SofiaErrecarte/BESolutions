@@ -27,24 +27,37 @@ export class OperationsService {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.operationRepo.find({
-        relations: ['cart', 'delivery', 'operationToStates'],
+        relations: ['cart', 'delivery', 'operationToStates','cart.user','cart.supplier'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
     return await this.operationRepo.find({
-      relations: ['cart', 'delivery', 'operationToStates'], // para que cuando devuelva los objetos los devuelva con la relacion
+      relations: ['cart', 'delivery', 'operationToStates','cart.user','cart.supplier'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
     const operation = await this.operationRepo.findOne(id, {
-      relations: ['delivery', 'cart', 'operationToStates'],
+      relations: ['delivery', 'cart', 'operationToStates','cart.user','cart.supplier'],
     });
     if (!operation) {
       throw new NotFoundException(`Operation #${id} not found`);
     }
     return operation;
+  }
+
+  async findBySupplier(supplier: number) {
+    const supplierObj = await this.operationRepo.findOne({ id: supplier });
+    const cartObj = await this.cartRepo.find({ supplier: supplierObj });
+    var objs = [];
+    for (let index = 0; index < cartObj.length; index++) {
+      const element = cartObj[index];
+      const operationsArray = await this.operationRepo.find({ cart : element });
+      // console.log(x[0]);
+      objs.push(operationsArray[0]);
+    }
+    return objs;
   }
 
   async create(data: CreateOperationDto) {

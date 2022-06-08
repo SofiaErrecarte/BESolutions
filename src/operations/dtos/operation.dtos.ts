@@ -42,23 +42,22 @@ export class CreateOperationDto {
   @ApiProperty()
   readonly comment: string;
 
-  @IsNumber()
+  // @IsNumber()
   @IsNotEmpty()
-  @IsPositive()
   @ApiProperty()
-  readonly total: number;
+  total: number;
 
-  @IsPositive()
+  // @IsNumber()
   @IsOptional()
   @ApiProperty()
   readonly deliveryId: number;
 
-  @IsPositive()
+  // @IsNumber()
   @IsOptional()
   @ApiProperty()
   readonly operationToStateId: number;
 
-  @IsPositive()
+  @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
   readonly cartId: number;

@@ -22,3 +22,9 @@ ALTER TABLE `cart` ADD INDEX(`user_id`);
 
 26/05/2022 
 ALTER TABLE `user` ADD `estado` VARCHAR(11) NOT NULL DEFAULT 'INACTIVO' AFTER `username`;
+
+1/6/2022 Sofia
+ALTER TABLE `operations` CHANGE `date` `date` DATE NULL DEFAULT NULL;
+
+7/6/2022 Sofia
+ALTER TABLE `cart` ADD `supplier_id` INT(11) NOT NULL AFTER `user_id`;
