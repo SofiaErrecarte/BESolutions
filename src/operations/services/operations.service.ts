@@ -50,10 +50,12 @@ export class OperationsService {
   async findBySupplier(supplier: number) {
     const supplierObj = await this.operationRepo.findOne({ id: supplier });
     const cartObj = await this.cartRepo.find({ supplier: supplierObj });
-    let objs = new Array();    
+    var objs = [];
     for (let index = 0; index < cartObj.length; index++) {
-      const element = cartObj[index]
-      objs.push(await this.operationRepo.find({ cart : element }));
+      const element = cartObj[index];
+      const operationsArray = await this.operationRepo.find({ cart : element });
+      // console.log(x[0]);
+      objs.push(operationsArray[0]);
     }
     return objs;
   }
