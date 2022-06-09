@@ -42,6 +42,14 @@ export class PricesService {
     return obj;
   }
 
+  async findByProduct(idProduct: number) {
+    const product = await this.productRepo.findOne({ id: idProduct });
+    const price = await this.repoPrice.findOne({ 
+        where: {product : product},
+    });
+    return price;
+  }
+
   async create(data: CreatePriceDto) {
     const newObj = this.repoPrice.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     if (data.product) {

@@ -31,6 +31,11 @@ export class PricesController {
     return this.pricesService.findOne(id);
   }
 
+  @Get('/product/:id')
+  getByProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.pricesService.findByProduct(id);
+  }
+
   @Post()
   create(@Body() payload: CreatePriceDto) {
     return this.pricesService.create(payload);
