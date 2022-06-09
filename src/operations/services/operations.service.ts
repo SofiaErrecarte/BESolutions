@@ -53,7 +53,10 @@ export class OperationsService {
     var objs = [];
     for (let index = 0; index < cartObj.length; index++) {
       const element = cartObj[index];
-      const operationsArray = await this.operationRepo.find({ cart : element });
+      const operationsArray = await this.operationRepo.find({ 
+        where: {cart : element},
+        relations: ['delivery', 'cart', 'operationToStates','cart.user','cart.supplier'],
+      });
       // console.log(x[0]);
       objs.push(operationsArray[0]);
     }

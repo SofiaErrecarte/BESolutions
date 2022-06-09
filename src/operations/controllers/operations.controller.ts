@@ -49,6 +49,7 @@ export class OperationsController {
   }
   
   @Get('/supplier/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
   getOperationsBySupplier(
     @Param('id', ParseIntPipe) id: number) {
     return this.operationService.findBySupplier(id);
