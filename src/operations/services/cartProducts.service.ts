@@ -109,9 +109,7 @@ export class CartProductsService {
               const new_quantity=cart[0].cartProducts[index].quantity+data.quantity;
               cart[0].cartProducts[index].quantity=new_quantity;
               //await this.cartRepo.save(cart[0].cartProducts[index]);
-              console.log("Existe.");
               newObj=cart[0].cartProducts[index];
-              console.log(newObj);
               break;
             }
           }

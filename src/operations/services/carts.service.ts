@@ -37,10 +37,9 @@ export class CartsService {
   }
 
   async findByUser(id: number) {
-    //const user = this.userRepo.findOne(id);
     const obj = await this.cartRepo.findOne({
       where: { user: id },
-      relations: ['user'],
+      relations: ['user', 'supplier', 'cartProducts'],
     });
     if (!obj) {
       return null;
