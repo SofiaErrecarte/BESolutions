@@ -29,6 +29,7 @@ export class CreateCartDto {
 
   @IsPositive()
   @ApiProperty()
+  @IsOptional()
   readonly cartProductId: number;
 }
 

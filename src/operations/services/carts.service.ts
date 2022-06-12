@@ -61,14 +61,8 @@ export class CartsService {
     });
   }
 
-
-
   async create(data: CreateCartDto) {
     const newObj = this.cartRepo.create(data);
-    // if (data.productsIds) {
-    //   const listObj = await this.productRepo.findByIds(data.productsIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
-    //   newObj.products = listObj;
-    // }
     if (data.userId) {
       const obj = await this.userRepo.findOne(data.userId);
       newObj.user = obj;
@@ -82,7 +76,6 @@ export class CartsService {
       return null;
     }
 
-    //console.log("Cart:", obj);
     const product_cart = await this.cartProductRepo.find({
       where: { cart: changes.cartProductId },
       relations: ['cart', 'product'],
@@ -91,7 +84,7 @@ export class CartsService {
     const product = await this.productRepo.find({where:{product:product_cart[0].product.id}})
      const price = await this.priceRepo.find({ where: { product: product[0].id } });
      const subtotal = price[0].precio * product_cart[0].quantity *-1;
-    // console.log(subtotal);
+
     changes.subtotal=subtotal;
     this.cartRepo.merge(obj, changes);
     return this.cartRepo.save(obj);
