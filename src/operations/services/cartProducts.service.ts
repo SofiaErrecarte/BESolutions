@@ -76,41 +76,49 @@ export class CartProductsService {
   }
 
   async create(data: CreateCartProductDto) {
-    const newObj = this.cartProductRepo.create(data);
+    let newObj = this.cartProductRepo.create(data);
     const product = await this.productRepo.findOne(data.productId, {relations:['user']});
     const cart = await this.cartRepo.find({ 
       where: { user: data.userId },
-      relations: ['user', 'operation','cartProducts', 'supplier'],
+      relations: ['user', 'operation','cartProducts', 'supplier', 'cartProducts.product'],
     });
     const price = await this.priceRepo.find({ where: { product: product.id } });
     const subtotal = price[0].precio * data.quantity; 
     cart[0].subtotal=cart[0].subtotal+subtotal;
     
+    // ADD SUPPLIER
     if(cart[0].cartProducts.length == 0){
       cart[0].supplier=product.user;
     }
     await this.cartRepo.save(cart[0]);
 
-    console.log(cart[0].supplier.id);
-    console.log(product.user.id);
-
     // CHECK SUPPLIER
     if(product.user.id==cart[0].supplier.id){
-      if (data.productId) {
+          if (data.productId) {
             const obj = await this.productRepo.findOne(data.productId);
             newObj.product = obj;
           }
-        
           if (data.userId) {
             const obj = await this.cartRepo.findOne({ where: { user: data.userId } });
             newObj.cart = obj;
           }
-          return this.cartProductRepo.save(newObj);
+          // CHECK EXISTENCE
+          for (let index = 0; index < cart[0].cartProducts.length; index++) {
+            const element = cart[0].cartProducts[index].product;
+            if(element.id===product.id){
+              const new_quantity=cart[0].cartProducts[index].quantity+data.quantity;
+              cart[0].cartProducts[index].quantity=new_quantity;
+              //await this.cartRepo.save(cart[0].cartProducts[index]);
+              console.log("Existe.");
+              newObj=cart[0].cartProducts[index];
+              console.log(newObj);
+              break;
+            }
+          }
+          return this.cartProductRepo.save(newObj);          
     }else{
       throw new NotFoundException(`No es posible agregar productos de distintos proveedores.`);      
     }
-
-    
     
   }
 
