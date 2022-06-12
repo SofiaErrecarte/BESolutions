@@ -49,19 +49,19 @@ export class FilterCartProductDto {
 }
 
 export class DeleteCartProductDto {
-  // @IsPositive()
-  // @IsOptional()
-  // @ApiProperty()
-  // readonly cartId: number;
+   @IsPositive()
+   @IsOptional()
+   @ApiProperty()
+   readonly cartId: number;
 
-  // @IsPositive()
-  // //@IsOptional()
-  // @ApiProperty()
-  // readonly userId: number;
+   //@IsPositive()
+  @IsOptional()
+   @ApiProperty()
+   readonly userId: number;
 
-  // @IsPositive()
-  // //@IsOptional()
-  // @ApiProperty()
+   //@IsPositive()
+   @IsOptional()
+   @ApiProperty()
   readonly productId: number;
 
 }

@@ -36,17 +36,6 @@ export class CartProductsService {
     return cartProduct;
   }
 
-  
-  // async findAllProducts(id: number) {
-  //   return await this.cartProductRepo.find({ cart_id: id });
-  // }
-
-  // async findAllProducts(id: number) {
-  //   return await this.cartProductRepo.find({
-  //     relations: ['cart', 'product'],
-  //     where: { cart_id: id },
-  //   });
-  // }
 
   async findAllProducts(id: number) {
     const cart2 = await this.cartRepo.find({ where: { user: id } });
@@ -133,17 +122,11 @@ export class CartProductsService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    console.log(data);
-    // const cart_product = await this.findOne(id);
-    //  const cart = await this.cartRepo.find({ where: { user: data.userId } });
-    //  const product = await this.productRepo.findOne(data.productId);
-    //  const price = await this.priceRepo.find({ where: { product: product.id } });
-    //  console.log("cart: ",cart[0]);
-    //  const subtotal = price[0].precio * cart_product.quantity *-1; //VER acá precio en 0  
-    //  cart[0].subtotal=cart[0].subtotal+subtotal;
-    //  console.log("Subtotal: ",subtotal);
-    // await this.cartRepo.save(cart[0]);
-    // // await this.cartRepo.merge(cart[0], subtotal);
+    
+    const cart_product = await this.cartProductRepo.findOne(id, {relations:['cart', 'product', 'product.prices']});
+    const subtotal = cart_product.product.prices[0].precio * cart_product.quantity *-1;
+    cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
+     await this.cartRepo.save(cart_product.cart);
     return this.cartProductRepo.delete(id);
   }
 
