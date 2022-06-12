@@ -60,7 +60,7 @@ export class ProductsController {
     return this.productsService.create(payload);
   }
 
-
+  @Public()
   @Get('cart_products/:id')
   get(
     @Param('id', ParseIntPipe) id: number,

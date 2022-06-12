@@ -30,19 +30,19 @@ export class ProductsService {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.productRepo.find({
-        relations: ['categories', 'prices', 'user'],
+        relations: ['categories', 'prices', 'user', 'cartProducts'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
     return await this.productRepo.find({
-      relations: ['categories', 'prices', 'user'], // para que cuando devuelva los objetos los devuelva con la relacion
+      relations: ['categories', 'prices', 'user', 'cartProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
   async findOne(id: number) {
     const product = await this.productRepo.findOne(id, {
-      relations: ['categories', 'prices', 'user'], //cuando se busque un producto retornara con los objetos relacionados
+      relations: ['categories', 'prices', 'user', 'cartProducts'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);

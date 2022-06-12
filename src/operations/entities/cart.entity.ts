@@ -66,7 +66,7 @@ export class Cart {
   // @Column({ type: 'int' })
   // user_id: number;
 
-  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.cart)
   cartProducts: CartProduct[];
 
   @ManyToOne(() => User, (supplier) => supplier.cart_supplier)

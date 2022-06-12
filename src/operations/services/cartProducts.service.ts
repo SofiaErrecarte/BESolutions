@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
 import { Repository, Between, FindConditions } from 'typeorm'; //injectar Repository
 
@@ -14,6 +14,7 @@ import {
 import { Product } from 'src/products/entities/product.entity';
 import { CartProduct } from '../entities/cartProduct.entity';
 import { Price } from 'src/products/entities/prices.entity';
+import { error } from 'console';
 
 @Injectable()
 export class CartProductsService {
@@ -76,30 +77,41 @@ export class CartProductsService {
 
   async create(data: CreateCartProductDto) {
     const newObj = this.cartProductRepo.create(data);
-    const product = await this.productRepo.findOne(data.productId);
-    const cart = await this.cartRepo.find({ where: { user: data.userId } });
+    const product = await this.productRepo.findOne(data.productId, {relations:['user']});
+    const cart = await this.cartRepo.find({ 
+      where: { user: data.userId },
+      relations: ['user', 'operation','cartProducts', 'supplier'],
+    });
     const price = await this.priceRepo.find({ where: { product: product.id } });
-    
-
-    const subtotal = price[0].precio * data.quantity; //VER acá precio en 0
-
+    const subtotal = price[0].precio * data.quantity; 
     cart[0].subtotal=cart[0].subtotal+subtotal;
+    
+    if(cart[0].cartProducts.length == 0){
+      cart[0].supplier=product.user;
+    }
     await this.cartRepo.save(cart[0]);
 
+    console.log(cart[0].supplier.id);
+    console.log(product.user.id);
 
-    if (data.productId) {
-      const obj = await this.productRepo.findOne(data.productId);
-      newObj.product = obj;
+    // CHECK SUPPLIER
+    if(product.user.id==cart[0].supplier.id){
+      if (data.productId) {
+            const obj = await this.productRepo.findOne(data.productId);
+            newObj.product = obj;
+          }
+        
+          if (data.userId) {
+            const obj = await this.cartRepo.findOne({ where: { user: data.userId } });
+            newObj.cart = obj;
+          }
+          return this.cartProductRepo.save(newObj);
+    }else{
+      throw new NotFoundException(`No es posible agregar productos de distintos proveedores.`);      
     }
-    if (data.cartId) {
-      const obj = await this.cartRepo.findOne(data.cartId);
-      newObj.cart = obj;
-    }
-    if (data.userId) {
-      const obj = await this.cartRepo.findOne({ where: { user: data.userId } });
-      newObj.cart = obj;
-    }
-    return this.cartProductRepo.save(newObj);
+
+    
+    
   }
 
   async update(id: number, changes: UpdateCartProductDto) {
