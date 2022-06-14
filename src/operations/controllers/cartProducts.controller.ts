@@ -39,11 +39,6 @@ export class CartProductsController {
     return this.cartProductsService.findAllProducts(id);
   }
 
-  // @Get()
-  // get() {
-  //   return this.cartProductsService.findAll();
-  // }
-
   @Post()
   create(@Body() payload: CreateCartProductDto) {
     return this.cartProductsService.create(payload);

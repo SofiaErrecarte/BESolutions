@@ -97,7 +97,6 @@ export class CartProductsService {
             if(element.id===product.id){
               const new_quantity=cart[0].cartProducts[index].quantity+data.quantity;
               cart[0].cartProducts[index].quantity=new_quantity;
-              //await this.cartRepo.save(cart[0].cartProducts[index]);
               newObj=cart[0].cartProducts[index];
               break;
             }
@@ -110,10 +109,23 @@ export class CartProductsService {
   }
 
   async update(id: number, changes: UpdateCartProductDto) {
-    const obj = await this.cartProductRepo.findOne(id);
+    const obj = await this.cartProductRepo.findOne(id, {relations:['cart', 'product']});
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
+    const product = await this.productRepo.findOne(obj.product.id, {relations:['user', 'prices']});
+    const cart = await this.cartRepo.findOne(obj.cart.id, {relations: ['user', 'operation','cartProducts', 'supplier', 'cartProducts.product'],
+    });
+
+    const price = product.prices[0].precio;
+    const subtotal = (changes.quantity-obj.quantity)*price;
+    cart.subtotal=cart.subtotal+subtotal;
+    await this.cartRepo.save(cart);
+
+    const stock = (obj.quantity-changes.quantity);
+    product.stock = product.stock+stock;
+    await this.productRepo.save(product);
+
     this.cartProductRepo.merge(obj, changes);
     return this.cartProductRepo.save(obj);
   }
