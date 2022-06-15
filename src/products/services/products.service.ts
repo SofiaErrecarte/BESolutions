@@ -26,15 +26,30 @@ export class ProductsService {
     @InjectRepository(CartProduct) private cartProductRepo: Repository<CartProduct>,
   ) {}
 
-  async findAll(params?: FilterProductDto) {
-    if (params) {
-      const { limit, offset } = params; // funcion de desconstruccion
+  async findAll(filterQuery?) {
+    if (filterQuery) {
+      const { seller } = filterQuery; // funcion de desconstruccion
       return await this.productRepo.find({
+        where: { user: seller },
         relations: ['categories', 'prices', 'user', 'cartProducts'],
-        take: limit, //typeorm toma como limit la variable take(tantos elementos)
-        skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
+        // take: limit, //typeorm toma como limit la variable take(tantos elementos)
+        // skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
     }
+    return await this.productRepo.find({
+      relations: ['categories', 'prices', 'user', 'cartProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
+    });
+  }
+
+  async findBySeller(id: number) {
+    const seller = await this.userRepo.findOne(id);
+      return await this.productRepo.find({
+        where: { user: seller },
+        relations: ['categories', 'prices', 'user', 'cartProducts'],
+        // take: limit, //typeorm toma como limit la variable take(tantos elementos)
+        // skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
+      });
+    
     return await this.productRepo.find({
       relations: ['categories', 'prices', 'user', 'cartProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
     });

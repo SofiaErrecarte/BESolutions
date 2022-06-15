@@ -42,8 +42,24 @@ export class ProductsController {
   @Public()
   @Get()
   @ApiOperation({ summary: 'List of products' }) // comentario en la documentacion
-  getProducts(@Query() params: FilterProductDto) {
+  // getProducts(@Query() params: FilterProductDto) {
+  //   return this.productsService.findAll();
+  // }
+  // getProducts() {
+  //   return this.productsService.findAll();
+  // }
+  getProducts(@Query() filterQuery) {
     return this.productsService.findAll();
+  }
+
+  @Public()
+  @Get()
+  @ApiOperation({ summary: 'List of products' }) // comentario en la documentacion
+  // getProducts(@Query() params: FilterProductDto) {
+  //   return this.productsService.findAll();
+  // }
+  getProductsFiltered(@Query() filterQuery) {
+    return this.productsService.findAll(filterQuery);
   }
 
   @Public()
@@ -51,6 +67,13 @@ export class ProductsController {
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findOne(id);
+  }
+
+  @Public()
+  @Get('seller/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
+  getBySeller(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.findBySeller(id);
   }
 
   // @Roles(Role.ADMIN)
