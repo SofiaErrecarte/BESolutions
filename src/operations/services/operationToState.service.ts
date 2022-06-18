@@ -36,10 +36,10 @@ export class OperationToStateService {
 
   async create(data: CreateOperationToStateDto) {
     const newObj = this.opToStateRepo.create(data);
-    if (data.operationId) {
-      const obj = await this.operationRepo.findOne(data.operationId);
-      newObj.operation = obj;
-    }
+    // if (data.operationId) {
+    //   const obj = await this.operationRepo.findOne(data.operationId);
+    //   newObj.operation = obj;
+    // }
     if (data.stateId) {
       const listObj = await this.stateRepo.findOne(data.stateId);
       newObj.state = listObj;
@@ -52,10 +52,10 @@ export class OperationToStateService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    if (changes.operationId) {
-      const objRel = await this.operationRepo.findOne(changes.operationId);
-      obj.operation = objRel;
-    }
+    // if (changes.operationId) {
+    //   const objRel = await this.operationRepo.findOne(changes.operationId);
+    //   obj.operation = objRel;
+    // }
     if (changes.stateId) {
       const listObj = await this.stateRepo.findOne(changes.stateId);
       obj.state = listObj;

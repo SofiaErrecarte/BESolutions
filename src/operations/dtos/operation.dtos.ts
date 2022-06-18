@@ -61,6 +61,11 @@ export class CreateOperationDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly cartId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly stateId: number;  
 }
 
 export class UpdateOperationDto extends PartialType(CreateOperationDto) {}

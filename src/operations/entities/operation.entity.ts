@@ -54,11 +54,11 @@ export class Operation {
     this.created_at = new Date().toLocaleString();
   }
 
-  @OneToMany(
-    () => OperationToState,
-    (operationToState) => operationToState.operation,
-  )
-  operationToStates: OperationToState;
+  // @OneToMany(
+  //   () => OperationToState,
+  //   (operationToState) => operationToState.operation,
+  // )
+  // operationToStates: OperationToState;
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })
@@ -67,4 +67,8 @@ export class Operation {
   @OneToOne(() => Cart)
   @JoinColumn({ name: 'cart_id' })
   cart: Cart;
+
+  @ManyToOne(() => State, (state) => state.operations)
+  @JoinColumn({ name: 'state_id' })
+  state: State;
 }

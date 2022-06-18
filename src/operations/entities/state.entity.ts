@@ -52,9 +52,13 @@ export class State {
   )
   deliveriesToStates: DeliveryToState[];
 
-  @OneToMany(
-    () => OperationToState,
-    (operationToState) => operationToState.operation,
-  )
-  operationsToStates: OperationToState[];
+  // @OneToMany(
+  //   () => OperationToState,
+  //   (operationToState) => operationToState.operation,
+  // )
+  // operationsToStates: OperationToState[];
+
+  @OneToMany(() => Operation, (operations) => operations.state)
+  operations: Operation[];
+
 }
