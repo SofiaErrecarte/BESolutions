@@ -71,9 +71,6 @@ export class CartProductsService {
       where: { user: data.userId },
       relations: ['user', 'operation','cartProducts', 'supplier', 'cartProducts.product'],
     });
-    const price = await this.priceRepo.find({ where: { product: product.id } });
-    const subtotal = price[0].precio * data.quantity; 
-    cart[0].subtotal=cart[0].subtotal+subtotal;
     
     // ADD SUPPLIER
     if(cart[0].cartProducts.length == 0){
@@ -83,6 +80,9 @@ export class CartProductsService {
 
     // CHECK SUPPLIER
     if(product.user.id==cart[0].supplier.id){
+        const price = await this.priceRepo.find({ where: { product: product.id } });
+      const subtotal = price[0].precio * data.quantity; 
+      cart[0].subtotal=cart[0].subtotal+subtotal;
           if (data.productId) {
             const obj = await this.productRepo.findOne(data.productId);
             newObj.product = obj;
@@ -101,6 +101,7 @@ export class CartProductsService {
               break;
             }
           }
+          await this.cartRepo.save(cart[0]);
           return this.cartProductRepo.save(newObj);          
     }else{
       throw new NotFoundException(`No es posible agregar productos de distintos proveedores.`);      
