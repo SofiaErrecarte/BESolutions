@@ -27,14 +27,12 @@ export class FilterOperationDto {
 
 export class CreateOperationDto {
   @IsString()
-  //@IsNotEmpty()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty({ description: `operation's code` })
   readonly code: string;
 
   @IsDate()
-  //@IsNotEmpty()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   @Type(() => Date)
   readonly date: Date;
@@ -45,8 +43,7 @@ export class CreateOperationDto {
   readonly comment: string;
 
   // @IsNumber()
-  //@IsNotEmpty()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   total: number;
 

@@ -38,7 +38,7 @@ export class CartProductsService {
 
 
   async findAllProducts(id: number) {
-    const cart2 = await this.cartRepo.find({ where: { user: id, state: true} });
+    const cart2 = await this.cartRepo.find({ where: { user: id } });
    // console.log(cart2);
     const obj = await this.cartProductRepo.find({
       where: { cart: cart2[0].id },
@@ -68,7 +68,7 @@ export class CartProductsService {
     let newObj = this.cartProductRepo.create(data);
     const product = await this.productRepo.findOne(data.productId, {relations:['user']});
     const cart = await this.cartRepo.find({ 
-      where: { user: data.userId, state: true },
+      where: { user: data.userId },
       relations: ['user', 'operation','cartProducts', 'supplier', 'cartProducts.product'],
     });
     
