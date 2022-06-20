@@ -9,6 +9,7 @@ import {
   UpdateOperationDto,
 } from '../dtos/operation.dtos';
 
+import { User } from 'src/users/entities/user.entity';
 import { Delivery } from './../entities/delivery.entity';
 import { Cart } from './../entities/cart.entity';
 import { OperationToState } from '../entities/operationToState.entity';
@@ -23,6 +24,7 @@ export class OperationsService {
     @InjectRepository(State) private stateRepo: Repository<State>,
     @InjectRepository(OperationToState)
     private opToStateRepo: Repository<OperationToState>,
+    @InjectRepository(User) private userRepo: Repository<User>
   ) {}
 
   async findAll(params?: FilterOperationDto) {
@@ -72,8 +74,21 @@ export class OperationsService {
       newObj.delivery = obj;
     }
     if (data.cartId) {
-      const obj = await this.cartRepo.findOne(data.cartId);
+      const obj = await this.cartRepo.findOne(data.cartId, {relations: ['user', 'cartProducts','supplier']} );
       newObj.cart = obj;
+      obj.state=false;
+      this.cartRepo.save(obj);
+      const data2 = {
+        "state": true,
+        "userId": obj.user.id,
+        "subtotal": 0
+      };
+      const newCart = this.cartRepo.create(data2);
+      if (data2.userId) {
+        const obj = await this.userRepo.findOne(data2.userId);
+        newCart.user = obj;
+      }
+      this.cartRepo.save(newCart);
     }
     if (data.stateId) {
       const obj = await this.stateRepo.findOne(data.stateId);
