@@ -31,3 +31,7 @@ ALTER TABLE `cart` ADD `supplier_id` INT(11) NOT NULL AFTER `user_id`;
 
 12/06/22 Lola
 ALTER TABLE `cart` CHANGE `supplier_id` `supplier_id` INT(11) NULL DEFAULT NULL;
+
+
+20/06 Lola
+ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;

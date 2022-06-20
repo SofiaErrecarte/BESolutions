@@ -14,6 +14,7 @@ import { User } from 'src/users/entities/user.entity';
 import { CartProduct } from '../entities/cartProduct.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Price } from 'src/products/entities/prices.entity';
+import { State } from '../entities/state.entity';
 
 @Injectable()
 export class CartsService {
@@ -38,7 +39,7 @@ export class CartsService {
 
   async findByUser(id: number) {
     const obj = await this.cartRepo.findOne({
-      where: { user: id },
+      where: { user: id, state: true},
       relations: ['user', 'supplier', 'cartProducts'],
     });
     if (!obj) {

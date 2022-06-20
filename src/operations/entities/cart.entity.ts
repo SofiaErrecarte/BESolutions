@@ -34,6 +34,9 @@ export class Cart {
   @Column({ type: 'varchar', length: 50, nullable: true })
   updated_at: string;
 
+  @Column({ type: 'bool'})
+  state: boolean;
+
   @BeforeUpdate()
   public setUpdatedAt() {
     this.updated_at = new Date().toLocaleString();

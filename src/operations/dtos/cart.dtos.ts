@@ -27,6 +27,10 @@ export class CreateCartDto {
   @ApiProperty()
   readonly userId: number;
 
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly state: boolean;
+
   @IsPositive()
   @ApiProperty()
   @IsOptional()
