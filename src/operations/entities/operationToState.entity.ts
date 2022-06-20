@@ -28,9 +28,9 @@ export class OperationToState {
   @Type(() => Date)
   date: Date;
 
-  @ManyToOne(() => Operation, (operation) => operation.operationToStates)
-  @JoinColumn({ name: 'operation_id' })
-  operation: Operation;
+  // @ManyToOne(() => Operation, (operation) => operation.operationToStates)
+  // @JoinColumn({ name: 'operation_id' })
+  // operation: Operation;
 
   @ManyToOne(() => State, (state) => state.deliveriesToStates)
   @JoinColumn({ name: 'state_id' })
