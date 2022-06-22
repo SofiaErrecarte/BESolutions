@@ -93,7 +93,10 @@ export class OperationsService {
       throw new NotFoundException();
     }
     if (changes.deliveryId) {
-      const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
+      const objRel = await this.deliveryRepo.findOne({
+        where: {id : changes.deliveryId},
+        relations: ['operation','pricecities'],
+      });
       obj.delivery = objRel;
     }
     if (changes.cartId) { 
@@ -103,6 +106,9 @@ export class OperationsService {
     if (changes.stateId) {
       const objRel = await this.stateRepo.findOne(changes.stateId);
       obj.state = objRel;
+    }
+    if (changes.cartId || changes.deliveryId ) { 
+      obj.total = obj.cart.subtotal + obj.delivery.pricecities.price;
     }
     this.operationRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
     return this.operationRepo.save(obj); //impacta el cambio en la base de datos
