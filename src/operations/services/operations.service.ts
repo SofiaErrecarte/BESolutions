@@ -13,11 +13,13 @@ import { Delivery } from './../entities/delivery.entity';
 import { Cart } from './../entities/cart.entity';
 import { OperationToState } from '../entities/operationToState.entity';
 import { State } from '../entities/state.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class OperationsService {
   constructor(
     @InjectRepository(Operation) private operationRepo: Repository<Operation>,
+    @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Delivery) private deliveryRepo: Repository<Delivery>, //injectar Repository
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(State) private stateRepo: Repository<State>,
@@ -50,8 +52,24 @@ export class OperationsService {
   }
 
   async findBySupplier(supplier: number) {
-    const supplierObj = await this.operationRepo.findOne({ id: supplier });
+    const supplierObj = await this.userRepo.findOne({ id: supplier });
     const cartObj = await this.cartRepo.find({ supplier: supplierObj });
+    var objs = [];
+    for (let index = 0; index < cartObj.length; index++) {
+      const element = cartObj[index];
+      const operationsArray = await this.operationRepo.find({ 
+        where: {cart : element},
+        relations: ['delivery', 'cart','cart.user','cart.supplier','state'],
+      });
+      // console.log(x[0]);
+      objs.push(operationsArray[0]);
+    }
+    return objs;
+  }
+
+  async findByBuyer(buyer: number) {
+    const buyerObj = await this.userRepo.findOne({ id: buyer });
+    const cartObj = await this.cartRepo.find({ user: buyerObj });
     var objs = [];
     for (let index = 0; index < cartObj.length; index++) {
       const element = cartObj[index];

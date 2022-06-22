@@ -55,6 +55,13 @@ export class OperationsController {
     return this.operationService.findBySupplier(id);
   }
 
+  @Get('/buyer/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
+  getOperationsByBuyer(
+    @Param('id', ParseIntPipe) id: number) {
+    return this.operationService.findByBuyer(id);
+  }
+
   @Post()
   create(@Body() payload: CreateOperationDto) {
     return this.operationService.create(payload);
