@@ -38,9 +38,8 @@ export class CreateDeliveryDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @IsPositive()
   @ApiProperty()
-  readonly price: number;
+  readonly priceId: number;
 
   @IsNumber()
   @IsNotEmpty()

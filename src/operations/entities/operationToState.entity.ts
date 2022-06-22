@@ -32,7 +32,7 @@ export class OperationToState {
   // @JoinColumn({ name: 'operation_id' })
   // operation: Operation;
 
-  @ManyToOne(() => State, (state) => state.deliveriesToStates)
-  @JoinColumn({ name: 'state_id' })
-  state: State;
+  // @ManyToOne(() => State, (state) => state.deliveriesToStates)
+  // @JoinColumn({ name: 'state_id' })
+  // state: State;
 }

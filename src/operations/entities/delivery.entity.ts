@@ -8,10 +8,13 @@ import {
   BeforeUpdate,
   OneToMany,
   OneToOne,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { DeliveryToState } from './deliveryToState.entity';
 import { Operation } from './operation.entity';
+import { PriceCities } from './pricecities.entity';
 
 @Entity()
 export class Delivery {
@@ -34,8 +37,8 @@ export class Delivery {
   @Type(() => Date)
   estimatedDeliveryDate: Date;
 
-  @Column({ type: 'float', nullable: true })
-  price: number;
+  // @Column({ type: 'float', nullable: true })
+  // price: number;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;
@@ -53,12 +56,17 @@ export class Delivery {
     this.created_at = new Date().toLocaleString();
   }
 
-  @OneToMany(
-    () => DeliveryToState,
-    (deliveryToState) => deliveryToState.delivery,
-  )
-  deliveriesToStates: DeliveryToState[];
+  // @OneToMany(
+  //   () => DeliveryToState,
+  //   (deliveryToState) => deliveryToState.delivery,
+  // )
+  // deliveriesToStates: DeliveryToState[];
 
   @OneToOne(() => Operation, (operation) => operation.delivery) // specify inverse side as a second parameter
   operation: Operation;
+
+  @ManyToOne(() => PriceCities, (pricecities) => pricecities.deliveries)
+  @JoinColumn({ name: 'priceId' })
+  pricecities: PriceCities;
+
 }

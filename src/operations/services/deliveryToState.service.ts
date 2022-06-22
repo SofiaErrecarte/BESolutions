@@ -37,14 +37,14 @@ export class DeliveryToStateService {
 
   async create(data: CreateDeliveryToStateDto) {
     const newObj = this.delToStateRepo.create(data);
-    if (data.deliveryId) {
-      const obj = await this.deliveryRepo.findOne(data.deliveryId);
-      newObj.delivery = obj;
-    }
-    if (data.stateId) {
-      const listObj = await this.stateRepo.findOne(data.stateId);
-      newObj.state = listObj;
-    }
+    // if (data.deliveryId) {
+    //   const obj = await this.deliveryRepo.findOne(data.deliveryId);
+    //   newObj.delivery = obj;
+    // // }
+    // if (data.stateId) {
+    //   const listObj = await this.stateRepo.findOne(data.stateId);
+    //   newObj.state = listObj;
+    // }
     return this.delToStateRepo.save(newObj);
   }
 
@@ -53,14 +53,14 @@ export class DeliveryToStateService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    if (changes.deliveryId) {
-      const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
-      obj.delivery = objRel;
-    }
-    if (changes.stateId) {
-      const listObj = await this.stateRepo.findOne(changes.stateId);
-      obj.state = listObj;
-    }
+    // if (changes.deliveryId) {
+    //   const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
+    //   obj.delivery = objRel;
+    // // }
+    // if (changes.stateId) {
+    //   const listObj = await this.stateRepo.findOne(changes.stateId);
+    //   obj.state = listObj;
+    // }
     this.delToStateRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
     return this.delToStateRepo.save(obj); //impacta el cambio en la base de datos
   }

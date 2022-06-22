@@ -7,17 +7,20 @@ import { Delivery } from './../entities/delivery.entity';
 import { CreateDeliveryDto, UpdateDeliveryDto } from './../dtos/delivery.dtos';
 
 import { Operation } from './../entities/operation.entity';
+import { PriceCities } from '../entities/pricecities.entity';
 
 @Injectable()
 export class DeliveriesService {
   constructor(
     @InjectRepository(Operation) private operationRepo: Repository<Operation>,
     @InjectRepository(Delivery) private deliveryRepo: Repository<Delivery>,
+    @InjectRepository(PriceCities) private priceRepo: Repository<PriceCities>,
+
   ) {}
 
   async findOne(id: number) {
     const delivery = await this.deliveryRepo.findOne(id, {
-      relations: ['operation', 'deliveriesToStates'],
+      relations: ['operation','pricecities'],
     });
     if (!delivery) {
       throw new NotFoundException(`Delivery #${id} not found`);
@@ -27,12 +30,16 @@ export class DeliveriesService {
 
   async findAll() {
     return await this.deliveryRepo.find({
-      relations: ['operation', 'deliveriesToStates'],
+      relations: ['operation','pricecities'],
     });
   }
 
   async create(data: CreateDeliveryDto) {
     const newObj = this.deliveryRepo.create(data);
+    if (data.priceId) {
+      const obj = await this.priceRepo.findOne(data.priceId);
+      newObj.pricecities = obj;
+    }
     return this.deliveryRepo.save(newObj);
   }
 
@@ -44,6 +51,10 @@ export class DeliveriesService {
     if (changes.operationId) {
       const objRel = await this.operationRepo.findOne(changes.operationId);
       obj.operation = objRel;
+    }
+    if (changes.priceId) {
+      const objRel = await this.priceRepo.findOne(changes.priceId);
+      obj.pricecities = objRel;
     }
     this.deliveryRepo.merge(obj, changes);
     return this.deliveryRepo.save(obj);
