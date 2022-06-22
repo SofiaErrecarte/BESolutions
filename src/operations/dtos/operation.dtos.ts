@@ -43,9 +43,9 @@ export class CreateOperationDto {
   readonly comment: string;
 
   // @IsNumber()
-  @IsNotEmpty()
-  @ApiProperty()
-  total: number;
+  // @IsNotEmpty()
+  // @ApiProperty()
+  // total: number;
 
   // @IsNumber()
   @IsOptional()

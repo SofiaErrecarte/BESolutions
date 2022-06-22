@@ -28,6 +28,14 @@ export class PriceCitiesController {
     return this.pricecitiesService.findOne(id);
   }
 
+  @Get('/cp/:idO/:idD')
+  getByCp(
+    @Param('idO') idO: string,
+    @Param('idD') idD: string
+  ) {
+    return this.pricecitiesService.finByCP(idO,idD);
+  }
+
   @Post()
   create(@Body() payload: CreatePriceCitiesDto) {
     return this.pricecitiesService.create(payload);

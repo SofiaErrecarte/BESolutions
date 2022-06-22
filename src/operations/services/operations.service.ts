@@ -68,8 +68,12 @@ export class OperationsService {
   async create(data: CreateOperationDto) {
     const newObj = this.operationRepo.create(data);
     if (data.deliveryId) {
-      const obj = await this.deliveryRepo.findOne(data.deliveryId);
+      const obj = await this.deliveryRepo.findOne({
+        where: {id:data.deliveryId},
+        relations: ['operation','pricecities'],
+      });
       newObj.delivery = obj;
+      console.log(newObj.delivery);
     }
     if (data.cartId) {
       const obj = await this.cartRepo.findOne(data.cartId);
@@ -79,6 +83,7 @@ export class OperationsService {
       const obj = await this.stateRepo.findOne(data.stateId);
       newObj.state = obj;
     }
+    newObj.total = newObj.cart.subtotal + newObj.delivery.pricecities.price;
     return this.operationRepo.save(newObj);
   }
 

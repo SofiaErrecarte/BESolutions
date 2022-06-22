@@ -23,10 +23,10 @@ export class User {
   id: number;
 
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  name: string;
+  razonsocial: string;
 
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  lastname: string;
+  direccion: string;
 
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   username: string;
@@ -47,6 +47,9 @@ export class User {
 
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   estado: string;
+
+  @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  cp: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   image: string;

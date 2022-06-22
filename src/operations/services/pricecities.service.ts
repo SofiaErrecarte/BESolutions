@@ -22,6 +22,16 @@ export class PriceCitiesService {
     return obj;
   }
 
+  async finByCP(cpO: string, cpD:string) {
+    const obj = this.pricecitiesRepo.findOne({
+      where: {cp_origen:cpO,cp_destino:cpD}}
+    );
+    if (!obj) {
+      throw new NotFoundException(`Object not found`);
+    }
+    return obj;
+  }
+
   create(data: CreatePriceCitiesDto) {
     const newObj = this.pricecitiesRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     return this.pricecitiesRepo.save(newObj);

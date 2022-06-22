@@ -34,7 +34,8 @@ ALTER TABLE `cart` CHANGE `supplier_id` `supplier_id` INT(11) NULL DEFAULT NULL;
 
 
 20/06 Lola
-ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;
+ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;
+ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;
 
 17/06/22 Sofia
 ALTER TABLE `operations` ADD `state_id` INT(11) NOT NULL DEFAULT '1' AFTER `cart_id`;
@@ -48,3 +49,9 @@ ALTER TABLE `delivery` CHANGE `priceId` `priceId` INT NULL DEFAULT NULL;
 RENAME TABLE `be_solutions`.`cities` TO `be_solutions`.`priceCities`;
 ALTER TABLE `priceCities` CHANGE `price` `price` FLOAT(11) NOT NULL;
 ALTER TABLE `delivery` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+22/6
+ALTER TABLE `user` ADD `cp` VARCHAR(45) NOT NULL AFTER `birthday`;
+ALTER TABLE `user` DROP `name`;
+ALTER TABLE `user` CHANGE `lastname` `razonsocial` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `user` ADD `direccion` VARCHAR(45) NOT NULL AFTER `cuitcuil`;
