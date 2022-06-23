@@ -81,7 +81,6 @@ export class CartsService {
       where: { cart: changes.cartProductId },
       relations: ['cart', 'product'],
     });
-    console.log("Cart product:",product_cart);
     const product = await this.productRepo.find({where:{product:product_cart[0].product.id}})
      const price = await this.priceRepo.find({ where: { product: product[0].id } });
      const subtotal = price[0].precio * product_cart[0].quantity *-1;

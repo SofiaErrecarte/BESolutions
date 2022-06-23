@@ -33,9 +33,13 @@ ALTER TABLE `cart` ADD `supplier_id` INT(11) NOT NULL AFTER `user_id`;
 ALTER TABLE `cart` CHANGE `supplier_id` `supplier_id` INT(11) NULL DEFAULT NULL;
 
 
-20/06 Lola
-ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;ALTER TABLE `cart` ADD `state` BOOLEAN NOT NULL DEFAULT TRUE AFTER `updated_at`;
 17/06/22 Sofia
 ALTER TABLE `operations` ADD `state_id` INT(11) NOT NULL DEFAULT '1' AFTER `cart_id`;
 CREATE TABLE `be_solutions`.`state` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `description` TEXT NULL , `created_at` VARCHAR(50) NULL , `updated_at` VARCHAR(50) NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
+20/06 Lola
+ALTER TABLE `operations` ADD `subtotal` INT(11) NOT NULL DEFAULT '0' AFTER `updated_at`, ADD `user_id` INT(11) NOT NULL AFTER `subtotal`, ADD `supplier_id` INT(11) NOT NULL AFTER `user_id`;
+
+CREATE TABLE `be_solutions`.`operation_product` ( `id` INT(11) NOT NULL AUTO_INCREMENT ,  `operation_id` INT(11) NOT NULL ,  `product_id` INT(11) NOT NULL ,  `quantity` INT(11) NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `operations` ADD `paid` BOOLEAN NOT NULL DEFAULT FALSE AFTER `supplier_id`;

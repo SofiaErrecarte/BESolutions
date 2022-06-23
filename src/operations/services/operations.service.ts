@@ -13,6 +13,9 @@ import { Delivery } from './../entities/delivery.entity';
 import { Cart } from './../entities/cart.entity';
 import { OperationToState } from '../entities/operationToState.entity';
 import { State } from '../entities/state.entity';
+import { CartProduct } from '../entities/cartProduct.entity';
+import { OperationProduct } from '../entities/operationProduct.entity';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class OperationsService {
@@ -23,13 +26,17 @@ export class OperationsService {
     @InjectRepository(State) private stateRepo: Repository<State>,
     @InjectRepository(OperationToState)
     private opToStateRepo: Repository<OperationToState>,
+    @InjectRepository(CartProduct)
+    private cartProductRepo: Repository<CartProduct>,
+    @InjectRepository(OperationProduct)
+    private operationProductRepo: Repository<OperationProduct>,
   ) {}
 
   async findAll(params?: FilterOperationDto) {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.operationRepo.find({
-        relations: ['cart', 'delivery','cart.user','cart.supplier','state'],
+        relations: ['cart', 'delivery','cart.user','cart.supplier','state', 'operationProducts'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
@@ -41,7 +48,7 @@ export class OperationsService {
 
   async findOne(id: number) {
     const operation = await this.operationRepo.findOne(id, {
-      relations: ['delivery', 'cart','cart.user','cart.supplier','state'],
+      relations: ['delivery', 'cart','cart.user','cart.supplier','state', 'operationProducts'],
     });
     if (!operation) {
       throw new NotFoundException(`Operation #${id} not found`);
@@ -71,14 +78,17 @@ export class OperationsService {
       const obj = await this.deliveryRepo.findOne(data.deliveryId);
       newObj.delivery = obj;
     }
-    if (data.cartId) {
-      const obj = await this.cartRepo.findOne(data.cartId);
-      newObj.cart = obj;
-    }
     if (data.stateId) {
       const obj = await this.stateRepo.findOne(data.stateId);
       newObj.state = obj;
     }
+    
+    if (data.cartId) {
+      const obj = await this.cartRepo.findOne(data.cartId, { relations: ['user','cartProducts','supplier']});
+      newObj.supplier=obj.supplier;
+      newObj.user=obj.user;
+      newObj.cart = obj;
+    }    
     return this.operationRepo.save(newObj);
   }
 

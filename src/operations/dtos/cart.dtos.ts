@@ -13,7 +13,6 @@ import { PartialType, ApiProperty } from '@nestjs/swagger';
 export class CreateCartDto {
   @IsNumber()
   @IsNotEmpty()
-  @IsPositive()
   @ApiProperty()
   subtotal: number;
 

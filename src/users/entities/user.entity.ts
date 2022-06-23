@@ -80,4 +80,10 @@ export class User {
 
   @OneToOne(() => Cart, (cart_supplier) => cart_supplier.supplier) // specify inverse side as a second parameter
   cart_supplier: Cart;
+
+  @OneToMany(() => Operation, (operation) => operation.user)
+  operation_user: Operation;
+
+  @OneToMany(() => Operation, (operation)=> operation.supplier)
+  operation_supplier: Operation;
 }

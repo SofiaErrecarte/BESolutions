@@ -19,6 +19,8 @@ import { Delivery } from './delivery.entity';
 import { State } from './state.entity';
 import { Cart } from './cart.entity';
 import { OperationToState } from 'src/operations/entities/operationToState.entity';
+import { OperationProduct } from './operationProduct.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity('operations')
 export class Operation {
@@ -44,6 +46,9 @@ export class Operation {
   @Column({ type: 'varchar', length: 50, nullable: true })
   updated_at: string;
 
+  @Column({ type: 'bool'})
+  paid: boolean;
+
   @BeforeUpdate()
   public setUpdatedAt() {
     this.updated_at = new Date().toLocaleString();
@@ -54,11 +59,6 @@ export class Operation {
     this.created_at = new Date().toLocaleString();
   }
 
-  // @OneToMany(
-  //   () => OperationToState,
-  //   (operationToState) => operationToState.operation,
-  // )
-  // operationToStates: OperationToState;
 
   @OneToOne(() => Delivery)
   @JoinColumn({ name: 'delivery_id' })
@@ -68,7 +68,18 @@ export class Operation {
   @JoinColumn({ name: 'cart_id' })
   cart: Cart;
 
+  @OneToMany(() => OperationProduct, (operationProduct) => operationProduct.operation)
+  operationProducts: OperationProduct[];
+
   @ManyToOne(() => State, (state) => state.operations)
   @JoinColumn({ name: 'state_id' })
   state: State;
+
+  @ManyToOne(() => User, (user) => user.operation_user)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => User, (supplier) => supplier.operation_supplier)
+  @JoinColumn({ name: 'supplier_id' })
+  supplier: User;
 }
