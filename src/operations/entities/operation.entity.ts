@@ -40,6 +40,9 @@ export class Operation {
   @Column({ type: 'int' })
   total: number;
 
+  @Column({ type: 'int' })
+  subtotal: number;
+
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;
 
@@ -64,9 +67,9 @@ export class Operation {
   @JoinColumn({ name: 'delivery_id' })
   delivery: Delivery;
 
-  @OneToOne(() => Cart)
-  @JoinColumn({ name: 'cart_id' })
-  cart: Cart;
+  // @OneToOne(() => Cart)
+  // @JoinColumn({ name: 'cart_id' })
+  // cart: Cart;
 
   @OneToMany(() => OperationProduct, (operationProduct) => operationProduct.operation)
   operationProducts: OperationProduct[];
