@@ -44,7 +44,7 @@ export class OperationsService {
       });
     }
     return await this.operationRepo.find({
-      relations: [ 'delivery','user','supplier','state'], // para que cuando devuelva los objetos los devuelva con la relacion
+      relations: [ 'delivery','user','supplier','state', 'operationProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
     });
   }
 
@@ -55,7 +55,15 @@ export class OperationsService {
     if (!operation) {
       throw new NotFoundException(`Operation #${id} not found`);
     }
-    return operation;
+    var objs = new OperationProduct();
+    // console.log(operationObj.);
+
+    const operationsProducts = await this.operationProductRepo.find({ 
+      where: {operation : operation},
+      relations: ['product'],
+    });
+    console.log(operationsProducts);
+    return {operation,operationsProducts};
   }
 
   async findBySupplier(supplier: number) {
@@ -76,19 +84,24 @@ export class OperationsService {
 
   async findByBuyer(buyer: number) {
     const buyerObj = await this.userRepo.findOne({ id: buyer });
-    const operationObj = await this.operationRepo.find({ user: buyerObj });
+    const operationObj = await this.operationRepo.find({ 
+      where:{user: buyerObj},
+      relations: ['delivery','user','supplier','state','operationProducts'],
+    });
     // const cartObj = await this.cartRepo.find({ user: buyerObj });
-    // var objs = [];
-    // for (let index = 0; index < cartObj.length; index++) {
-    //   const element = cartObj[index];
-    //   const operationsArray = await this.operationRepo.find({ 
-    //     where: {cart : element},
-    //     relations: ['delivery', 'cart','cart.user','cart.supplier','state'],
-    //   });
-    //   // console.log(x[0]);
-    //   objs.push(operationsArray[0]);
-    // }
-    return operationObj;
+    var objs = new OperationProduct();
+    // console.log(operationObj.);
+    for (let index = 0; index < operationObj.length; index++) {
+      const element = operationObj[index];
+      const operationsProdArray = await this.operationProductRepo.find({ 
+        where: {operation : element},
+        relations: ['product'],
+      });
+      console.log(operationsProdArray);
+      objs[0]=operationsProdArray;
+    }
+    const operationsProducts = objs[0];
+    return {operationObj,operationsProducts};
   }
 
   async create(data: CreateOperationDto) {
