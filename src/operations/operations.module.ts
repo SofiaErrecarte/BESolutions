@@ -31,6 +31,9 @@ import { OperationToStateController } from './controllers/operationToState.contr
 import { DeliveryToStateService } from './services/deliveryToState.service';
 import { OperationToStateService } from './services/operationToState.service';
 import { UsersService } from 'src/users/services/users.service';
+import { PriceCities } from './entities/pricecities.entity';
+import { PriceCitiesController } from './controllers/pricecities.controller';
+import { PriceCitiesService } from './services/pricecities.service';
 
 @Module({
   imports: [
@@ -44,7 +47,8 @@ import { UsersService } from 'src/users/services/users.service';
       OperationToState,
       User,
       CartProduct,
-      OperationProduct
+      OperationProduct,
+      PriceCities,
     ]),
   ],
   controllers: [
@@ -56,7 +60,8 @@ import { UsersService } from 'src/users/services/users.service';
     OperationToStateController,
     UsersController,
     CartProductsController,
-    OperationProductsController
+    OperationProductsController,
+    PriceCitiesController,
   ],
   providers: [
     OperationsService,
@@ -67,7 +72,8 @@ import { UsersService } from 'src/users/services/users.service';
     OperationToStateService,
     UsersService,
     CartProductsService,
-    OperationProductsService
+    OperationProductsService,
+    PriceCitiesService,
   ],
   exports: [TypeOrmModule],
 })

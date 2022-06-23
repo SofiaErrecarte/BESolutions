@@ -16,11 +16,13 @@ import { State } from '../entities/state.entity';
 import { CartProduct } from '../entities/cartProduct.entity';
 import { OperationProduct } from '../entities/operationProduct.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class OperationsService {
   constructor(
     @InjectRepository(Operation) private operationRepo: Repository<Operation>,
+    @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Delivery) private deliveryRepo: Repository<Delivery>, //injectar Repository
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(State) private stateRepo: Repository<State>,
@@ -57,8 +59,24 @@ export class OperationsService {
   }
 
   async findBySupplier(supplier: number) {
-    const supplierObj = await this.operationRepo.findOne({ id: supplier });
+    const supplierObj = await this.userRepo.findOne({ id: supplier });
     const cartObj = await this.cartRepo.find({ supplier: supplierObj });
+    var objs = [];
+    for (let index = 0; index < cartObj.length; index++) {
+      const element = cartObj[index];
+      const operationsArray = await this.operationRepo.find({ 
+        where: {cart : element},
+        relations: ['delivery', 'cart','cart.user','cart.supplier','state'],
+      });
+      // console.log(x[0]);
+      objs.push(operationsArray[0]);
+    }
+    return objs;
+  }
+
+  async findByBuyer(buyer: number) {
+    const buyerObj = await this.userRepo.findOne({ id: buyer });
+    const cartObj = await this.cartRepo.find({ user: buyerObj });
     var objs = [];
     for (let index = 0; index < cartObj.length; index++) {
       const element = cartObj[index];
@@ -75,8 +93,12 @@ export class OperationsService {
   async create(data: CreateOperationDto) {
     const newObj = this.operationRepo.create(data);
     if (data.deliveryId) {
-      const obj = await this.deliveryRepo.findOne(data.deliveryId);
+      const obj = await this.deliveryRepo.findOne({
+        where: {id:data.deliveryId},
+        relations: ['operation','pricecities'],
+      });
       newObj.delivery = obj;
+      console.log(newObj.delivery);
     }
     if (data.stateId) {
       const obj = await this.stateRepo.findOne(data.stateId);
@@ -89,6 +111,7 @@ export class OperationsService {
       newObj.user=obj.user;
       newObj.cart = obj;
     }    
+    newObj.total = newObj.cart.subtotal + newObj.delivery.pricecities.price;
     return this.operationRepo.save(newObj);
   }
 
@@ -98,7 +121,10 @@ export class OperationsService {
       throw new NotFoundException();
     }
     if (changes.deliveryId) {
-      const objRel = await this.deliveryRepo.findOne(changes.deliveryId);
+      const objRel = await this.deliveryRepo.findOne({
+        where: {id : changes.deliveryId},
+        relations: ['operation','pricecities'],
+      });
       obj.delivery = objRel;
     }
     if (changes.cartId) { 
@@ -108,6 +134,9 @@ export class OperationsService {
     if (changes.stateId) {
       const objRel = await this.stateRepo.findOne(changes.stateId);
       obj.state = objRel;
+    }
+    if (changes.cartId || changes.deliveryId ) { 
+      obj.total = obj.cart.subtotal + obj.delivery.pricecities.price;
     }
     this.operationRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
     return this.operationRepo.save(obj); //impacta el cambio en la base de datos

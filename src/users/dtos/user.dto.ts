@@ -40,11 +40,15 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @ApiProperty()
-  name: string;
+  cp: string;
 
   @IsNotEmpty()
   @ApiProperty()
-  lastname: string;
+  razonsocial: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  direccion: string;
 
   @IsOptional()
   @ApiProperty()

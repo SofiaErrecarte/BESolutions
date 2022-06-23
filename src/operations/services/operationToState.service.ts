@@ -40,10 +40,10 @@ export class OperationToStateService {
     //   const obj = await this.operationRepo.findOne(data.operationId);
     //   newObj.operation = obj;
     // }
-    if (data.stateId) {
-      const listObj = await this.stateRepo.findOne(data.stateId);
-      newObj.state = listObj;
-    }
+    // if (data.stateId) {
+    //   const listObj = await this.stateRepo.findOne(data.stateId);
+    //   newObj.state = listObj;
+    // }
     return this.opToStateRepo.save(newObj);
   }
 
@@ -56,10 +56,10 @@ export class OperationToStateService {
     //   const objRel = await this.operationRepo.findOne(changes.operationId);
     //   obj.operation = objRel;
     // }
-    if (changes.stateId) {
-      const listObj = await this.stateRepo.findOne(changes.stateId);
-      obj.state = listObj;
-    }
+    // if (changes.stateId) {
+    //   const listObj = await this.stateRepo.findOne(changes.stateId);
+    //   obj.state = listObj;
+    // }
     this.opToStateRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
     return this.opToStateRepo.save(obj); //impacta el cambio en la base de datos
   }
