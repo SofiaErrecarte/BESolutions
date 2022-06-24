@@ -68,7 +68,10 @@ export class OperationsService {
 
   async findBySupplier(supplier: number) {
     const supplierObj = await this.userRepo.findOne({ id: supplier });
-    const operationObj = await this.operationRepo.find({ supplier: supplierObj });
+    const operationObj = await this.operationRepo.find({
+      where:{supplier: supplierObj},
+      relations: ['delivery','user','supplier','state','operationProducts'],
+     });
     // var objs = [];
     // for (let index = 0; index < operationObj.length; index++) {
     //   const element = operationObj[index];
