@@ -65,3 +65,6 @@ ALTER TABLE `operations` ADD `paid` BOOLEAN NOT NULL DEFAULT FALSE AFTER `suppli
 
 ALTER TABLE `operations`
   DROP `cart_id`;
+
+23/19
+ALTER TABLE `products` ADD `state` VARCHAR(45) NOT NULL DEFAULT 'PENDIENTE' AFTER `image`;

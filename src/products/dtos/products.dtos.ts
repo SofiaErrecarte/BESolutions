@@ -73,6 +73,11 @@ export class UpdateProductDto  {
   @ApiProperty()
   user_id: number;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
+  state: string;
+
   @IsArray() //sea un array
   @IsOptional() //no este vacio
   @ApiProperty() //se mapee en la documentacion
