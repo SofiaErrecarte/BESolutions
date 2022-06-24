@@ -68,3 +68,6 @@ ALTER TABLE `operations`
 
 23/19
 ALTER TABLE `products` ADD `state` VARCHAR(45) NOT NULL DEFAULT 'PENDIENTE' AFTER `image`;
+
+24/06
+ALTER TABLE `prices` CHANGE `id_product` `id_product` INT(11) NOT NULL DEFAULT '0';

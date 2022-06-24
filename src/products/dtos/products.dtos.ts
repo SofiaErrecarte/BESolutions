@@ -26,6 +26,10 @@ export class CreateProductDto {
   @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
   readonly description: string;
 
+  @IsOptional()
+  @ApiProperty()
+  price: number;
+
   // @IsNumber()
   @IsOptional()
   @ApiProperty()
@@ -72,6 +76,10 @@ export class UpdateProductDto  {
   @IsOptional()
   @ApiProperty()
   user_id: number;
+
+  @IsOptional()
+  @ApiProperty()
+  price: number;
 
   @IsString()
   @IsOptional()

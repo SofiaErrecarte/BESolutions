@@ -22,11 +22,10 @@ export class CreatePriceDto {
   @ApiProperty()
   readonly precio: number;
 
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  @Type(() => Date)
-  readonly fecha: Date;
+  readonly fecha: string;
 
   @IsNumber()
   @IsNotEmpty()

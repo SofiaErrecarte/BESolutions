@@ -46,6 +46,7 @@ export class PricesService {
     const product = await this.productRepo.findOne({ id: idProduct });
     const price = await this.repoPrice.findOne({ 
         where: {product : product},
+        order: {fecha: "DESC"}
     });
     return price;
   }

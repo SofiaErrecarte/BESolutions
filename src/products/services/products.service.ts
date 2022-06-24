@@ -16,6 +16,7 @@ import { Category } from './../entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Cart } from 'src/operations/entities/cart.entity';
 import { CartProduct } from 'src/operations/entities/cartProduct.entity';
+import { Price } from '../entities/prices.entity';
 @Injectable()
 export class ProductsService {
   constructor(
@@ -23,6 +24,7 @@ export class ProductsService {
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
+    @InjectRepository(Price) private priceRepo: Repository<Price>,
     @InjectRepository(CartProduct) private cartProductRepo: Repository<CartProduct>,
   ) {}
 
@@ -60,35 +62,49 @@ export class ProductsService {
       relations: ['categories', 'prices', 'user', 'cartProducts'], //cuando se busque un producto retornara con los objetos relacionados
     });
     if (!product) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`Product #${id} not found`); 
     }
     return product;
-  }
+  } 
 
   async create(data: CreateProductDto) {
     const newObj = this.productRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     if (data.categoriesIds) {
       const listObj = await this.categoryRepo.findByIds(data.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
       newObj.categories = listObj;
-    }
+    } 
     if (data.user_id) {
       const obj = await this.userRepo.findOne(data.user_id);
       newObj.user = obj;
     }
-    return this.productRepo.save(newObj);
+    this.productRepo.save(newObj); 
+    const priceObj = new Price() //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
+    priceObj.precio = data.price;
+    priceObj.product = newObj;
+    priceObj.fecha = new Date().toLocaleDateString();
+    this.priceRepo.save(priceObj);
+    return {newObj,priceObj};
   }
 
   async update(id: number, changes: UpdateProductDto) {
     const obj = await this.productRepo.findOne(id);
     if (!(await this.findOne(id))) {
-      throw new NotFoundException();
+      throw new NotFoundException(); 
     }
     if (changes.categoriesIds) {
       const listObj = await this.categoryRepo.findByIds(changes.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
       obj.categories = listObj;
     }
     this.productRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    return this.productRepo.save(obj); //impacta el cambio en la base de datos
+    this.productRepo.save(obj); //impacta el cambio en la base de datos
+    if(changes.price){
+      const priceObj = new Price()
+      priceObj.precio = changes.price;
+      priceObj.product = obj;
+      priceObj.fecha = new Date().toLocaleDateString();
+      this.priceRepo.save(priceObj);
+    }
+    return obj;
   }
 
   async updateStock(id: number, newStock: number) {

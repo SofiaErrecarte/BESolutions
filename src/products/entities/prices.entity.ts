@@ -22,9 +22,8 @@ export class Price {
   @Column({ type: 'int'}) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   precio: number;
 
-  @Column({ type: 'text'})
-  @Type(() => Date)
-  fecha: Date;
+  @Column({ type: 'varchar'})
+  fecha: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;
