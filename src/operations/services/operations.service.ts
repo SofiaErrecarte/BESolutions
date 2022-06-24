@@ -97,7 +97,7 @@ export class OperationsService {
         where: {operation : element},
         relations: ['product'],
       });
-      console.log(operationsProdArray);
+      // console.log(operationsProdArray);
       objs[0]=operationsProdArray;
     }
     const operationsProducts = objs[0];
