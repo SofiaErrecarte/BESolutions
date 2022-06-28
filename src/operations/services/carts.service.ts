@@ -29,7 +29,7 @@ export class CartsService {
 
   async findOne(id: number) {
     const cart = await this.cartRepo.findOne(id, {
-      relations: ['user', 'operation','cartProducts','supplier'],
+      relations: ['user','cartProducts','supplier'],
     });
     if (!cart) {
       throw new NotFoundException(`Cart #${id} not found`);
@@ -52,13 +52,13 @@ export class CartsService {
     if (params) {
       const { limit, offset } = params;
       return await this.cartRepo.find({
-        relations: ['user', 'operation','cartProducts','supplier'],
+        relations: ['user', 'cartProducts','supplier'],
         take: limit,
         skip: offset,
       });
     }
     return await this.cartRepo.find({
-      relations: ['user', 'operation','cartProducts','supplier'],
+      relations: ['user', 'cartProducts','supplier'],
     });
   }
 

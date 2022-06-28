@@ -17,6 +17,7 @@ import { CartProduct } from '../entities/cartProduct.entity';
 import { OperationProduct } from '../entities/operationProduct.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/user.entity';
+import { PriceCities } from '../entities/pricecities.entity';
 
 @Injectable()
 export class OperationsService {
@@ -32,6 +33,8 @@ export class OperationsService {
     private cartProductRepo: Repository<CartProduct>,
     @InjectRepository(OperationProduct)
     private operationProductRepo: Repository<OperationProduct>,
+    @InjectRepository(PriceCities)
+    private priceCitiesRepo: Repository<PriceCities>,
   ) {}
 
   async findAll(params?: FilterOperationDto) {
@@ -109,26 +112,28 @@ export class OperationsService {
 
   async create(data: CreateOperationDto) {
     const newObj = this.operationRepo.create(data);
-    if (data.deliveryId) {
-      const obj = await this.deliveryRepo.findOne({
-        where: {id:data.deliveryId},
-        relations: ['operation','pricecities'],
-      });
-      newObj.delivery = obj;
-      console.log(newObj.delivery);
-    }
     if (data.stateId) {
       const obj = await this.stateRepo.findOne(data.stateId);
       newObj.state = obj;
     }
     
-    if (data.cartId) {
-      const obj = await this.cartRepo.findOne(data.cartId, { relations: ['user','cartProducts','supplier']});
-      newObj.supplier=obj.supplier;
-      newObj.user=obj.user;
-      newObj.subtotal = obj.subtotal;
-    }    
-    newObj.total = newObj.subtotal + newObj.delivery.pricecities.price;
+
+    const obj = await this.cartRepo.findOne(data.cartId, { relations: ['user','cartProducts','supplier']});
+    newObj.supplier=obj.supplier;
+    newObj.user=obj.user;
+    newObj.subtotal = obj.subtotal;
+    
+    
+    const priceCity = await this.priceCitiesRepo.findOne({where:{cp_origen:obj.user.cp, cp_destino:obj.supplier.cp}});
+    // const body = {
+    //   priceId: priceCity.id
+    // };
+    // const delivery = this.deliveryRepo.create(priceCity.id);
+    // this.deliveryRepo.save(delivery);
+    // console.log(delivery);
+
+    newObj.total = newObj.subtotal + priceCity.price; 
+    //newObj.total = newObj.subtotal + newObj.delivery.pricecities.price;
     return this.operationRepo.save(newObj);
   }
 

@@ -32,6 +32,10 @@ export class DeliveryController {
   create(@Body() payload: CreateDeliveryDto) {
     return this.deliveriesService.create(payload);
   }
+  // @Post()
+  // create(@Body() priceCityId: number) {
+  //   return this.deliveriesService.create(priceCityId);
+  // }
 
   @Put(':id')
   update(

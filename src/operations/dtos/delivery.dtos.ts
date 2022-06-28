@@ -13,20 +13,24 @@ import { Type } from 'class-transformer';
 
 export class CreateDeliveryDto {
   @IsString()
-  @IsNotEmpty()
+  //@IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ description: `delivery's code` })
   readonly code: string;
 
   @IsString()
-  @IsNotEmpty()
+  //@IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly shipper: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty()
   readonly shipperCellphone: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty()
   readonly shipperAddress: string;
 
@@ -36,20 +40,21 @@ export class CreateDeliveryDto {
   @Type(() => Date)
   readonly estimatedDeliveryDate: Date;
 
-  @IsNumber()
+  //@IsNumber()
   @IsNotEmpty()
   @ApiProperty()
   readonly priceId: number;
 
   @IsNumber()
-  @IsNotEmpty()
+  //@IsNotEmpty()
   @ApiProperty()
+  @IsOptional()
   readonly operationId: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly deliveryToStateId: number;
+//   @IsNumber()
+// //@IsNotEmpty()
+//   @ApiProperty()
+//   readonly deliveryToStateId: number;
 }
 
 export class UpdateDeliveryDto extends PartialType(CreateDeliveryDto) {}

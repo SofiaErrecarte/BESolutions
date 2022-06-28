@@ -69,7 +69,7 @@ export class CartProductsService {
     const product = await this.productRepo.findOne(data.productId, {relations:['user']});
     const cart = await this.cartRepo.find({ 
       where: { user: data.userId },
-      relations: ['user', 'operation','cartProducts', 'supplier', 'cartProducts.product'],
+      relations: ['user','cartProducts', 'supplier', 'cartProducts.product'],
     });
     
     // ADD SUPPLIER
@@ -115,7 +115,7 @@ export class CartProductsService {
       throw new NotFoundException();
     }
     const product = await this.productRepo.findOne(obj.product.id, {relations:['user', 'prices']});
-    const cart = await this.cartRepo.findOne(obj.cart.id, {relations: ['user', 'operation','cartProducts', 'supplier', 'cartProducts.product'],
+    const cart = await this.cartRepo.findOne(obj.cart.id, {relations: ['user', 'cartProducts', 'supplier', 'cartProducts.product'],
     });
 
     const price = product.prices[0].precio;

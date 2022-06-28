@@ -36,7 +36,7 @@ export class OperationProductsService {
     return cartProduct;
   }
 
-  async findAllProducts(id: number) {
+  async findAllProducts(id: number) { // HAY QUE VER ESTO DEL PAID PARA REEMPLAZAR POR ESTADO
     const operation = await this.operationRepo.findOne({ where: { user: id, paid: false} });
     const obj = await this.operationProductRepo.find({
       where: { operation: operation.id },

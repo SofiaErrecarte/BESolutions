@@ -37,9 +37,6 @@ export class Delivery {
   @Type(() => Date)
   estimatedDeliveryDate: Date;
 
-  // @Column({ type: 'float', nullable: true })
-  // price: number;
-
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;
 

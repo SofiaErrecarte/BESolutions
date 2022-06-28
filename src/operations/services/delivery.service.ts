@@ -43,6 +43,14 @@ export class DeliveriesService {
     return this.deliveryRepo.save(newObj);
   }
 
+  // async create(priceCityId:number) {
+  //   const newObj = this.deliveryRepo.create();
+  //   const obj = await this.priceRepo.findOne(priceCityId);
+  //   newObj.pricecities = obj;
+    
+  //   return this.deliveryRepo.save(newObj);
+  // }
+
   async update(id: number, changes: UpdateDeliveryDto) {
     const obj = await this.deliveryRepo.findOne(id);
     if (!(await this.findOne(id))) {
