@@ -60,7 +60,6 @@ export class OperationsService {
       throw new NotFoundException(`Operation #${id} not found`);
     }
     var objs = new OperationProduct();
-    // console.log(operationObj.);
 
     const operationsProducts = await this.operationProductRepo.find({ 
       where: {operation : operation},
@@ -95,16 +94,13 @@ export class OperationsService {
       where:{user: buyerObj},
       relations: ['delivery','user','supplier','state','operationProducts'],
     });
-    // const cartObj = await this.cartRepo.find({ user: buyerObj });
     var objs = new OperationProduct();
-    // console.log(operationObj.);
     for (let index = 0; index < operationObj.length; index++) {
       const element = operationObj[index];
       const operationsProdArray = await this.operationProductRepo.find({ 
         where: {operation : element},
         relations: ['product'],
       });
-      // console.log(operationsProdArray);
       objs[0]=operationsProdArray;
     }
     const operationsProducts = objs[0];
@@ -126,15 +122,14 @@ export class OperationsService {
     const priceCity = await this.priceCitiesRepo.findOne({
       where:{cp_origen:obj.user.cp, cp_destino:obj.supplier.cp}
     });
-    // const body = {
-    //   priceId: priceCity.id
-    // };
     const deliveryObj = new Delivery();
     deliveryObj.pricecities = priceCity;
-    deliveryObj.code = data.code;
+    // deliveryObj.code = data.code; // ver de sacarlo porque no tendríamos el código del envío
     const delivery = this.deliveryRepo.create(deliveryObj);
     this.deliveryRepo.save(delivery);
     // console.log(delivery);
+
+    newObj.delivery=delivery;
 
     newObj.total = newObj.subtotal + priceCity.price; 
     //newObj.total = newObj.subtotal + newObj.delivery.pricecities.price;
@@ -153,24 +148,15 @@ export class OperationsService {
       });
       obj.delivery = objRel;
     }
-    // if (changes.cartId) { 
-    //   const objRel = await this.cartRepo.findOne(changes.cartId);
-    //   obj.cart = objRel;
-    // }
     if (changes.stateId) {
       const objRel = await this.stateRepo.findOne(changes.stateId);
       obj.state = objRel;
     }
-    // if (changes.cartId || changes.deliveryId ) { 
-    //   obj.total = obj.cart.subtotal + obj.delivery.pricecities.price;
-    // }
-
     if (changes.deliveryId ) { 
       obj.total = obj.delivery.pricecities.price;
     }
-
-    this.operationRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    return this.operationRepo.save(obj); //impacta el cambio en la base de datos
+    this.operationRepo.merge(obj, changes); 
+    return this.operationRepo.save(obj); 
   }
 
   async remove(id: number) {
