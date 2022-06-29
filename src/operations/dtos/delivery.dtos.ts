@@ -18,21 +18,21 @@ export class CreateDeliveryDto {
   @ApiProperty({ description: `delivery's code` })
   readonly code: string;
 
-  @IsString()
-  //@IsNotEmpty()
-  @IsOptional()
-  @ApiProperty()
-  readonly shipper: string;
+  // @IsString()
+  // //@IsNotEmpty()
+  // @IsOptional()
+  // @ApiProperty()
+  // readonly shipper: string;
 
-  @IsString()
-  @IsOptional()
-  @ApiProperty()
-  readonly shipperCellphone: string;
+  // @IsString()
+  // @IsOptional()
+  // @ApiProperty()
+  // readonly shipperCellphone: string;
 
-  @IsString()
-  @IsOptional()
-  @ApiProperty()
-  readonly shipperAddress: string;
+  // @IsString()
+  // @IsOptional()
+  // @ApiProperty()
+  // readonly shipperAddress: string;
 
   @IsDate()
   @IsOptional()

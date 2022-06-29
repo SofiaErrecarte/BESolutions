@@ -82,3 +82,11 @@ ALTER TABLE `delivery` CHANGE `shipper` `shipper` VARCHAR(45) CHARACTER SET lati
 ALTER TABLE `delivery` CHANGE `created_at` `created_at` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 
 ALTER TABLE `delivery` CHANGE `updated_at` `updated_at` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+28/06 Sofia
+ALTER TABLE `priceCities` ADD `shipper` VARCHAR(45) NULL AFTER `price`, ADD `shipperCellphone` VARCHAR(45) NULL AFTER `shipper`, ADD `shipperAddress` VARCHAR(45) NULL AFTER `shipperCellphone`;
+ALTER TABLE `delivery`
+  DROP `shipper`,
+  DROP `shipperCellphone`,
+  DROP `shipperAddress`;
+ALTER TABLE `user` DROP `birthday`;

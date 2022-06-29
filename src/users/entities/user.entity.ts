@@ -41,9 +41,9 @@ export class User {
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   role: string;
 
-  @Column({ type: 'date', nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
-  @Type(() => Date)
-  birthday: Date;
+  // @Column({ type: 'date', nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  // @Type(() => Date)
+  // birthday: Date;
 
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   estado: string;

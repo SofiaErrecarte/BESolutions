@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class CreatePriceCitiesDto {
@@ -27,6 +27,22 @@ export class CreatePriceCitiesDto {
   @IsNotEmpty()
   @ApiProperty()  
   price: number;
+
+  @IsString()
+  //@IsNotEmpty()
+  @IsOptional()
+  @ApiProperty()
+  readonly shipper: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  readonly shipperCellphone: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  readonly shipperAddress: string;
 }
 
 export class UpdatePriceCitiesDto extends PartialType(CreatePriceCitiesDto) {}

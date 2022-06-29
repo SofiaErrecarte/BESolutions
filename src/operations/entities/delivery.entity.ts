@@ -24,14 +24,14 @@ export class Delivery {
   @Column({ type: 'varchar', length: 50 })
   code: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  shipper: string;
+  // @Column({ type: 'varchar', length: 255 })
+  // shipper: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  shipperCellphone: string;
+  // @Column({ type: 'varchar', length: 50, nullable: true })
+  // shipperCellphone: string;
 
-  @Column({ type: 'text', nullable: true })
-  shipperAddress: string;
+  // @Column({ type: 'text', nullable: true })
+  // shipperAddress: string;
 
   @Column({ type: 'text', nullable: true })
   @Type(() => Date)

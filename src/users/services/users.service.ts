@@ -93,6 +93,10 @@ export class UsersService {
       );
     }
     const newObj = this.userRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
+    let image = data.image;
+    let buff = Buffer.from(image);
+    newObj.image = buff.toString('base64');
+    console.log(newObj.image);    
     const hashPassword = await bcrypt.hash(newObj.password, 10); // creo el hash del pass
     newObj.password = hashPassword; // cambio la pass del usuario por su hash
     //console.log(newObj);

@@ -54,11 +54,11 @@ export class CreateUserDto {
   @ApiProperty()
   estado: string;
 
-  @IsDate()
-  @IsOptional()
-  @Type(() => Date)
-  @ApiProperty()
-  birthday: Date;
+  // @IsDate()
+  // @IsOptional()
+  // @Type(() => Date)
+  // @ApiProperty()
+  // birthday: Date;
 
   @IsNotEmpty()
   @ApiProperty()

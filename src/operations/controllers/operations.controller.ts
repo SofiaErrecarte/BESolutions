@@ -67,6 +67,12 @@ export class OperationsController {
     return this.operationService.create(payload);
   }
 
+  @Public()
+  @Post('/mercadopago')
+  mercadoPago() {
+    return this.operationService.mercadopago();
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

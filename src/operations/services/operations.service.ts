@@ -18,6 +18,7 @@ import { OperationProduct } from '../entities/operationProduct.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/user.entity';
 import { PriceCities } from '../entities/pricecities.entity';
+var mercadopago = require('mercadopago');
 
 @Injectable()
 export class OperationsService {
@@ -117,19 +118,22 @@ export class OperationsService {
       newObj.state = obj;
     }
     
-
     const obj = await this.cartRepo.findOne(data.cartId, { relations: ['user','cartProducts','supplier']});
     newObj.supplier=obj.supplier;
     newObj.user=obj.user;
     newObj.subtotal = obj.subtotal;
     
-    
-    const priceCity = await this.priceCitiesRepo.findOne({where:{cp_origen:obj.user.cp, cp_destino:obj.supplier.cp}});
+    const priceCity = await this.priceCitiesRepo.findOne({
+      where:{cp_origen:obj.user.cp, cp_destino:obj.supplier.cp}
+    });
     // const body = {
     //   priceId: priceCity.id
     // };
-    // const delivery = this.deliveryRepo.create(priceCity.id);
-    // this.deliveryRepo.save(delivery);
+    const deliveryObj = new Delivery();
+    deliveryObj.pricecities = priceCity;
+    deliveryObj.code = data.code;
+    const delivery = this.deliveryRepo.create(deliveryObj);
+    this.deliveryRepo.save(delivery);
     // console.log(delivery);
 
     newObj.total = newObj.subtotal + priceCity.price; 
@@ -176,4 +180,38 @@ export class OperationsService {
     }
     return this.operationRepo.delete(id); //elimina el registro con el id correspondiente
   }
+
+  async mercadopago(){
+    mercadopago.configure({
+        access_token: 'TEST-8326206947574076-011923-956dcabba44e289adb8c8b390292026c-185272120'
+    });
+    
+    var preference = {
+      items: [
+        {
+          title: 'Test',
+          quantity: 1,
+          currency_id: 'ARS',
+          unit_price: 10.5
+        }
+      ],
+      back_urls: {
+        'success': 'http://localhost:3001/products',
+        'pending': 'http://localhost:3001/products',
+        'failure': 'http://localhost:3001/products'
+      },
+      auto_return: 'approved',
+    };
+    
+    return mercadopago.preferences.create(preference)
+    .then(function(response){
+      // This value replaces the String "<%= global.id %>" in your HTML
+        // global.id = response.body.id;
+        return {'preferenceId':response.body.id}
+      }).catch(function(error){
+        console.log(error);
+      });
+  }
+
+
 }
