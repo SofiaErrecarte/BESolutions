@@ -51,6 +51,12 @@ export class User {
   @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   cp: string;
 
+  @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  ciudad: string;
+
+  @Column({ type: 'varchar', length: 255 }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
+  provincia: string;
+
   @Column({ type: 'varchar', length: 255, nullable: true }) //ASIGNA TIPO VARCHAR CON 255 CARACTERES
   image: string;
 

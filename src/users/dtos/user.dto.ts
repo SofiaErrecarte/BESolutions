@@ -34,13 +34,21 @@ export class CreateUserDto {
   @ApiProperty()
   cuitcuil: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   role: string;
 
   @IsNotEmpty()
   @ApiProperty()
   cp: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  ciudad: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  provincia: string;
 
   @IsNotEmpty()
   @ApiProperty()
@@ -60,7 +68,7 @@ export class CreateUserDto {
   // @ApiProperty()
   // birthday: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   image: string;
 }

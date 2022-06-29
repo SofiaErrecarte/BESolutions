@@ -90,3 +90,6 @@ ALTER TABLE `delivery`
   DROP `shipperCellphone`,
   DROP `shipperAddress`;
 ALTER TABLE `user` DROP `birthday`;
+
+29/6
+ALTER TABLE `user` ADD `ciudad` VARCHAR(45) NOT NULL AFTER `direccion`, ADD `provincia` VARCHAR(45) NOT NULL AFTER `ciudad`;
