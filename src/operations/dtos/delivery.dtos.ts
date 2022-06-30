@@ -34,11 +34,11 @@ export class CreateDeliveryDto {
   // @ApiProperty()
   // readonly shipperAddress: string;
 
-  @IsDate()
+  @IsString()
   @IsOptional()
   @ApiProperty()
-  @Type(() => Date)
-  readonly estimatedDeliveryDate: Date;
+  // @Type(() => Date)
+  readonly estimatedDeliveryDate: string;
 
   //@IsNumber()
   @IsNotEmpty()

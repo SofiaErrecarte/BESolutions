@@ -33,9 +33,8 @@ export class Delivery {
   // @Column({ type: 'text', nullable: true })
   // shipperAddress: string;
 
-  @Column({ type: 'text', nullable: true })
-  @Type(() => Date)
-  estimatedDeliveryDate: Date;
+  @Column({ type: 'varchar', nullable: true })
+  estimatedDeliveryDate: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;

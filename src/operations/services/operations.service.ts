@@ -124,7 +124,13 @@ export class OperationsService {
     });
     const deliveryObj = new Delivery();
     deliveryObj.pricecities = priceCity;
+    // deliveryObj.estimatedDeliveryDate = 
     // deliveryObj.code = data.code; // ver de sacarlo porque no tendríamos el código del envío
+    const fecha = new Date();
+    console.log('Fecha inicial: ', fecha.toLocaleDateString());
+    fecha.setDate(fecha.getDate() + priceCity.days);
+    console.log('Fecha final: ', fecha.toLocaleDateString());
+    deliveryObj.estimatedDeliveryDate = fecha.toLocaleDateString();
     const delivery = this.deliveryRepo.create(deliveryObj);
     this.deliveryRepo.save(delivery);
     // console.log(delivery);

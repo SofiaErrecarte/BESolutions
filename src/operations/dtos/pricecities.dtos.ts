@@ -28,6 +28,10 @@ export class CreatePriceCitiesDto {
   @ApiProperty()  
   price: number;
 
+  @IsNotEmpty()
+  @ApiProperty()  
+  days: number;
+
   @IsString()
   //@IsNotEmpty()
   @IsOptional()

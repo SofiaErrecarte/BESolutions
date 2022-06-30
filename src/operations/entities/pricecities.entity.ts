@@ -39,6 +39,9 @@ export class PriceCities {
   @Column({ type: 'decimal'  })
   price: number;
 
+  @Column({ type: 'int'  })
+  days: number;
+
   @Column({ type: 'varchar', length: 255 })
   shipper: string;
 
