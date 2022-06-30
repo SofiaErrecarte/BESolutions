@@ -199,9 +199,9 @@ export class OperationsService {
         }
       ],
       back_urls: {
-        'success': 'http://localhost:3001/products',
-        'pending': 'http://localhost:3001/products',
-        'failure': 'http://localhost:3001/products'
+        'success': 'http://localhost:3001/checkoutok',
+        'pending': 'http://localhost:3001/checkoutfail',
+        'failure': 'http://localhost:3001/checkoutfail'
       },
       auto_return: 'approved',
     };

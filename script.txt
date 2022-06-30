@@ -96,3 +96,6 @@ ALTER TABLE `user` ADD `ciudad` VARCHAR(45) NOT NULL AFTER `direccion`, ADD `pro
 ALTER TABLE `priceCities` ADD `dias` INT(11) NOT NULL AFTER `shipperAddress`;
 ALTER TABLE `priceCities` CHANGE `dias` `days` INT(11) NOT NULL;
 ALTER TABLE `delivery` CHANGE `estimatedDeliveryDate` `estimatedDeliveryDate` VARCHAR(45) NULL DEFAULT NULL
+
+30/6
+ALTER TABLE `products` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
