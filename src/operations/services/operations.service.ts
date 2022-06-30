@@ -69,6 +69,16 @@ export class OperationsService {
     return {operation,operationsProducts};
   }
 
+  async findActual(user: number){
+    const userObj = await this.userRepo.findOne({ id: user });
+    const operationObj = await this.operationRepo.findOne({
+      where: { user: userObj, paid: false},
+      relations: ['delivery', 'delivery.pricecities','user','supplier','state','operationProducts'],
+     });
+
+    return operationObj;
+  }
+
   async findBySupplier(supplier: number) {
     const supplierObj = await this.userRepo.findOne({ id: supplier });
     const operationObj = await this.operationRepo.find({
@@ -124,20 +134,18 @@ export class OperationsService {
     });
     const deliveryObj = new Delivery();
     deliveryObj.pricecities = priceCity;
-    // deliveryObj.estimatedDeliveryDate = 
-    // deliveryObj.code = data.code; // ver de sacarlo porque no tendríamos el código del envío
     const fecha = new Date();
-    console.log('Fecha inicial: ', fecha.toLocaleDateString());
+    //console.log('Fecha inicial: ', fecha.toLocaleDateString());
     fecha.setDate(fecha.getDate() + priceCity.days);
-    console.log('Fecha final: ', fecha.toLocaleDateString());
+    //console.log('Fecha final: ', fecha.toLocaleDateString());
     deliveryObj.estimatedDeliveryDate = fecha.toLocaleDateString();
     const delivery = this.deliveryRepo.create(deliveryObj);
     this.deliveryRepo.save(delivery);
-    // console.log(delivery);
 
     newObj.delivery=delivery;
 
     newObj.total = newObj.subtotal + priceCity.price; 
+    //console.log(newObj);
     //newObj.total = newObj.subtotal + newObj.delivery.pricecities.price;
     return this.operationRepo.save(newObj);
   }
@@ -173,7 +181,10 @@ export class OperationsService {
     return this.operationRepo.delete(id); //elimina el registro con el id correspondiente
   }
 
-  async mercadopago(){
+  async mercadopago(id:number){
+    const operation = await this.operationRepo.findOne(id, {
+      relations: ['delivery', 'user','supplier','state', 'operationProducts'],
+    });
     mercadopago.configure({
         access_token: 'TEST-8326206947574076-011923-956dcabba44e289adb8c8b390292026c-185272120'
     });
@@ -181,10 +192,10 @@ export class OperationsService {
     var preference = {
       items: [
         {
-          title: 'Test',
+          title: 'Orden#'+operation.id,
           quantity: 1,
           currency_id: 'ARS',
-          unit_price: 10.5
+          unit_price: operation.total
         }
       ],
       back_urls: {

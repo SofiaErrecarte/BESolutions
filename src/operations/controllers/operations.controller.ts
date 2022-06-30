@@ -62,15 +62,22 @@ export class OperationsController {
     return this.operationService.findByBuyer(id);
   }
 
+  @Get('/user/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
+  getActualUserOperation(
+    @Param('id', ParseIntPipe) id: number) {
+    return this.operationService.findActual(id);
+  }
+
   @Post()
   create(@Body() payload: CreateOperationDto) {
     return this.operationService.create(payload);
   }
 
   @Public()
-  @Post('/mercadopago')
-  mercadoPago() {
-    return this.operationService.mercadopago();
+  @Post('/mercadopago/:id')
+  mercadoPago(@Param('id', ParseIntPipe) id: number) {
+    return this.operationService.mercadopago(id);
   }
 
   @Put(':id')
