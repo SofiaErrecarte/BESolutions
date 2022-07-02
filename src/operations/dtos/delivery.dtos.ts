@@ -40,6 +40,12 @@ export class CreateDeliveryDto {
   // @Type(() => Date)
   readonly estimatedDeliveryDate: string;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  // @Type(() => Date)
+  readonly realDeliveryDate: string;
+
   //@IsNumber()
   @IsNotEmpty()
   @ApiProperty()
