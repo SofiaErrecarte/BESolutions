@@ -103,3 +103,6 @@ ALTER TABLE `products` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE 
 2/7
 ALTER TABLE `user` ADD `phone` VARCHAR(45) NULL AFTER `provincia`;
 ALTER TABLE `delivery` ADD `realDeliveryDate` VARCHAR(45) NULL AFTER `estimatedDeliveryDate`;
+ALTER TABLE `user` CHANGE `ciudad` `ciudad` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `user` CHANGE `direccion` `direccion` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `user` CHANGE `provincia` `provincia` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
