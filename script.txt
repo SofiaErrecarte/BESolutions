@@ -99,3 +99,6 @@ ALTER TABLE `delivery` CHANGE `estimatedDeliveryDate` `estimatedDeliveryDate` VA
 
 30/6
 ALTER TABLE `products` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+2/7
+ALTER TABLE `user` ADD `phone` VARCHAR(45) NULL AFTER `provincia`;
