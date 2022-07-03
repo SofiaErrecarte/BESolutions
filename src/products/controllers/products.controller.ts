@@ -39,18 +39,18 @@ import { Role } from 'src/auth/models/roles.model';
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
-  @Public()
-  @Get()
-  @ApiOperation({ summary: 'List of products' }) // comentario en la documentacion
-  // getProducts(@Query() params: FilterProductDto) {
+  // @Public()
+  // @Get()
+  // @ApiOperation({ summary: 'List of products' }) // comentario en la documentacion
+  // // getProducts(@Query() params: FilterProductDto) {
+  // //   return this.productsService.findAll();
+  // // }
+  // // getProducts() {
+  // //   return this.productsService.findAll();
+  // // }
+  // getProducts(@Query() filterQuery) {
   //   return this.productsService.findAll();
   // }
-  // getProducts() {
-  //   return this.productsService.findAll();
-  // }
-  getProducts(@Query() filterQuery) {
-    return this.productsService.findAll();
-  }
 
   @Public()
   @Get()
@@ -58,8 +58,8 @@ export class ProductsController {
   // getProducts(@Query() params: FilterProductDto) {
   //   return this.productsService.findAll();
   // }
-  getProductsFiltered(@Query() filterQuery) {
-    return this.productsService.findAll(filterQuery);
+  getProductsFiltered(@Query() params: FilterProductDto) {
+    return this.productsService.findAll(params);
   }
 
   @Public()
