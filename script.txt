@@ -104,9 +104,22 @@ ALTER TABLE `products` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE 
 02/07 Lola
 ALTER TABLE `cart` CHANGE `state` `state` INT(11) NULL;
 ALTER TABLE `cart` CHANGE `user_id` `user_id` INT(11) NULL;
-2/7
+
+2/7 Sofia
 ALTER TABLE `user` ADD `phone` VARCHAR(45) NULL AFTER `provincia`;
 ALTER TABLE `delivery` ADD `realDeliveryDate` VARCHAR(45) NULL AFTER `estimatedDeliveryDate`;
 ALTER TABLE `user` CHANGE `ciudad` `ciudad` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `user` CHANGE `direccion` `direccion` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `user` CHANGE `provincia` `provincia` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+3/7 Sofia
+INSERT INTO `category` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Madera', '22/2/2022 19:40:39', NULL),
+(2, 'Vidrio', '8/4/2022 18:21:02', NULL),
+(3, 'Plastico', '8/4/2022 18:21:04', NULL),
+(4, 'Papel/Carton', '8/4/2022 18:21:14', NULL),
+(5, 'Acero', '3/7/2022 20:22:41', NULL),
+(6, 'Textil', '3/7/2022 20:22:53', NULL),
+(7, 'Aparatos electrónicos', '3/7/2022 20:23:00', NULL),
+(8, 'Pilas/Baterías', '3/7/2022 20:23:13', NULL),
+(9, 'Otros', '3/7/2022 20:23:44', NULL);
