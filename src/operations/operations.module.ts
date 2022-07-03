@@ -75,6 +75,6 @@ import { PriceCitiesService } from './services/pricecities.service';
     OperationProductsService,
     PriceCitiesService,
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, CartsService, CartProductsService],
 })
 export class OperationsModule {}

@@ -99,3 +99,8 @@ ALTER TABLE `delivery` CHANGE `estimatedDeliveryDate` `estimatedDeliveryDate` VA
 
 30/6
 ALTER TABLE `products` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+
+02/07 Lola
+ALTER TABLE `cart` CHANGE `state` `state` INT(11) NULL;
+ALTER TABLE `cart` CHANGE `user_id` `user_id` INT(11) NULL;

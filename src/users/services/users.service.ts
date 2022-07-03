@@ -15,6 +15,7 @@ import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
 import { Repository } from 'typeorm'; //injectar Repository
 
 import { CreateUserDto, UpdateUserDto, FilterUserDto } from '../dtos/user.dto';
+import { Cart } from 'src/operations/entities/cart.entity';
 
 // import { ProductsService } from './../../products/services/products.service';
 
@@ -24,6 +25,7 @@ export class UsersService {
     // @Inject('PG') private clientPg: Client,
     // private configService: ConfigService,
     @InjectRepository(User) private userRepo: Repository<User>, //injectar Repository
+    @InjectRepository(Cart) private cartRepo: Repository<Cart>,
   ) {}
 
   async findAll(params?: FilterUserDto) {
@@ -95,8 +97,15 @@ export class UsersService {
     const newObj = this.userRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     const hashPassword = await bcrypt.hash(newObj.password, 10); // creo el hash del pass
     newObj.password = hashPassword; // cambio la pass del usuario por su hash
-    //console.log(newObj);
-    return this.userRepo.save(newObj);
+    this.userRepo.save(newObj);
+    const cart = new Cart();
+    cart.subtotal=0;
+    cart.user=newObj;
+    this.cartRepo.save(cart);
+    //return this.userRepo.merge(newObj, cart);
+    //return this.userRepo.save(newObj);
+    const newUser = await this.findByUsername(data.username);
+    return this.userRepo.merge(newObj,data);    
   }
 
   async update(id: number, changes: UpdateUserDto) {
