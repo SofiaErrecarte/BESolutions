@@ -36,6 +36,9 @@ export class Delivery {
   @Column({ type: 'varchar', nullable: true })
   estimatedDeliveryDate: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  realDeliveryDate: string;
+
   @Column({ type: 'varchar', length: 50, nullable: true })
   created_at: string;
 

@@ -100,7 +100,16 @@ ALTER TABLE `delivery` CHANGE `estimatedDeliveryDate` `estimatedDeliveryDate` VA
 30/6
 ALTER TABLE `products` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 
+<<<<<<< HEAD
 
 02/07 Lola
 ALTER TABLE `cart` CHANGE `state` `state` INT(11) NULL;
 ALTER TABLE `cart` CHANGE `user_id` `user_id` INT(11) NULL;
+=======
+2/7
+ALTER TABLE `user` ADD `phone` VARCHAR(45) NULL AFTER `provincia`;
+ALTER TABLE `delivery` ADD `realDeliveryDate` VARCHAR(45) NULL AFTER `estimatedDeliveryDate`;
+ALTER TABLE `user` CHANGE `ciudad` `ciudad` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `user` CHANGE `direccion` `direccion` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `user` CHANGE `provincia` `provincia` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+>>>>>>> 35d87bf440c54eb1d4b6a5efc2579c96a6a9590e

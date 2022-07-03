@@ -38,6 +38,10 @@ export class CreateUserDto {
   @ApiProperty()
   role: string;
 
+  @IsOptional()
+  @ApiProperty()
+  phone: string;
+
   @IsNotEmpty()
   @ApiProperty()
   cp: string;

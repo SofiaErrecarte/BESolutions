@@ -94,7 +94,6 @@ export class UpdateProductDto  {
 
 export class FilterProductDto {
   @IsOptional()
-  @IsPositive()
   @ApiProperty()
   limit: number;
 
@@ -102,6 +101,14 @@ export class FilterProductDto {
   @Min(0)
   @ApiProperty()
   offset: number;
+
+  @IsOptional()
+  @IsString()
+  value: string;
+
+  @IsOptional()
+  seller: number;
+
 }
 
 export class ExistsProductDto  {
