@@ -31,7 +31,7 @@ export class ProductsService {
   async findAll(params?: FilterProductDto) {
     if (params) {
       console.log(params);
-      const { seller, value, limit, offset } = params; // funcion de desconstruccion
+      const { category, seller, value, limit, offset } = params; // funcion de desconstruccion
       if (value){
         console.log(value);
         return await this.productRepo.query(`select * from products where name like '%${value}%'`);
@@ -40,7 +40,16 @@ export class ProductsService {
         console.log(seller);
         return await this.productRepo.find({
         where: { user: seller },
-        relations: ['category','prices', 'user', 'cartProducts'],
+        relations: ['category','prices', 'cartProducts'],
+        take: limit, //typeorm toma como limit la variable take(tantos elementos)
+        skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
+      });
+      }
+      if (category){
+        console.log(category);
+        return await this.productRepo.find({
+        where: { category: category },
+        relations: ['prices', 'user', 'cartProducts'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });

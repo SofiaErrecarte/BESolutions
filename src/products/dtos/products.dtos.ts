@@ -117,6 +117,9 @@ export class FilterProductDto {
   @IsOptional()
   seller: number;
 
+  @IsOptional()
+  category: number;
+
 }
 
 export class ExistsProductDto  {
