@@ -95,10 +95,12 @@ export class ProductsService {
       newObj.user = obj;
     }
     this.productRepo.save(newObj); 
+    console.log(data.price);
     const priceObj = new Price() //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     priceObj.precio = data.price;
     priceObj.product = newObj;
     priceObj.fecha = new Date().toLocaleDateString();
+    console.log(priceObj);
     this.priceRepo.save(priceObj);
     return {newObj,priceObj};
   }
