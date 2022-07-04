@@ -6,6 +6,7 @@ import {
   BeforeInsert, //estas dos columnas se usan para que cuando se cree o se actualice
   BeforeUpdate, //un registro las fechas se actualicen solas createAt y updateAt
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 
 import { Type, Exclude, Expose } from 'class-transformer';
@@ -36,6 +37,9 @@ export class Category {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToMany(() => Product, (product) => product.categories)
+  @OneToMany(() => Product, (products) => products.category)
   products: Product[];
+
+  // @ManyToMany(() => Product, (product) => product.categories)
+  // products: Product[];
 }

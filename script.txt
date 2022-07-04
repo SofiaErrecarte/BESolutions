@@ -122,4 +122,38 @@ INSERT INTO `category` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (6, 'Textil', '3/7/2022 20:22:53', NULL),
 (7, 'Aparatos electrónicos', '3/7/2022 20:23:00', NULL),
 (8, 'Pilas/Baterías', '3/7/2022 20:23:13', NULL),
-(9, 'Otros', '3/7/2022 20:23:44', NULL);
+(9, 'Caucho', '3/7/2022 20:23:44', NULL);
+(10, 'Otros', '3/7/2022 20:25:44', NULL);
+
+DROP TABLE `be_solutions`.`products_categories`
+
+DROP TABLE `be_solutions`.`products`
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `stock` int(11) NOT NULL DEFAULT '0',
+  `image` text,
+  `state` varchar(45) NOT NULL DEFAULT 'PENDIENTE',
+  `user_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `created_at` varchar(50) DEFAULT NULL,
+  `updated_at` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `products` (`id`, `name`, `description`, `stock`, `image`, `state`, `user_id`, `category_id`, `created_at`, `updated_at`) VALUES
+(1, 'Lote de Madera', 'Lote de Madera por kilo', 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-59YMfFJr-KhcLvB-MbcCEek1sChUpMFMYn2R60sbzeTt_ZvBov33E-BfIPyUIpy8i2o&usqp=CAU', 'APROBADO', 1, 1, NULL, '30/6/2022 20:23:34'),
+(2, 'Neumatico', 'Neumatico', 8, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzwqvr0Z9EKasiZJBjowv1MWhhEsxNueRJNeS3z_DiNLt7mhGXDGTOdTiFyklE39Ff-TQ&usqp=CAU', 'APROBADO', 1, 9, NULL, '29/6/2022 12:58:49'),
+(3, 'Carton', 'Carton por 5 Kilos', 0, 'https://www.cyecsa.com/wp-content/uploads/2019/01/49343416_343979532996839_7056526319802122240_n.jpg', 'APROBADO', 2, 4, NULL, '30/6/2022 19:41:21'),
+(4, 'Aserrin', 'Aserrin de madera por 3 kilos', 2, 'https://previews.123rf.com/images/puthuchon/puthuchon1409/puthuchon140900208/32095806-fondos-de-aserr%C3%ADn-de-madera-.jpg', 'APROBADO', 2, 1, NULL, '30/6/2022 20:33:52'),
+(5, 'Laminas de Acero', 'Laminas de Acero', 29, 'http://metalium.mx/img/productos/lamina%20perfil%20rectangular.jpg', 'APROBADO', 2, 5, '30/6/2022 17:54:09', '30/6/2022 20:11:14'),
+(6, 'Pilas', 'Pilas', 120, 'https://t1.uc.ltmcdn.com/es/posts/2/7/5/como_reciclar_las_pilas_usadas_23572_600.jpg', 'APROBADO', 1, 8, '30/6/2022 17:56:11', '30/6/2022 18:00:17'),
+(7, 'Lamina de Policarbonato', 'Placa Policarbonato Compacto Lexan Cristal 4 Mm', 22, 'https://centrosider.com.ar/wp-content/uploads/2021/02/Placa-Policarbonato-Alveolar-Cristal-58-x-21-Mts.jpg', 'APROBADO', 2, 3, '30/6/2022 17:57:12', '30/6/2022 20:14:03');
+
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`)
+
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+

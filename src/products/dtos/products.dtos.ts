@@ -45,10 +45,14 @@ export class CreateProductDto {
   @ApiProperty()
   user_id: number;
 
-  @IsArray() //sea un array
-  @IsOptional() //no este vacio
-  @ApiProperty() //se mapee en la documentacion
-  readonly categoriesIds: number[];
+  @IsNotEmpty()
+  @ApiProperty()
+  category_id: number;
+
+  // @IsArray() //sea un array
+  // @IsOptional() //no este vacio
+  // @ApiProperty() //se mapee en la documentacion
+  // readonly categoriesIds: number[];
 }
 
 export class UpdateProductDto  {
@@ -62,6 +66,10 @@ export class UpdateProductDto  {
   @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
   readonly description: string;
 
+  @IsNotEmpty()
+  @ApiProperty()
+  category_id: number;
+  
   @IsNumber()
   @IsOptional()
   @ApiProperty()

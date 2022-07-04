@@ -58,17 +58,17 @@ export class Product {
     this.created_at = new Date().toLocaleString();
   }
 
-  @ManyToMany(() => Category, (category) => category.products)
-  @JoinTable({
-    name: 'products_categories', //nombre de la tabla que tambien puede ser products_has_categories
-    joinColumn: {
-      name: 'product_id', // Relación con la entidad donde estas situado.
-    },
-    inverseJoinColumn: {
-      name: 'category_id', // Relación con la otra entidad.
-    },
-  })
-  categories: Category[];
+  // @ManyToMany(() => Category, (category) => category.products)
+  // @JoinTable({
+  //   name: 'products_categories', //nombre de la tabla que tambien puede ser products_has_categories
+  //   joinColumn: {
+  //     name: 'product_id', // Relación con la entidad donde estas situado.
+  //   },
+  //   inverseJoinColumn: {
+  //     name: 'category_id', // Relación con la otra entidad.
+  //   },
+  // })
+  // categories: Category[];
 
   @OneToMany(() => Price, (price) => price.product)
   prices: Price[];
@@ -82,6 +82,10 @@ export class Product {
   @ManyToOne(() => User, (user) => user.products)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @ManyToOne(() => Category, (category) => category.products)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 
   // @ManyToMany(() => Cart, (cart) => cart.products)
   // carts: Cart[];
