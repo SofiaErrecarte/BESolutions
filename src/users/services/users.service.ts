@@ -97,6 +97,7 @@ export class UsersService {
     const newObj = this.userRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
     const hashPassword = await bcrypt.hash(newObj.password, 10); // creo el hash del pass
     newObj.password = hashPassword; // cambio la pass del usuario por su hash
+    console.log(newObj);
     this.userRepo.save(newObj);
     const cart = new Cart();
     cart.subtotal=0;
@@ -104,8 +105,8 @@ export class UsersService {
     this.cartRepo.save(cart);
     //return this.userRepo.merge(newObj, cart);
     //return this.userRepo.save(newObj);
-    const newUser = await this.findByUsername(data.username);
-    return this.userRepo.merge(newObj,data);    
+    // const newUser = await this.findByUsername(data.username);
+    // return this.userRepo.merge(newObj,data);    
   }
 
   async update(id: number, changes: UpdateUserDto) {
