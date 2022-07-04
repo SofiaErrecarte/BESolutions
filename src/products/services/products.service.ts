@@ -30,14 +30,14 @@ export class ProductsService {
 
   async findAll(params?: FilterProductDto) {
     if (params) {
-      console.log(params);
+      // console.log(params);
       const { category, seller, value, limit, offset } = params; // funcion de desconstruccion
       if (value){
         console.log(value);
         return await this.productRepo.query(`select * from products where name like '%${value}%'`);
       }
       if (seller){
-        console.log(seller);
+        // console.log(seller);
         return await this.productRepo.find({
         where: { user: seller },
         relations: ['category','prices', 'cartProducts'],
@@ -46,7 +46,7 @@ export class ProductsService {
       });
       }
       if (category){
-        console.log(category);
+        // console.log(category);
         return await this.productRepo.find({
         where: { category: category },
         relations: ['prices', 'user', 'cartProducts'],
