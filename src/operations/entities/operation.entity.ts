@@ -71,7 +71,9 @@ export class Operation {
   // @JoinColumn({ name: 'cart_id' })
   // cart: Cart;
 
-  @OneToMany(() => OperationProduct, (operationProduct) => operationProduct.operation)
+  @OneToMany(() => OperationProduct, (operationProduct) => operationProduct.operation, {
+    cascade: true,
+  })
   operationProducts: OperationProduct[];
 
   @ManyToOne(() => State, (state) => state.operations)
