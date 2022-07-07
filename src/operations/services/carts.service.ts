@@ -82,8 +82,12 @@ export class CartsService {
       relations: ['cart', 'product'],
     });
     const product = await this.productRepo.find({where:{product:product_cart[0].product.id}})
-     const price = await this.priceRepo.find({ where: { product: product[0].id } });
-     const subtotal = price[0].precio * product_cart[0].quantity *-1;
+    //  const price = await this.priceRepo.find({ where: { product: product[0].id } });
+    const price = await this.priceRepo.findOne({ 
+      where: {product : product[0].id},
+      order: {fecha: "DESC"}
+  });
+     const subtotal = price.precio * product_cart[0].quantity *-1;
 
     changes.subtotal=subtotal;
     this.cartRepo.merge(obj, changes);

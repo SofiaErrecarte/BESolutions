@@ -14,7 +14,7 @@ import {
 import { Product } from 'src/products/entities/product.entity';
 import { CartProduct } from '../entities/cartProduct.entity';
 import { Price } from 'src/products/entities/prices.entity';
-import { error } from 'console';
+import { count, error } from 'console';
 
 @Injectable()
 export class CartProductsService {
@@ -71,6 +71,9 @@ export class CartProductsService {
       where: { user: data.userId },
       relations: ['user','cartProducts', 'supplier', 'cartProducts.product'],
     });
+
+    //UPDATE PRODUCT STOCK
+    product.stock=product.stock-data.quantity;
     
     // ADD SUPPLIER
     if(cart[0].cartProducts.length == 0){
@@ -80,8 +83,9 @@ export class CartProductsService {
 
     // CHECK SUPPLIER
     if(product.user.id==cart[0].supplier.id){
-        const price = await this.priceRepo.find({ where: { product: product.id } });
-      const subtotal = price[0].precio * data.quantity; 
+        const price = await this.priceRepo.findOne({ where: { product: product.id }, order: {fecha: "DESC"} });
+        
+      const subtotal = price.precio * data.quantity; 
       cart[0].subtotal=cart[0].subtotal+subtotal;
           if (data.productId) {
             const obj = await this.productRepo.findOne(data.productId);
@@ -101,6 +105,7 @@ export class CartProductsService {
               break;
             }
           }
+          await this.productRepo.save(product);
           await this.cartRepo.save(cart[0]);
           return this.cartProductRepo.save(newObj);          
     }else{
@@ -118,8 +123,12 @@ export class CartProductsService {
     const cart = await this.cartRepo.findOne(obj.cart.id, {relations: ['user', 'cartProducts', 'supplier', 'cartProducts.product'],
     });
 
-    const price = product.prices[0].precio;
-    const subtotal = (changes.quantity-obj.quantity)*price;
+    const price = await this.priceRepo.findOne({ 
+      where: {product : product.id},
+      order: {fecha: "DESC"}
+  });
+    
+    const subtotal = (changes.quantity-obj.quantity)*price.precio;
     cart.subtotal=cart.subtotal+subtotal;
     await this.cartRepo.save(cart);
 
@@ -137,9 +146,18 @@ export class CartProductsService {
     }
     
     const cart_product = await this.cartProductRepo.findOne(id, {relations:['cart', 'product', 'product.prices']});
-    const subtotal = cart_product.product.prices[0].precio * cart_product.quantity *-1;
+    const price = await this.priceRepo.findOne({ 
+      where: {product : cart_product.product.id},
+      order: {fecha: "DESC"}
+  });
+
+  //update product stock
+    cart_product.product.stock=cart_product.product.stock+cart_product.quantity;
+    await this.productRepo.save(cart_product.product);
+
+    const subtotal = price.precio * cart_product.quantity *-1;
     cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
-     await this.cartRepo.save(cart_product.cart);
+    await this.cartRepo.save(cart_product.cart);
     return this.cartProductRepo.delete(id);
   }
 
