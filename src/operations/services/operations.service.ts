@@ -173,6 +173,20 @@ export class OperationsService {
     return this.operationRepo.save(obj); 
   }
 
+  async updateState(id: number, changes: UpdateOperationDto) {
+    const userObj = await this.userRepo.findOne({ id: id });
+    const operationObj = await this.operationRepo.findOne({
+      where: { user: userObj, paid: false},
+      relations: ['delivery', 'delivery.pricecities','user','supplier','state','operationProducts'],
+     });
+    const objRel = await this.stateRepo.findOne(changes.stateId);
+    operationObj.state = objRel;
+    operationObj.paid=changes.paid;
+    
+    this.operationRepo.merge(operationObj, changes); 
+    return this.operationRepo.save(operationObj); 
+  }
+
   async remove(id: number) {
     //Si no existe, damos error.
     if (!(await this.findOne(id))) {
@@ -192,7 +206,7 @@ export class OperationsService {
     var preference = {
       items: [
         {
-          title: 'Orden#'+operation.id,
+          title: 'Orden #'+operation.id,
           quantity: 1,
           currency_id: 'ARS',
           unit_price: operation.total

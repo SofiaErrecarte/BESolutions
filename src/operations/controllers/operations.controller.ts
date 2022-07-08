@@ -88,6 +88,14 @@ export class OperationsController {
     return this.operationService.update(+id, payload);
   }
 
+  @Put('/user/:id')
+  updateState(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateOperationDto,
+  ) {
+    return this.operationService.updateState(+id, payload);
+  }
+
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.operationService.remove(id);

@@ -68,6 +68,10 @@ export class CreateOperationDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly stateId: number;  
+
+  @IsOptional()
+  @ApiProperty()
+  readonly paid: boolean;  
 }
 
 export class UpdateOperationDto extends PartialType(CreateOperationDto) {}

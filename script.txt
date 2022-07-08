@@ -157,3 +157,5 @@ ALTER TABLE `products`
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
+08/07 Lola
+INSERT INTO `state` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES (NULL, 'CANCELADA', NULL, NULL, NULL);

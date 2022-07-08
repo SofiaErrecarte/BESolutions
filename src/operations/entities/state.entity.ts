@@ -58,7 +58,9 @@ export class State {
   // )
   // operationsToStates: OperationToState[];
 
-  @OneToMany(() => Operation, (operations) => operations.state)
+  @OneToMany(() => Operation, (operations) => operations.state, {
+    cascade: true,
+  })
   operations: Operation[];
 
 }
