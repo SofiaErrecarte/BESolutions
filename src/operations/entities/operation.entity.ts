@@ -63,7 +63,9 @@ export class Operation {
   }
 
 
-  @OneToOne(() => Delivery)
+  @OneToOne(() => Delivery, {
+    cascade: true,
+  })
   @JoinColumn({ name: 'delivery_id' })
   delivery: Delivery;
 

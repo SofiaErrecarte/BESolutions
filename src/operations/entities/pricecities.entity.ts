@@ -51,7 +51,9 @@ export class PriceCities {
   @Column({ type: 'text', nullable: true })
   shipperAddress: string;
 
-  @OneToMany(() => Delivery, (delivery) => delivery.pricecities)
+  @OneToMany(() => Delivery, (delivery) => delivery.pricecities, {
+    cascade: true,
+  })
   deliveries: Delivery[];
 
 }

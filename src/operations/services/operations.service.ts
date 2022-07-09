@@ -118,16 +118,31 @@ export class OperationsService {
   }
 
   async create(data: CreateOperationDto) {
+        
+    const obj = await this.cartRepo.findOne(data.cartId, { relations: ['user','cartProducts','supplier']});
+
+    //chequeo si hay otra operacion con paid false y le cambio el estado ates de crear la nueva
+    const currentOperation = await this.operationRepo.findOne({
+      where: { user: obj.user, paid: false},
+      relations: ['delivery', 'delivery.pricecities','user','supplier','state','operationProducts'],
+     });
+
+     if (currentOperation){
+      currentOperation.paid=true;
+      await this.operationRepo.save(currentOperation);
+     }
+
     const newObj = this.operationRepo.create(data);
     if (data.stateId) {
       const obj = await this.stateRepo.findOne(data.stateId);
       newObj.state = obj;
     }
-    
-    const obj = await this.cartRepo.findOne(data.cartId, { relations: ['user','cartProducts','supplier']});
+
     newObj.supplier=obj.supplier;
     newObj.user=obj.user;
     newObj.subtotal = obj.subtotal;
+
+    
     
     const priceCity = await this.priceCitiesRepo.findOne({
       where:{cp_origen:obj.user.cp, cp_destino:obj.supplier.cp}
@@ -135,9 +150,7 @@ export class OperationsService {
     const deliveryObj = new Delivery();
     deliveryObj.pricecities = priceCity;
     const fecha = new Date();
-    //console.log('Fecha inicial: ', fecha.toLocaleDateString());
     fecha.setDate(fecha.getDate() + priceCity.days);
-    //console.log('Fecha final: ', fecha.toLocaleDateString());
     deliveryObj.estimatedDeliveryDate = fecha.toLocaleDateString();
     const delivery = this.deliveryRepo.create(deliveryObj);
     this.deliveryRepo.save(delivery);
@@ -145,8 +158,6 @@ export class OperationsService {
     newObj.delivery=delivery;
 
     newObj.total = newObj.subtotal + priceCity.price; 
-    //console.log(newObj);
-    //newObj.total = newObj.subtotal + newObj.delivery.pricecities.price;
     return this.operationRepo.save(newObj);
   }
 
