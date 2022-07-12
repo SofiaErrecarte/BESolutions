@@ -4,19 +4,17 @@ import {
   NotFoundException,
   HttpException,
   HttpStatus,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
 // import { Client } from 'pg';
 import * as bcrypt from 'bcrypt';
-import { v4 } from 'uuid';
 
 import { User } from '../entities/user.entity';
 
 import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
 import { Repository } from 'typeorm'; //injectar Repository
 
-import { CreateUserDto, UpdateUserDto, FilterUserDto, RequestResetPasswordDto, ResetPasswordDto } from '../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto, FilterUserDto } from '../dtos/user.dto';
 import { Cart } from 'src/operations/entities/cart.entity';
 
 // import { ProductsService } from './../../products/services/products.service';
@@ -128,53 +126,5 @@ export class UsersService {
       throw new NotFoundException();
     }
     return this.userRepo.delete(id); //elimina el registro con el id correspondiente
-  }
-
-  async requestResetPassword(
-    requestResetPasswordDto: RequestResetPasswordDto,
-  ): Promise<void> {
-    const { email } = requestResetPasswordDto;
-     const user: User = await this.findByEmail(email);
-
-     if(!user){
-      throw new NotFoundException(`User with email ${email} not found`);
-     }
-    user.resetPasswordToken = v4();
-    this.userRepo.save(user);
-    // Send email (e.g. Dispatch an event so MailerModule can send the email)
-  }
-
-  async findOneByResetPasswordToken(resetPasswordToken: string): Promise<User> {
-    const user: User = await this.findOne({ resetPasswordToken });
-
-    if (!user) {
-      throw new NotFoundException();
-    }
-
-    return user;
-  }
-
-  
-  async encodePassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt();
-    return await bcrypt.hash(password, salt);
-  }
-
-  async checkPassword(
-    password: string,
-    userPassword: string,
-  ): Promise<boolean> {
-    return await bcrypt.compare(password, userPassword);
-  }
-
-  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
-    const { resetPasswordToken, password } = resetPasswordDto;
-    const user: User = await this.userRepo.findOneByResetPasswordToken(
-      resetPasswordToken,
-    );
-
-    user.password = await this.encodePassword(password);
-    user.resetPasswordToken = null;
-    this.userRepo.save(user);
   }
 }

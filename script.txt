@@ -159,6 +159,3 @@ ALTER TABLE `products`
 
 08/07 Lola
 INSERT INTO `state` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES (NULL, 'CANCELADA', NULL, NULL, NULL);
-
-21/07 Lola
-ALTER TABLE `user` ADD `reset_password_token` VARCHAR(36) NULL DEFAULT NULL AFTER `updated_at`;
