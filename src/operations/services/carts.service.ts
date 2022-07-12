@@ -82,7 +82,7 @@ export class CartsService {
       relations: ['cart', 'product'],
     });
     const product = await this.productRepo.find({where:{product:product_cart[0].product.id}})
-    //  const price = await this.priceRepo.find({ where: { product: product[0].id } });
+    
     const price = await this.priceRepo.findOne({ 
       where: {product : product[0].id},
       order: {fecha: "DESC"}
