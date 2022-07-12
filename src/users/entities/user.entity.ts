@@ -102,4 +102,14 @@ export class User {
     cascade: true,
   })
   operation_supplier: Operation;
+
+
+  @Column({
+    type: 'uuid',
+    unique: true,
+    name: 'reset_password_token',
+    nullable: true,
+  })
+  resetPasswordToken: string;
+
 }

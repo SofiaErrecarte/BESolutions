@@ -11,10 +11,11 @@ import {
   HttpCode,
   ParseIntPipe,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 
 import { UsersService } from '../services/users.service';
-import { CreateUserDto, UpdateUserDto, FilterUserDto } from '../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto, FilterUserDto, RequestResetPasswordDto, ResetPasswordDto } from '../dtos/user.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
@@ -62,5 +63,17 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(+id);
+  }
+
+  @Patch('/request-reset-password')
+  requestResetPassword(
+    @Body() requestResetPasswordDto: RequestResetPasswordDto,
+  ): Promise<void> {
+    return this.usersService.requestResetPassword(requestResetPasswordDto);
+  }
+
+  @Patch('/reset-password')
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<void> {
+    return this.usersService.resetPassword(resetPasswordDto);
   }
 }

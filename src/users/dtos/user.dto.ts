@@ -7,6 +7,7 @@ import {
   IsPositive,
   IsOptional,
   Min,
+  IsUUID,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
@@ -90,3 +91,20 @@ export class FilterUserDto {
   @ApiProperty()
   offset: number;
 }
+
+export class RequestResetPasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  email: string;
+}
+
+export class ResetPasswordDto {
+    @IsNotEmpty()
+    @IsUUID('4')
+    resetPasswordToken: string;
+  
+    @IsNotEmpty()
+    @Length(6, 20)
+    password: string;
+  }
