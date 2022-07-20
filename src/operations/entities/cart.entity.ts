@@ -55,7 +55,9 @@ export class Cart {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.cart)
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.cart,  {
+    cascade: true,
+  })
   cartProducts: CartProduct[];
 
   @ManyToOne(() => User, (supplier) => supplier.cart_supplier)

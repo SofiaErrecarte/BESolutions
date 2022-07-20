@@ -37,7 +37,9 @@ export class Category {
     this.created_at = new Date().toLocaleString();
   }
 
-  @OneToMany(() => Product, (products) => products.category)
+  @OneToMany(() => Product, (products) => products.category,  {
+    cascade: true,
+  })
   products: Product[];
 
   // @ManyToMany(() => Product, (product) => product.categories)

@@ -70,13 +70,19 @@ export class Product {
   // })
   // categories: Category[];
 
-  @OneToMany(() => Price, (price) => price.product)
+  @OneToMany(() => Price, (price) => price.product,  {
+    cascade: true,
+  })
   prices: Price[];
 
-  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product,  {
+    cascade: true,
+  })
   cartProducts: CartProduct[];
 
-  @OneToMany(() => OperationProduct, (operationProduct) => operationProduct.product)
+  @OneToMany(() => OperationProduct, (operationProduct) => operationProduct.product,  {
+    cascade: true,
+  })
   operationProducts: OperationProduct[];
 
   @ManyToOne(() => User, (user) => user.products)
