@@ -76,6 +76,7 @@ export class UsersService {
   async create(data: CreateUserDto) {
     const usernameUser = await this.findByUsername(data.username);
     const cuitcuilUser = await this.findByCuitCuil(data.cuitcuil);
+    const emailUser = await this.findByEmail(data.email);
     if (usernameUser) {
       throw new HttpException(
         {
@@ -89,6 +90,15 @@ export class UsersService {
       throw new HttpException(
         {
           message: `The cuit - cuil  ${data.cuitcuil} already exists.`,
+          status: HttpStatus.CONFLICT,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    if (emailUser) {
+      throw new HttpException(
+        {
+          message: `The email  ${data.email} already exists.`,
           status: HttpStatus.CONFLICT,
         },
         HttpStatus.BAD_REQUEST,

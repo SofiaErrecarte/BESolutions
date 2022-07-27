@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:13
     environment:
-     - POSTGRES_DB=bisports_backend
+     - POSTGRES_DB=be_solutions
      - POSTGRES_USER=root
      - POSTGRES_PASSWORD=root
     ports:
@@ -25,8 +25,7 @@ services:
   mysql:
     image: mysql:5
     environment:
-     - MYSQL_DATABASE=bisports_backend
-     - MYSQL_USER=root
+     - MYSQL_DATABASE=be_solutions
      - MYSQL_ROOT_PASSWORD=root
     ports:
       - '3306:3306'
