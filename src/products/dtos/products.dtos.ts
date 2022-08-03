@@ -70,7 +70,7 @@ export class UpdateProductDto  {
   @ApiProperty()
   category_id: number;
   
-  @IsNumber()
+  //@IsNumber()
   @IsOptional()
   @ApiProperty()
   stock: number;
