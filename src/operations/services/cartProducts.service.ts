@@ -151,8 +151,6 @@ export class CartProductsService {
       order: {fecha: "DESC"}
   });
 
-  // const cart = await this.cartRepo.findOne(cart_product.cart.id, {relations:['cartProducts', 'supplier']});
-
   //update product stock
     cart_product.product.stock=cart_product.product.stock+cart_product.quantity;
     await this.productRepo.save(cart_product.product);
@@ -160,13 +158,15 @@ export class CartProductsService {
     const subtotal = price.precio * cart_product.quantity *-1;
     cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
     await this.cartRepo.save(cart_product.cart);
-    await this.cartProductRepo.delete(id);
-    console.log(cart_product.cart.cartProducts.length);
-    if(cart_product.cart.cartProducts.length=1){
-      cart_product.cart.subtotal=0;
-      cart_product.cart.supplier=null;
-     }
-     await this.cartRepo.save(cart_product.cart);
+    
+   
+    // if(cart_product.cart.cartProducts.length=1){
+    //   cart_product.cart.subtotal=0;
+    //   cart_product.cart.supplier=null;
+    //  }
+    //  
+    //  await this.cartRepo.save(cart_product.cart);
+     await this.cartProductRepo.delete(id);
   }
 
 }
