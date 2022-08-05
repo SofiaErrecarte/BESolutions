@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //injectar Repository
-import { Repository } from 'typeorm'; //injectar Repository
+import { ChangeStream, Repository } from 'typeorm'; //injectar Repository
 
 import { Product } from './../entities/product.entity';
 import {
@@ -30,14 +30,11 @@ export class ProductsService {
 
   async findAll(params?: FilterProductDto) {
     if (params) {
-      // console.log(params);
       const { category, seller, value, limit, offset } = params; // funcion de desconstruccion
       if (value){
-        console.log(value);
         return await this.productRepo.query(`select * from products where name like '%${value}%'`);
       }
       if (seller){
-        // console.log(seller);
         return await this.productRepo.find({
         where: { user: seller },
         relations: ['category','prices', 'cartProducts'],
@@ -46,7 +43,6 @@ export class ProductsService {
       });
       }
       if (category){
-        // console.log(category);
         return await this.productRepo.find({
         where: { category: category },
         relations: ['prices', 'user', 'cartProducts'],
@@ -119,11 +115,34 @@ export class ProductsService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException(); 
     }
+    if (changes.state === "PENDIENTE"){
+      const cart_products = await this.cartProductRepo.find({
+        where: { product: id },
+      });
+      for (let index = 0; index < cart_products.length; index++) {
+        const cart_product = await this.cartProductRepo.findOne(cart_products[index].id, {relations:['cart', 'product', 'product.prices']});
+        const price = await this.priceRepo.findOne({ 
+        where: {product : cart_product.product.id},
+        order: {fecha: "DESC"}
+        });
+
+        //update product stock
+        changes.stock=obj.stock+cart_product.quantity;
+
+        const subtotal = price.precio * cart_product.quantity *-1;
+        cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
+        await this.cartRepo.save(cart_product.cart);
+
+        await this.cartProductRepo.delete(cart_product.id);
+      }
+    }
     // if (changes.categoriesIds) {
     //   const listObj = await this.categoryRepo.findByIds(changes.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
     //   obj.categories = listObj;
     // }
+    
     this.productRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    
     this.productRepo.save(obj); //impacta el cambio en la base de datos
     if(changes.price){
       const priceObj = new Price()
