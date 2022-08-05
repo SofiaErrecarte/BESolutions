@@ -15,7 +15,7 @@ export class PriceCitiesService {
   }
 
   async findOne(id: number) {
-    const obj = this.pricecitiesRepo.findOne();
+    const obj = this.pricecitiesRepo.findOne(id);
     if (!obj) {
       throw new NotFoundException(`PriceCities #${id} not found`);
     }
