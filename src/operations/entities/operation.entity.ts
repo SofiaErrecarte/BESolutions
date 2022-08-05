@@ -62,6 +62,11 @@ export class Operation {
     this.created_at = new Date().toLocaleString();
   }
 
+  @BeforeInsert()
+  public setCreatedAt() {
+    this.date = new Date();
+  }
+
 
   @OneToOne(() => Delivery, {
     cascade: true,
