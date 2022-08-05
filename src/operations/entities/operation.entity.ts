@@ -63,7 +63,7 @@ export class Operation {
   }
 
   @BeforeInsert()
-  public setCreatedAt() {
+  public setDate() {
     this.date = new Date();
   }
 

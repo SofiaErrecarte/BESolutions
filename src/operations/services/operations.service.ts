@@ -49,7 +49,7 @@ export class OperationsService {
     }
     return await this.operationRepo.find({
       relations: [ 'delivery','user','supplier','state', 'operationProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
-      order: {id}
+      order: {id:"DESC"}
 
     });
   }
