@@ -49,6 +49,8 @@ export class OperationsService {
     }
     return await this.operationRepo.find({
       relations: [ 'delivery','user','supplier','state', 'operationProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
+      order: {id}
+
     });
   }
 
@@ -84,6 +86,7 @@ export class OperationsService {
     const operationObj = await this.operationRepo.find({
       where:{supplier: supplierObj},
       relations: ['delivery','user','supplier','state','operationProducts'],
+      order: {date:"DESC"}
      });
     // var objs = [];
     // for (let index = 0; index < operationObj.length; index++) {
@@ -103,6 +106,7 @@ export class OperationsService {
     const operationObj = await this.operationRepo.find({ 
       where:{user: buyerObj},
       relations: ['delivery','user','supplier','state','operationProducts'],
+      order: {date:"DESC"}
     });
     var objs = new OperationProduct();
     for (let index = 0; index < operationObj.length; index++) {
