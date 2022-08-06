@@ -168,7 +168,7 @@ export class OperationsService {
     fecha.setDate(fecha.getDate() + priceCity.days);
     deliveryObj.estimatedDeliveryDate = fecha.toLocaleDateString();
     const delivery = this.deliveryRepo.create(deliveryObj);
-    this.deliveryRepo.save(delivery);
+    //this.deliveryRepo.save(delivery);
 
     newObj.delivery=delivery;
 
@@ -177,7 +177,8 @@ export class OperationsService {
   }
 
   async update(id: number, changes: UpdateOperationDto) {
-    const obj = await this.operationRepo.findOne(id);
+    const obj = await this.operationRepo.findOne(id,
+      {relations: ['delivery']});
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
@@ -191,6 +192,9 @@ export class OperationsService {
     if (changes.stateId) {
       const objRel = await this.stateRepo.findOne(changes.stateId);
       obj.state = objRel;
+    }
+    if (changes.stateId===3) {
+      obj.delivery.realDeliveryDate= new Date().toLocaleString();
     }
     if (changes.deliveryId ) { 
       obj.total = obj.delivery.pricecities.price;
@@ -208,7 +212,7 @@ export class OperationsService {
     const objRel = await this.stateRepo.findOne(changes.stateId);
     operationObj.state = objRel;
     operationObj.paid=changes.paid;
-    
+   
     this.operationRepo.merge(operationObj, changes); 
     return this.operationRepo.save(operationObj); 
   }

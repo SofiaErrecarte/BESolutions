@@ -163,9 +163,9 @@ export class CartProductsService {
     // if(cart_product.cart.cartProducts.length=1){
     //   cart_product.cart.subtotal=0;
     //   cart_product.cart.supplier=null;
-    //  }
-    //  
-    //  await this.cartRepo.save(cart_product.cart);
+    //   }
+      
+    //   await this.cartRepo.save(cart_product.cart);
      await this.cartProductRepo.delete(id);
   }
 
