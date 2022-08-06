@@ -35,8 +35,7 @@ export class CreateProductDto {
   @ApiProperty()
   stock: number;
 
-  @IsUrl()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly image: string;
 
@@ -75,7 +74,6 @@ export class UpdateProductDto  {
   @ApiProperty()
   stock: number;
 
-  @IsUrl()
   @IsOptional()
   @ApiProperty()
   readonly image: string;
