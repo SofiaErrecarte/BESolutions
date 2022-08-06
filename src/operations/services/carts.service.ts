@@ -40,11 +40,23 @@ export class CartsService {
   async findByUser(id: number) {
     const obj = await this.cartRepo.findOne({
       where: { user: id, state: true},
-      relations: ['user', 'supplier', 'cartProducts'],
+      relations: ['user', 'supplier', 'cartProducts', 'cartProducts.product'],
     });
+    var subtotal = 0;
     if (!obj) {
       return null;
     }
+    //actualizar subtotal y supplier cada vez que vuelve a cargar el carrito
+    if(obj.cartProducts.length===0){obj.supplier=null}
+     for (let index = 0; index < obj.cartProducts.length; index++) {
+       const price = await this.priceRepo.findOne({ 
+         where: {product : obj.cartProducts[index].product.id},
+         order: {fecha: "DESC"}
+       });
+       subtotal=subtotal+(price.precio*obj.cartProducts[index].quantity);
+     }
+     obj.subtotal=subtotal;
+     await this.cartRepo.save(obj);
     return obj;
   }
 
@@ -83,13 +95,13 @@ export class CartsService {
     });
     const product = await this.productRepo.find({where:{product:product_cart[0].product.id}})
     
-    const price = await this.priceRepo.findOne({ 
-      where: {product : product[0].id},
-      order: {fecha: "DESC"}
-  });
-     const subtotal = price.precio * product_cart[0].quantity *-1;
+  //   const price = await this.priceRepo.findOne({ 
+  //     where: {product : product[0].id},
+  //     order: {fecha: "DESC"}
+  // });
+    //  const subtotal = price.precio * product_cart[0].quantity *-1;
 
-    changes.subtotal=subtotal;
+    // changes.subtotal=subtotal;
     this.cartRepo.merge(obj, changes);
     return this.cartRepo.save(obj);
   }

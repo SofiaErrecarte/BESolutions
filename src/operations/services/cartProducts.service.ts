@@ -83,10 +83,10 @@ export class CartProductsService {
 
     // CHECK SUPPLIER
     if(product.user.id==cart[0].supplier.id){
-        const price = await this.priceRepo.findOne({ where: { product: product.id }, order: {fecha: "DESC"} });
+        // const price = await this.priceRepo.findOne({ where: { product: product.id }, order: {fecha: "DESC"} });
         
-      const subtotal = price.precio * data.quantity; 
-      cart[0].subtotal=cart[0].subtotal+subtotal;
+      // const subtotal = price.precio * data.quantity; 
+      // cart[0].subtotal=cart[0].subtotal+subtotal;
           if (data.productId) {
             const obj = await this.productRepo.findOne(data.productId);
             newObj.product = obj;
@@ -123,13 +123,13 @@ export class CartProductsService {
     const cart = await this.cartRepo.findOne(obj.cart.id, {relations: ['user', 'cartProducts', 'supplier', 'cartProducts.product'],
     });
 
-    const price = await this.priceRepo.findOne({ 
-      where: {product : product.id},
-      order: {fecha: "DESC"}
-  });
+  //   const price = await this.priceRepo.findOne({ 
+  //     where: {product : product.id},
+  //     order: {fecha: "DESC"}
+  // });
     
-    const subtotal = (changes.quantity-obj.quantity)*price.precio;
-    cart.subtotal=cart.subtotal+subtotal;
+    // const subtotal = (changes.quantity-obj.quantity)*price.precio;
+    // cart.subtotal=cart.subtotal+subtotal;
     await this.cartRepo.save(cart);
 
     const stock = (obj.quantity-changes.quantity);
@@ -155,8 +155,8 @@ export class CartProductsService {
     cart_product.product.stock=cart_product.product.stock+cart_product.quantity;
     await this.productRepo.save(cart_product.product);
 
-    const subtotal = price.precio * cart_product.quantity *-1;
-    cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
+    // const subtotal = price.precio * cart_product.quantity *-1;
+    // cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
     await this.cartRepo.save(cart_product.cart);
     
    
