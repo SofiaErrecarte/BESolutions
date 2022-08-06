@@ -85,10 +85,16 @@ export class OperationProductsService {
     for (let index = 0; index < cart.cartProducts.length; index++) {
         let operationProduct = this.operationProductRepo.create(data);
         const element = cart.cartProducts[index];
-        const cartProduct = await this.cartProductRepo.findOne(element.id, {relations: ['cart', 'product']});
+        const cartProduct = await this.cartProductRepo.findOne(element.id, {relations: ['cart', 'product', 'product.prices']});
+
+        const price = await this.priceRepo.findOne({ 
+          where: {product : cartProduct.product.id},
+          order: {fecha: "DESC"}
+        });
         operationProduct.operation=operation;      
         operationProduct.product=cartProduct.product;
         operationProduct.quantity=cartProduct.quantity;
+        operationProduct.product_price=price.precio;
         this.operationProductRepo.save(operationProduct);
         this.cartProductRepo.delete(cartProduct); //elimino los cart products
     }

@@ -159,3 +159,7 @@ ALTER TABLE `products`
 
 08/07 Lola
 INSERT INTO `state` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES (NULL, 'CANCELADA', NULL, NULL, NULL);
+
+
+06/08 Lola
+ALTER TABLE `operation_product` ADD `product_price` INT(11) NOT NULL DEFAULT '0' AFTER `quantity`;

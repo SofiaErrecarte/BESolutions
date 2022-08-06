@@ -24,6 +24,9 @@ export class OperationProduct {
   @Column({ type: 'int' })
   quantity: number;
 
+  @Column({ type: 'int'})
+  product_price: number;
+
   @ManyToOne(() => Operation, (operation) => operation.operationProducts)
   @JoinColumn({ name: 'operation_id' })
   operation: Operation;
