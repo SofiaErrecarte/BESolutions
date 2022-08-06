@@ -36,7 +36,7 @@ export class OperationProductsService {
     return cartProduct;
   }
 
-  async findAllProducts(id: number) { // HAY QUE VER ESTO DEL PAID PARA REEMPLAZAR POR ESTADO
+  async findAllProducts(id: number) { 
     const operation = await this.operationRepo.findOne({ where: { user: id, paid: false} });
     const obj = await this.operationProductRepo.find({
       where: { operation: operation.id },
@@ -61,6 +61,21 @@ export class OperationProductsService {
       relations: ['operation', 'product'],
     });
   }
+
+  async findByOperation(id:number) {
+    
+     
+      return await this.operationProductRepo.find({
+        where: { operation: id },
+        relations: ['operation', 'product'],
+        
+      });
+    
+    return await this.operationProductRepo.find({
+      relations: ['operation', 'product'],
+    });
+  }
+
 
   async create(data: CreateOperationProductDto) {
     const operation = await this.operationRepo.findOne(data.operationId);

@@ -67,9 +67,20 @@ export class OperationsService {
       where: {operation : operation},
       relations: ['product'],
     });
-    console.log(operationsProducts);
+    
     return {operation,operationsProducts};
   }
+
+  async findOnlyOne(id: number) {
+    const operation = await this.operationRepo.findOne(id, {
+      relations: ['delivery', 'delivery.pricecities', 'user','supplier','state', 'operationProducts'],
+    });
+    if (!operation) {
+      throw new NotFoundException(`Operation #${id} not found`);
+    }
+    return operation;
+  }
+
 
   async findActual(user: number){
     const userObj = await this.userRepo.findOne({ id: user });

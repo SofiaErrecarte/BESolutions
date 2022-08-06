@@ -27,6 +27,12 @@ export class OperationProductsController {
     return this.operationProductService.findAll();
   }
 
+  
+  @Get('operation/:id')
+  findByOperation(@Param('id', ParseIntPipe) id: number) {
+    return this.operationProductService.findByOperation(id);
+  }
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.operationProductService.findOne(id);

@@ -47,6 +47,13 @@ export class OperationsController {
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.operationService.findOne(id);
   }
+
+  @Get('/operation/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
+  getOnlyOne(@Param('id', ParseIntPipe) id: number) {
+    return this.operationService.findOnlyOne(id);
+  }
+  
   
   @Get('/supplier/:id')
   @HttpCode(HttpStatus.ACCEPTED)
