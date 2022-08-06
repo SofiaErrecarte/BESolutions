@@ -55,9 +55,9 @@ export class Cart {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.cart,  {
-    cascade: true,
-  })
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.cart,  
+    // {cascade: true,} //comentado porque se rompía el checkout
+  )
   cartProducts: CartProduct[];
 
   @ManyToOne(() => User, (supplier) => supplier.cart_supplier)
