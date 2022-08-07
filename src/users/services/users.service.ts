@@ -16,6 +16,7 @@ import { Repository } from 'typeorm'; //injectar Repository
 
 import { CreateUserDto, UpdateUserDto, FilterUserDto } from '../dtos/user.dto';
 import { Cart } from 'src/operations/entities/cart.entity';
+import { PriceCities } from 'src/operations/entities/pricecities.entity';
 
 // import { ProductsService } from './../../products/services/products.service';
 
@@ -26,6 +27,8 @@ export class UsersService {
     // private configService: ConfigService,
     @InjectRepository(User) private userRepo: Repository<User>, //injectar Repository
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
+    @InjectRepository(PriceCities) private cityRepo: Repository<PriceCities>,
+
   ) {}
 
   async findAll(params?: FilterUserDto) {
@@ -77,6 +80,8 @@ export class UsersService {
     const usernameUser = await this.findByUsername(data.username);
     const cuitcuilUser = await this.findByCuitCuil(data.cuitcuil);
     const emailUser = await this.findByEmail(data.email);
+    const cpUser = await this.cityRepo.findOne({where:{cp_destino : data.cp}});
+    console.log(cpUser);
     if (usernameUser) {
       throw new HttpException(
         {
@@ -99,6 +104,15 @@ export class UsersService {
       throw new HttpException(
         {
           message: `The email  ${data.email} already exists.`,
+          status: HttpStatus.CONFLICT,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    if (!cpUser) {
+      throw new HttpException(
+        {
+          message: `CP no existe.`,
           status: HttpStatus.CONFLICT,
         },
         HttpStatus.BAD_REQUEST,

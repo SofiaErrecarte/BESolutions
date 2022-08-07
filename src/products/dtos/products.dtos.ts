@@ -56,7 +56,7 @@ export class CreateProductDto {
 
 export class UpdateProductDto  {
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty({ description: `product's name` })
   readonly name: string;
 
@@ -65,12 +65,12 @@ export class UpdateProductDto  {
   @ApiProperty() // este decorador es oblicatorio si se usa swagger para la auto documentacion
   readonly description: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   category_id: number;
   
   //@IsNumber()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   stock: number;
 
@@ -79,11 +79,11 @@ export class UpdateProductDto  {
   readonly image: string;
 
   // @IsNumber()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   user_id: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   price: number;
 
