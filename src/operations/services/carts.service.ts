@@ -43,9 +43,15 @@ export class CartsService {
       relations: ['user', 'supplier', 'cartProducts', 'cartProducts.product'],
     });
     var subtotal = 0;
-    if (!obj) {
-      return null;
-    }
+    if (!obj) { // crea el carrito si no encuentra para el user
+      const user = await this.userRepo.findOne(id);
+      const cart = new Cart();
+      cart.subtotal=0;
+      cart.user=user;
+      cart.state=true;
+      await this.cartRepo.save(cart);
+      return cart;
+    }else{
     //actualizar subtotal y supplier cada vez que vuelve a cargar el carrito
     if(obj.cartProducts.length===0){obj.supplier=null}
      for (let index = 0; index < obj.cartProducts.length; index++) {
@@ -57,7 +63,7 @@ export class CartsService {
      }
      obj.subtotal=subtotal;
      await this.cartRepo.save(obj);
-    return obj;
+    return obj;}
   }
 
   async findAll(params?: FilterOperationDto) {
