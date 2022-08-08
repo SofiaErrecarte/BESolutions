@@ -45,6 +45,9 @@ export class Delivery {
   @Column({ type: 'varchar', length: 50, nullable: true })
   updated_at: string;
 
+  @Column({ type: 'decimal'  })
+  price: number;
+
   @BeforeUpdate()
   public setUpdatedAt() {
     this.updated_at = new Date().toLocaleString();

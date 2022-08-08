@@ -164,6 +164,7 @@ export class OperationsService {
     });
     const deliveryObj = new Delivery();
     deliveryObj.pricecities = priceCity;
+    deliveryObj.price = priceCity.price;
     const fecha = new Date();
     fecha.setDate(fecha.getDate() + priceCity.days);
     deliveryObj.estimatedDeliveryDate = fecha.toLocaleDateString();

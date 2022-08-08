@@ -39,7 +39,9 @@ export class DeliveriesService {
     if (data.priceId) {
       const obj = await this.priceRepo.findOne(data.priceId);
       newObj.pricecities = obj;
+      newObj.price=obj.price;
     }
+    
     return this.deliveryRepo.save(newObj);
   }
 
