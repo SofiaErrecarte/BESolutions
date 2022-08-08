@@ -123,10 +123,10 @@ export class UsersService {
     newObj.password = hashPassword; // cambio la pass del usuario por su hash
     console.log(newObj);
     this.userRepo.save(newObj);
-    const cart = new Cart();
-    cart.subtotal=0;
-    cart.user=newObj;
-    this.cartRepo.save(cart);
+    // const cart = new Cart();
+    // cart.subtotal=0;
+    // cart.user=newObj;
+    // this.cartRepo.save(cart);
     //return this.userRepo.merge(newObj, cart);
     //return this.userRepo.save(newObj);
     // const newUser = await this.findByUsername(data.username);
