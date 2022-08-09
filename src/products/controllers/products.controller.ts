@@ -14,6 +14,8 @@ import {
   Res,
   ParseIntPipe,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -32,6 +34,10 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('products') // le pone el nombre del tag en la documentacion
@@ -90,6 +96,35 @@ export class ProductsController {
     @Body() payload: ExistsProductDto) {
     return this.productsService.itemExists(id, payload);
   }
+
+  // @Public()
+  // @UseInterceptors(FileInterceptor('file'))
+  // @Post('/upload-file')
+  // handleUpload(@UploadedFile() file: Express.Multer.File){
+  //   console.log(file);
+  //   return 'File upload Api';
+  // }
+
+  @Post('/upload-file')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: '../BESolutions - Front New/public/images',
+        filename: (req, file, callback) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          const filename = `product-${uniqueSuffix}${ext}`;
+          callback(null, filename);
+        },
+      }),
+    }),
+  )
+  handleUpload(@UploadedFile() file: Express.Multer.File) {
+    console.log('file', file);
+    return file.filename;
+  }
+
 
   // acá también no habría que definir que el rol sea admin?
   // @Public()

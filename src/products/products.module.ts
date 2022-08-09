@@ -14,11 +14,13 @@ import { PricesService } from './services/prices.service';
 import { Price } from './entities/prices.entity';
 import { UsersModule } from 'src/users/users.module';
 import { OperationsModule } from 'src/operations/operations.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [forwardRef(() => UsersModule),
     forwardRef(() => OperationsModule), 
-    TypeOrmModule.forFeature([Product, Category, Price])],
+    TypeOrmModule.forFeature([Product, Category, Price]), 
+    MulterModule.register({ dest:'./uploads'})],
   controllers: [ProductsController, CategoriesController, PricesController],
   providers: [ProductsService, CategoriesService, PricesService],
   exports: [ProductsService, TypeOrmModule],
