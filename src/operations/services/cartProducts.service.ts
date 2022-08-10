@@ -148,7 +148,7 @@ export class CartProductsService {
     const cart_product = await this.cartProductRepo.findOne(id, {relations:['cart', 'cart.cartProducts', 'product', 'product.prices']});
     const price = await this.priceRepo.findOne({ 
       where: {product : cart_product.product.id},
-      order: {fecha: "DESC"}
+      order: {created_at: "DESC"}
   });
 
   //update product stock
