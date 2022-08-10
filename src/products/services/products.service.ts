@@ -66,8 +66,7 @@ export class ProductsService {
       return await this.productRepo.find({
         where: { user: seller },
         relations: ['category','prices', 'user', 'cartProducts'],
-        // take: limit, //typeorm toma como limit la variable take(tantos elementos)
-        // skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
+
       });
     
     return await this.productRepo.find({
@@ -87,10 +86,6 @@ export class ProductsService {
 
   async create(data: CreateProductDto) {
     const newObj = this.productRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
-    // if (data.categoriesIds) {
-    //   const listObj = await this.categoryRepo.findByIds(data.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
-    //   newObj.categories = listObj;
-    // } 
     if (data.category_id) {
       const obj = await this.categoryRepo.findOne(data.category_id);
       newObj.category = obj;
@@ -115,30 +110,26 @@ export class ProductsService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException(); 
     }
-    if (changes.state === "PENDIENTE"){
-      const cart_products = await this.cartProductRepo.find({
-        where: { product: id },
-      });
-      for (let index = 0; index < cart_products.length; index++) {
-        const cart_product = await this.cartProductRepo.findOne(cart_products[index].id, {relations:['cart', 'product', 'product.prices']});
-        const price = await this.priceRepo.findOne({ 
-        where: {product : cart_product.product.id},
-        order: {fecha: "DESC"}
-        });
+    // if (changes.state === "PENDIENTE"){
+    //   const cart_products = await this.cartProductRepo.find({
+    //     where: { product: id },
+    //   });
+    //   for (let index = 0; index < cart_products.length; index++) {
+    //     const cart_product = await this.cartProductRepo.findOne(cart_products[index].id, {relations:['cart', 'product', 'product.prices']});
+    //     const price = await this.priceRepo.findOne({ 
+    //     where: {product : cart_product.product.id},
+    //     order: {fecha: "DESC"}
+    //     });
 
-        //update product stock
-        changes.stock=obj.stock+cart_product.quantity;
+    //     //update product stock
+    //     changes.stock=obj.stock+cart_product.quantity;
 
-        const subtotal = price.precio * cart_product.quantity *-1;
-        cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
-        await this.cartRepo.save(cart_product.cart);
+    //     const subtotal = price.precio * cart_product.quantity *-1;
+    //     cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
+    //     await this.cartRepo.save(cart_product.cart);
 
-        await this.cartProductRepo.delete(cart_product.id);
-      }
-    }
-    // if (changes.categoriesIds) {
-    //   const listObj = await this.categoryRepo.findByIds(changes.categoriesIds); //repository con findByIds mando un array de id nos devuelve un array de objetos
-    //   obj.categories = listObj;
+    //     await this.cartProductRepo.delete(cart_product.id);
+    //   }
     // }
     
     this.productRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
@@ -172,25 +163,6 @@ export class ProductsService {
     }
     return this.productRepo.delete(id); //elimina el registro con el id correspondiente
   }
-
-  // async addCategoryToProduct(productId: number, categoryId: number) {
-  //   const product = await this.productRepo.findOne(productId, {
-  //     relations: ['categories'],
-  //   });
-  //   const category = await this.categoryRepo.findOne(categoryId);
-    // product.categories.push(category);
-  //   return this.productRepo.save(product);
-  // }
-
-  // async removeCategoryByProduct(productId: number, categoryId: number) {
-  //   const product = await this.productRepo.findOne(productId, {
-  //     relations: ['categories'], //si no le pedimos tambien la relacion, al hacer el filter categories va a estar indefinida
-  //   });
-    // product.categories = product.categories.filter((item) => {
-    //   return item.id !== categoryId;
-    // });
-  // }
-  // eslint-disable-next-line prettier/prettier
 
 
   async itemExists(user_id: number, parameters: ExistsProductDto) {
