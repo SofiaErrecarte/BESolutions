@@ -43,7 +43,7 @@ export class OperationsService {
     if (params) {
       const { limit, offset } = params; // funcion de desconstruccion
       return await this.operationRepo.find({
-        relations: [ 'delivery','user','supplier','state', 'operationProducts'],
+        relations: [ 'delivery','user','supplier','state', 'operationProducts', 'operationProducts.product'],
         take: limit, //typeorm toma como limit la variable take(tantos elementos)
         skip: offset, //typeorm toma como offset la variable take(el tamaño de la paginacion)
       });
@@ -51,6 +51,7 @@ export class OperationsService {
     return await this.operationRepo.find({
       relations: [ 'delivery','user','supplier','state', 'operationProducts'], // para que cuando devuelva los objetos los devuelva con la relacion
       order: {id:"DESC"}
+      
 
     });
   }
@@ -157,6 +158,7 @@ export class OperationsService {
     newObj.supplier=obj.supplier;
     newObj.user=obj.user;
     newObj.subtotal = obj.subtotal;
+    newObj.paid=false; //está false por default en la base pero por las dudas
 
     
     

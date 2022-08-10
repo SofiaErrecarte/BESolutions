@@ -166,3 +166,6 @@ ALTER TABLE `operation_product` ADD `product_price` INT(11) NOT NULL DEFAULT '0'
 
 08/08 Lola
 ALTER TABLE `delivery` ADD `price` FLOAT NOT NULL DEFAULT '0' AFTER `updated_at`;
+
+10/08 Lola
+UPDATE `state` SET `name` = 'PENDIENTE DE PAGO' WHERE `state`.`id` = 4;
