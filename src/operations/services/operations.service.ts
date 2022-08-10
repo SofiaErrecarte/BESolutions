@@ -36,6 +36,7 @@ export class OperationsService {
     private operationProductRepo: Repository<OperationProduct>,
     @InjectRepository(PriceCities)
     private priceCitiesRepo: Repository<PriceCities>,
+    @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
 
   async findAll(params?: FilterOperationDto) {
@@ -179,7 +180,7 @@ export class OperationsService {
 
   async update(id: number, changes: UpdateOperationDto) {
     const obj = await this.operationRepo.findOne(id,
-      {relations: ['delivery']});
+      {relations: ['delivery', 'operationProducts', 'operationProducts.product']});
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
@@ -196,6 +197,14 @@ export class OperationsService {
     }
     if (changes.stateId===3) {
       obj.delivery.realDeliveryDate= new Date().toLocaleString();
+    }
+    //si se cancela, se devuelve el stock al producto
+    if (changes.stateId===6) {
+      for (let index = 0; index < obj.operationProducts.length; index++) {
+        const prod = await this.productRepo.findOne(obj.operationProducts[index].product)
+        prod.stock=prod.stock+obj.operationProducts[index].quantity;
+        await this.productRepo.save(prod);
+      }
     }
     if (changes.deliveryId ) { 
       obj.total = obj.delivery.pricecities.price;
