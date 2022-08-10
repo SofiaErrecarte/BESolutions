@@ -104,7 +104,7 @@ export class ProductsController {
   //   console.log(file);
   //   return 'File upload Api';
   // }
-
+  @Public()
   @Post('/upload-file')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -121,7 +121,7 @@ export class ProductsController {
     }),
   )
   handleUpload(@UploadedFile() file: Express.Multer.File) {
-    console.log('file', file);
+    // console.log('file', file);
     return file.filename;
   }
 
