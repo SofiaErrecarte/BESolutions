@@ -34,6 +34,14 @@ export class PriceCitiesService {
 
   create(data: CreatePriceCitiesDto) {
     const newObj = this.pricecitiesRepo.create(data); //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
+    const newObj2 = new PriceCities();
+    newObj2.cp_origen = data.cp_destino;
+    newObj2.cp_destino = data.cp_origen;
+    newObj2.origen = data.destino;
+    newObj2.destino = data.origen;
+    newObj2.price = data.price;
+    newObj2.days = data.days;
+    this.pricecitiesRepo.save(newObj2);
     return this.pricecitiesRepo.save(newObj);
   }
 
