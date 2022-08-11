@@ -83,7 +83,7 @@ export class UpdateProductDto  {
   @ApiProperty()
   user_id: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   price: number;
 
