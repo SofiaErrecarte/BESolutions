@@ -169,3 +169,13 @@ ALTER TABLE `delivery` ADD `price` FLOAT NOT NULL DEFAULT '0' AFTER `updated_at`
 
 10/08 Lola
 UPDATE `state` SET `name` = 'PENDIENTE DE PAGO' WHERE `state`.`id` = 4;
+
+11/08 Lola - tabla de productos para testeo imágenes
+INSERT INTO `products` (`id`, `name`, `description`, `stock`, `image`, `state`, `user_id`, `category_id`, `created_at`, `updated_at`) VALUES
+(1, 'Lote de Madera', 'Lote de Madera por kilo', 19, 'product1.jpg', 'PENDIENTE', 1, 1, NULL, '8/10/2022, 6:18:36 PM'),
+(2, 'Neumático', 'Neumático testttt', 11, 'product-1660212574437-585952927.jpg', 'PENDIENTE', 1, 9, NULL, '8/11/2022, 7:09:45 AM'),
+(3, 'Carton', '', 20, 'product3.jpg', '', 2, 4, NULL, '8/6/2022, 8:10:39 PM'),
+(4, 'Aserrin', '', 6, 'product4.jpg', 'APROBADO', 2, 1, NULL, '8/10/2022, 6:50:46 PM'),
+(5, 'Laminas de Acero', 'Lamina de 5mts', 16, 'product5.jpg', 'PENDIENTE', 2, 5, '30/6/2022 17:54:09', '8/6/2022, 8:29:50 PM'),
+(6, 'Pilas', '', 117, 'product6.jpg', 'PENDIENTE', 5, 8, '30/6/2022 17:56:11', '8/3/2022, 8:10:17 PM'),
+(7, 'Lamina de Policarbonato', 'Placa Policarbonato Compacto Lexan Cristal 4 Mm', 24, 'product7.jpg', 'APROBADO', 5, 3, '30/6/2022 17:57:12', '8/10/2022, 6:07:57 PM');
