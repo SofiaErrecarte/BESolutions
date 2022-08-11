@@ -23,11 +23,16 @@ export class PriceCitiesService {
   }
 
   async finByCP(cpO: string, cpD:string) {
-    const obj = this.pricecitiesRepo.findOne({
+    
+    const obj = await this.pricecitiesRepo.findOne({
       where: {cp_origen:cpO,cp_destino:cpD}}
     );
+    console.log(obj);
     if (!obj) {
-      throw new NotFoundException(`Object not found`);
+      const obj2 = this.pricecitiesRepo.findOne({
+        where: {id:5000}}
+      );
+      return obj2;
     }
     return obj;
   }

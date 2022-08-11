@@ -162,9 +162,14 @@ export class OperationsService {
 
     
     
-    const priceCity = await this.priceCitiesRepo.findOne({
+    var priceCity = await this.priceCitiesRepo.findOne({
       where:{cp_origen:obj.user.cp, cp_destino:obj.supplier.cp}
     });
+    if (!priceCity) {
+      priceCity = await this.priceCitiesRepo.findOne({
+        where: {id:5000}}
+      );
+    }
     const deliveryObj = new Delivery();
     deliveryObj.pricecities = priceCity;
     deliveryObj.price = priceCity.price;
