@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 // import { TypeOrmModule } from '@nestjs/typeorm';
@@ -22,6 +22,11 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     if (user) {
+      const active = await this.usersService.isActive(user.id);
+      console.log(active);
+      if(!active){
+        throw new UnauthorizedException('No activo.');
+      }
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
         return user;

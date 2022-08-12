@@ -55,8 +55,17 @@ export class UsersService {
     return obj;
   }
 
+  async isActive(user: number) {
+     const active = await this.userRepo.findOne({ where: { id:user, estado:"ACTIVO"} });
+     console.log(active);
+     if(active){
+      return true;
+     }
+     return false;
+  }
+
   findByEmail(email: string) {
-    return this.userRepo.findOne({ where: { email:email, estado: "ACTIVO" } });
+    return this.userRepo.findOne({ where: { email} });
   }
 
   async findByUsername(username: string) {
