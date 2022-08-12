@@ -179,3 +179,7 @@ INSERT INTO `products` (`id`, `name`, `description`, `stock`, `image`, `state`, 
 (5, 'Laminas de Acero', 'Lamina de 5mts', 16, 'product5.jpg', 'PENDIENTE', 2, 5, '30/6/2022 17:54:09', '8/6/2022, 8:29:50 PM'),
 (6, 'Pilas', '', 117, 'product6.jpg', 'PENDIENTE', 5, 8, '30/6/2022 17:56:11', '8/3/2022, 8:10:17 PM'),
 (7, 'Lamina de Policarbonato', 'Placa Policarbonato Compacto Lexan Cristal 4 Mm', 24, 'product7.jpg', 'APROBADO', 5, 3, '30/6/2022 17:57:12', '8/10/2022, 6:07:57 PM');
+
+
+12/08 Sofia
+ALTER TABLE `products` CHANGE `image` `image` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT 'default.png';
