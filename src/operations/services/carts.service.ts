@@ -57,7 +57,7 @@ export class CartsService {
      for (let index = 0; index < obj.cartProducts.length; index++) {
        const price = await this.priceRepo.findOne({ 
          where: {product : obj.cartProducts[index].product.id},
-         order: {created_at: "DESC"}
+         order: {id: "DESC"}
        });
        subtotal=subtotal+(price.precio*obj.cartProducts[index].quantity);
      }
