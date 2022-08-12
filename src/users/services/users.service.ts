@@ -56,7 +56,7 @@ export class UsersService {
   }
 
   findByEmail(email: string) {
-    return this.userRepo.findOne({ where: { email } });
+    return this.userRepo.findOne({ where: { email:email, estado: "ACTIVO" } });
   }
 
   async findByUsername(username: string) {
