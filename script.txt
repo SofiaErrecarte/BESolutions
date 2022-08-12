@@ -183,3 +183,8 @@ INSERT INTO `products` (`id`, `name`, `description`, `stock`, `image`, `state`, 
 
 12/08 Sofia
 ALTER TABLE `products` CHANGE `image` `image` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT 'default.png';
+
+
+UPDATE `priceCities` SET `id` = '1', `cp_origen` = '0000', `cp_destino` = '0000', `origen` = 'A definir', `destino` = 'A definir', `price` = '0', `shipper` = 'A definir', `days` = '0' WHERE `priceCities`.`id` = 5000
+
+ahí en el último es insert Sol
