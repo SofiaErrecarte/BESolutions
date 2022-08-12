@@ -89,7 +89,7 @@ export class OperationProductsService {
 
         const price = await this.priceRepo.findOne({ 
           where: {product : cartProduct.product.id},
-          order: {created_at: "DESC"}
+          order: {id: "DESC"}
         });
         operationProduct.operation=operation;      
         operationProduct.product=cartProduct.product;
