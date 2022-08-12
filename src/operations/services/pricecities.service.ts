@@ -30,7 +30,7 @@ export class PriceCitiesService {
     console.log(obj);
     if (!obj) {
       const obj2 = this.pricecitiesRepo.findOne({
-        where: {id:5000}}
+        where: {id:1}}
       );
       return obj2;
     }

@@ -167,7 +167,7 @@ export class OperationsService {
     });
     if (!priceCity) {
       priceCity = await this.priceCitiesRepo.findOne({
-        where: {id:5000}}
+        where: {id:1}}
       );
     }
     const deliveryObj = new Delivery();
