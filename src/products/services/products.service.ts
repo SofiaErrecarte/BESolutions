@@ -110,30 +110,32 @@ export class ProductsService {
     if (!(await this.findOne(id))) {
       throw new NotFoundException(); 
     }
-    // if (changes.state === "PENDIENTE"){
-    //   const cart_products = await this.cartProductRepo.find({
-    //     where: { product: id },
-    //   });
-    //   for (let index = 0; index < cart_products.length; index++) {
-    //     const cart_product = await this.cartProductRepo.findOne(cart_products[index].id, {relations:['cart', 'product', 'product.prices']});
-    //     const price = await this.priceRepo.findOne({ 
-    //     where: {product : cart_product.product.id},
-    //     order: {fecha: "DESC"}
-    //     });
+    if (changes.state === "PENDIENTE"){
+      const cart_products = await this.cartProductRepo.find({
+        where: { product: id },
+      });
+      for (let index = 0; index < cart_products.length; index++) {
+        const cart_product = await this.cartProductRepo.findOne(cart_products[index].id, {relations:['cart', 'product', 'product.prices']});
+        const price = await this.priceRepo.findOne({ 
+        where: {product : cart_product.product.id},
+        order: {fecha: "DESC"}
+        });
 
-    //     //update product stock
-    //     changes.stock=obj.stock+cart_product.quantity;
+        //update product stock
+        changes.stock=obj.stock+cart_product.quantity;
 
-    //     const subtotal = price.precio * cart_product.quantity *-1;
-    //     cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
-    //     await this.cartRepo.save(cart_product.cart);
+        const subtotal = price.precio * cart_product.quantity *-1;
+        cart_product.cart.subtotal=cart_product.cart.subtotal+subtotal;
+        await this.cartRepo.save(cart_product.cart);
 
-    //     await this.cartProductRepo.delete(cart_product.id);
-    //   }
-    // }
-    
+        await this.cartProductRepo.delete(cart_product.id);
+      }
+    }
+    if (changes.category_id) {
+      const newCat = await this.categoryRepo.findOne(changes.category_id);
+      obj.category = newCat;
+    }
     this.productRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    
     this.productRepo.save(obj); //impacta el cambio en la base de datos
     if(changes.price){
       const priceObj = new Price()

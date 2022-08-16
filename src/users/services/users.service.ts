@@ -112,7 +112,7 @@ export class UsersService {
     if (emailUser) {
       throw new HttpException(
         {
-          message: `The email  ${data.email} already exists.`,
+          message: `The email ${data.email} already exists.`,
           status: HttpStatus.CONFLICT,
         },
         HttpStatus.BAD_REQUEST,
