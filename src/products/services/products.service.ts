@@ -131,9 +131,11 @@ export class ProductsService {
         await this.cartProductRepo.delete(cart_product.id);
       }
     }
-    
+    if (changes.category_id) {
+      const newCat = await this.categoryRepo.findOne(changes.category_id);
+      obj.category = newCat;
+    }
     this.productRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    
     this.productRepo.save(obj); //impacta el cambio en la base de datos
     if(changes.price){
       const priceObj = new Price()
