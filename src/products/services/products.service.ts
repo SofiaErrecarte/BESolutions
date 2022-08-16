@@ -94,15 +94,15 @@ export class ProductsService {
       const obj = await this.userRepo.findOne(data.user_id);
       newObj.user = obj;
     }
-    this.productRepo.save(newObj); 
-    console.log(data.price);
-    const priceObj = new Price() //setea cada propiedad con la propiedad de los datos que vienen de Dto contra la entidad que se crea
+    const product = await this.productRepo.save(newObj); 
+    console.log(product);
+    const priceObj = this.priceRepo.create();
     priceObj.precio = data.price;
-    priceObj.product = newObj;
+    priceObj.product = product;
     priceObj.fecha = new Date().toLocaleDateString();
     console.log(priceObj);
     this.priceRepo.save(priceObj);
-    return {newObj,priceObj};
+    return {product,priceObj};
   }
 
   async update(id: number, changes: UpdateProductDto) {

@@ -31,7 +31,7 @@ export class CreateProductDto {
   price: number;
 
   // @IsNumber()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   stock: number;
 
