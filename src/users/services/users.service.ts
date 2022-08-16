@@ -144,13 +144,13 @@ export class UsersService {
 
   async update(id: number, changes: UpdateUserDto) {
     const obj = await this.userRepo.findOne(id);
-    const hashPassword = await bcrypt.hash(obj.password, 10); // creo el hash del pass
-    obj.password = hashPassword;
     if (!(await this.findOne(id))) {
       throw new NotFoundException();
     }
-    this.userRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
-    return this.userRepo.save(obj); //impacta el cambio en la base de datos
+    const objFinal = this.userRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    const hashPassword = await bcrypt.hash(obj.password, 10); // creo el hash del pass
+    objFinal.password = hashPassword;
+    return this.userRepo.save(objFinal); //impacta el cambio en la base de datos
   }
 
   async remove(id: number) {
