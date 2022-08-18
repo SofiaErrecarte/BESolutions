@@ -148,9 +148,12 @@ export class UsersService {
       throw new NotFoundException();
     }
     const objFinal = this.userRepo.merge(obj, changes); // mergea el registro de la base con el con los datos que se cambiaron y vienen en el Dto
+    if(changes.password){
     const hashPassword = await bcrypt.hash(obj.password, 10); // creo el hash del pass
-    objFinal.password = hashPassword;
+    objFinal.password = hashPassword;}
+
     return this.userRepo.save(objFinal); //impacta el cambio en la base de datos
+
   }
 
   async remove(id: number) {
