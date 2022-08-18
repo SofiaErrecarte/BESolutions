@@ -188,3 +188,8 @@ ALTER TABLE `products` CHANGE `image` `image` VARCHAR(255) CHARACTER SET latin1 
 UPDATE `priceCities` SET `id` = '1', `cp_origen` = '0000', `cp_destino` = '0000', `origen` = 'A definir', `destino` = 'A definir', `price` = '0', `shipper` = 'A definir', `days` = '0' WHERE `priceCities`.`id` = 5000
 
 ahí en el último es insert Sol
+
+
+18/8 Lola
+UPDATE `user` SET `password` = '$2b$10$/AT1T6Nz1n5Kcrwmj8AS9erHECBIMWEhpaZMdplrRZg.XF8OVa5D.' WHERE `user`.`id` = 2;
+UPDATE `user` SET `password` = '$2b$10$/AT1T6Nz1n5Kcrwmj8AS9erHECBIMWEhpaZMdplrRZg.XF8OVa5D.' WHERE `user`.`id` = 1;
