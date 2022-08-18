@@ -46,6 +46,8 @@ export class PriceCitiesService {
     newObj2.destino = data.origen;
     newObj2.price = data.price;
     newObj2.days = data.days;
+    newObj2.shipper = data.shipper;
+    
     this.pricecitiesRepo.save(newObj2);
     return this.pricecitiesRepo.save(newObj);
   }
