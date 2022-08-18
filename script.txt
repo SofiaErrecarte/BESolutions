@@ -193,3 +193,5 @@ ahí en el último es insert Sol
 18/8 Lola
 UPDATE `user` SET `password` = '$2b$10$/AT1T6Nz1n5Kcrwmj8AS9erHECBIMWEhpaZMdplrRZg.XF8OVa5D.' WHERE `user`.`id` = 2;
 UPDATE `user` SET `password` = '$2b$10$/AT1T6Nz1n5Kcrwmj8AS9erHECBIMWEhpaZMdplrRZg.XF8OVa5D.' WHERE `user`.`id` = 1;
+
+INSERT INTO `state` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES (6, 'CANCELADA', NULL, NULL, NULL);
