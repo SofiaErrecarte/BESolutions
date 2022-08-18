@@ -224,8 +224,17 @@ export class OperationsService {
     const userObj = await this.userRepo.findOne({ id: id });
     const operationObj = await this.operationRepo.findOne({
       where: { user: userObj, paid: false},
-      relations: ['delivery', 'delivery.pricecities','user','supplier','state','operationProducts'],
+      relations: ['delivery', 'delivery.pricecities','user','supplier','state','operationProducts', 'operationProducts.product'],
      });
+     if (changes.stateId===6) {
+
+      for (let index = 0; index < operationObj.operationProducts.length; index++) {
+        
+        const prod = await this.productRepo.findOne(operationObj.operationProducts[index].product)
+        prod.stock=prod.stock+operationObj.operationProducts[index].quantity;
+        await this.productRepo.save(prod);
+      }
+    }
     const objRel = await this.stateRepo.findOne(changes.stateId);
     operationObj.state = objRel;
     operationObj.paid=changes.paid;
